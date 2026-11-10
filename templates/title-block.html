@@ -1,0 +1,27 @@
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+$if(title)$
+<h1 class="title">$title$</h1>
+$endif$
+$if(subtitle)$
+<p class="subtitle lead">$subtitle$</p>
+$endif$
+</div>
+$if(date)$
+<div class="info">
+  Posted on <span class="date">$date$</span>$if(by-author)$ by $for(by-author)$$it.name.literal$$sep$, $endfor$$endif$
+</div>
+$endif$
+$if(categories)$
+<div class="info quarto-categories">
+  Tags: $for(categories)$<span class="quarto-category">$categories$</span>$sep$, $endfor$
+</div>
+$endif$
+$if(description)$
+<div class="description">$description$</div>
+$endif$
+</header>

@@ -1,0 +1,7 @@
+---
+title: "Fast Presentations Done Cheap"
+date: 2020-02-20
+categories: ["programming", "nix"]
+draft: true
+---
+

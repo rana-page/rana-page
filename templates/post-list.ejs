@@ -1,0 +1,14 @@
+<%
+// Mirrors Hakyll's templates/post-list.html:
+//   <ul><li><a href="$url$">$title$</a> - $date$</li></ul>
+// The wrapper must have class "list" and each item a base64 data-categories
+// attribute: that is what Quarto's List.js category filter reads.
+const encodeCategories = (cats) => btoa(encodeURIComponent((cats || []).join(',')));
+%>
+<ul class="list post-list">
+<% items.forEach((item, i) => { %>
+  <li data-index="<%= i %>" data-categories="<%= encodeCategories(item.categories) %>">
+    <a href="<%- item.path.replace(/index\.qmd$/, '') %>"><%= item.title %></a> - <%= item.date %>
+  </li>
+<% }); %>
+</ul>

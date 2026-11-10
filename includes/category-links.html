@@ -1,0 +1,21 @@
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>

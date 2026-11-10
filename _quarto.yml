@@ -1,0 +1,56 @@
+project:
+  type: website
+  output-dir: _site
+  # Files that aren't rendered but must end up in _site/ verbatim
+  # (the Hakyll site did this with its extra/ directory). Dot-directories
+  # work too, e.g. a Bluesky handle verification at .well-known/atproto-did.
+  resources:
+    - images/
+    # - CNAME
+    # - .well-known/**
+
+website:
+  title: "Thee Rana Page"          # shown as the navbar brand and in <title>
+  site-url: https://example.com    # TODO: your real domain; needed for the feed
+  description: "A blog with posts in it."
+  draft-mode: unlinked             # drafts render at /drafts/<slug>/ but are not listed
+  search: false
+  navbar:
+    background: "#ffffff"
+    foreground: "#000000"
+    right:
+      - text: About
+        href: about/index.qmd
+      - text: Talks
+        href: talks/index.qmd
+      - text: Archive
+        href: archive/index.qmd
+  page-footer:
+    left: ""                       # e.g. "© 2026 Your Name" or an analytics badge
+    right:
+      - text: RSS
+        href: index.xml
+
+format:
+  html:
+    theme:
+      - litera
+      - css/custom.scss
+    highlight-style: css/solarized-light.theme
+    code-copy: false
+    code-block-border-left: false
+    toc: false
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+    include-in-header: includes/mathjax-config.html
+    include-after-body: includes/category-links.html
+    template-partials:
+      - templates/title-block.html
+    date-format: "D MMMM YYYY"     # "20 May 2014", matching Hakyll's "%e %B %Y"
+    grid:
+      body-width: 768px
+      sidebar-width: 0px
+      margin-width: 0px
+    anchor-sections: false
+    smooth-scroll: true

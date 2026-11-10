@@ -1,0 +1,13 @@
+---
+title: Archives
+listing:
+  id: all-posts
+  contents: ../blog/*/index.qmd
+  sort: "date desc"
+  template: ../templates/post-list.ejs
+  categories: true
+  page-size: 1000
+---
+
+::: {#all-posts}
+:::

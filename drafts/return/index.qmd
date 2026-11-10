@@ -1,0 +1,23 @@
+---
+title: "return :: a -> RC a"
+date: 2017-10-16
+categories: ["programming", "RC"]
+draft: true
+---
+
+```haskell
+instance Functor RC where
+    fmap :: (a -> b) -> RC a -> RC b
+```
+
+```haskell
+instance Applicative RC where
+    pure  :: a -> RC a
+    (<*>) :: RC (a -> b) -> RC a -> RC b
+```
+
+```haskell
+instance Monad RC where
+    return :: a -> RC a
+    (>>=)  :: RC a -> (a -> RC b) -> RC b
+```

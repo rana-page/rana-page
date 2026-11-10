@@ -1,0 +1,12 @@
+---
+title: About
+---
+
+<!-- TODO: replace with your own bio. The original read roughly:
+     "I am building and maintaining dependable systems with ...
+     Have a look at my GitHub profile and résumé for more details." -->
+
+A few sentences about who you are and what you work on.
+
+If you'd like to get in touch, find me on
+[GitHub](https://github.com/rana-page), or email me.

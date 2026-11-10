@@ -1,0 +1,19 @@
+---
+title: Home
+listing:
+  id: recent-posts
+  contents: blog/*/index.qmd
+  sort: "date desc"
+  max-items: 20
+  template: templates/post-list.ejs
+  feed:
+    title: "Thee Rana Page"
+    items: 10
+---
+
+Welcome to my blog! My most recent posts are:
+
+::: {#recent-posts}
+:::
+
+…and there are more in the [archives](/archive/).

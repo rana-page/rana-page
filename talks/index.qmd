@@ -1,0 +1,21 @@
+---
+title: Talks
+---
+
+<!-- TODO: one entry per talk. The original used this exact shape. -->
+
+## Conference
+
+#### Talk Title Goes Here
+
+- Where: Conference Name 2026
+- [Slides](https://example.com/slides)
+
+[![Video](https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+
+## Meetup
+
+#### Another Talk
+
+- Where: Local Meetup, 2025
+- [Slides](https://example.com/slides)

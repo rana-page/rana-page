@@ -1,0 +1,5 @@
+---
+title: Page not found
+---
+
+There is nothing at this address. Try the [archives](/archive/) or go [home](/).

@@ -1,0 +1,21 @@
+# Renders the site and publishes it to the gh-pages branch on every push to main.
+# One-time setup: run `quarto publish gh-pages` locally once so the branch exists,
+# then set GitHub Pages (repo Settings -> Pages) to deploy from gh-pages.
+name: Publish
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
