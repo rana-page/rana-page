@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2021-05-02">
+
+<title>Updating IHaskell to a Newer GHC – Thee Rana Page</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-beb050b6995f5fb5c74a266772e82083.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-523687ef48c315f64e21eb5d5e9f174c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Same MathJax extensions the Hakyll site loaded: color, cancel, textmacros. -->
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/color', '[tex]/cancel', '[tex]/textmacros']},
+  tex: {packages: {'[+]': ['color', 'cancel', 'textmacros']}}
+};
+</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Thee Rana Page</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/index.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive/index.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Updating IHaskell to a Newer GHC</h1>
+</div>
+<div class="info">
+  Posted on <span class="date">2 May 2021</span>
+</div>
+<div class="info quarto-categories">
+  Tags: <span class="quarto-category">haskell</span>, <span class="quarto-category">programming</span>, <span class="quarto-category">nix</span>
+</div>
+</header>
+
+
+<p>As the current maintainer of IHaskell, I see myself as having one primary responsibility: keeping it up-to-date with newer GHC releases. The chain of events that led to me becoming a maintainer started with the then-latest version of IHaskell not having support for GHC 8.0, and I still remember how frustrated I felt when dealing with this limitation.</p>
+<p>Since then I’ve had the opportunity to add GHC 8.2, 8.4, 8.6, 8.8, 8.10, and now 9.0 support, but because I only have to do this every 6 months or so (at the earliest) I promptly forget the details of this work afterwards and have to spelunk through old, often heavily amended, commits to rediscover what past me (who is notoriously bad at documentation) did.</p>
+<p>At the time of writing, GHC 9.2 is expected to be released soon and I don’t want to forget everything I’ve just (re)learned when that happens. Additionally, it is conceivable that at some point someone other than me would like to take a crack at updating IHaskell to the newest version of GHC. This blog post details the steps I took to make these tasks easier in the future.</p>
+<section id="building-ihaskells-dependencies" class="level2">
+<h2 data-anchor-id="building-ihaskells-dependencies">Building IHaskell’s dependencies</h2>
+<p>I should start by saying that my current approach relies heavily on Nix and the infrastructure available in <a href="https://github.com/NixOS/nixpkgs"><code>nixpkgs</code></a>. If you don’t want to use Nix for whatever reason the general ideas might still translate to whatever method you use instead but the details will almost certainly vary widely.</p>
+<p>The objective of this first step is to get us to the point where all of IHaskell’s dependencies are building, so that we can then focus on <code>ghc-parser</code>, <code>ipython-kernel</code>, and <code>ihaskell</code> exclusively.</p>
+<p>I start with a version of Nixpkgs that has the necessary GHC version and package overrides to minimise work. As of this writing, the Nixpkgs maintainers base the Haskell package set they use on <a href="https://www.stackage.org/">Stackage</a> Nightlies with overrides added from <a href="https://gitlab.haskell.org/ghc/head.hackage"><code>head.hackage</code></a>. Updates seem to go into the <a href="https://github.com/NixOS/nixpkgs/tree/haskell-updates"><code>haskell-updates</code></a> branch first and are then periodically merged into <code>master</code>. I started with <a href="https://github.com/NixOS/nixpkgs/commit/64c6086db4a6c19bb9960baf165c867c1774ab3d">this commit</a> but it had issues with building <code>alex</code> that I sent pull requests for <a href="https://github.com/NixOS/nixpkgs/pull/120535">to Nixpkgs</a> and <a href="https://github.com/simonmar/alex/pull/185">to the project</a>. In the meantime it’s very easy to make any required changes to a fork or a local copy of Nixpkgs. I start by copying <code>release.nix</code> from the IHaskell project root and changing the reference to Nixpkgs:</p>
+<details>
+<summary style="cursor: pointer">
+Changing Nixpkgs
+</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">nixpkgs-src</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>fetchTarball <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">url</span> <span class="op">=</span> <span class="st">"https://github.com/NixOS/nixpkgs/tarball/8795d39ce70f04e3fd609422d522e5b2594f3a70"</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">sha256</span> <span class="op">=</span> <span class="st">"01w7q0nqydippj0ygbg77byb770snhc5rnqzc6isws58642l8z4s"</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="op">{</span> <span class="va">compiler</span> <span class="op">?</span> <span class="st">"ghc901"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">,</span> <span class="va">jupyterlabAppDir</span> <span class="op">?</span> <span class="cn">null</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="op">,</span> <span class="va">nixpkgs</span> <span class="op">?</span> <span class="bu">import</span> nixpkgs<span class="op">-</span>src <span class="op">{}</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">,</span> <span class="va">packages</span> <span class="op">?</span> <span class="op">(</span><span class="va">_</span><span class="op">:</span> <span class="op">[])</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">,</span> <span class="va">pythonPackages</span> <span class="op">?</span> <span class="op">(</span><span class="va">_</span><span class="op">:</span> <span class="op">[])</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">,</span> <span class="va">rtsopts</span> <span class="op">?</span> <span class="st">"-M3g -N2"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="op">,</span> <span class="va">systemPackages</span> <span class="op">?</span> <span class="op">(</span><span class="va">_</span><span class="op">:</span> <span class="op">[])</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>:</span></code></pre></div>
+</details>
+<p>Then it’s possible to build this and see how many packages need changes:</p>
+<pre class="shell"><code>$ nix-build release-9.0.nix --keep-going 2&gt;&amp;1 | wc -l</code></pre>
+<p>Fixing the affected packages might involve patching, jailbreaking it so that its dependency bounds are relaxed, using a newer version that is not included in the package set by default, or any number of other changes. Here’s what I ended up with this time:</p>
+<details>
+<summary style="cursor: pointer">
+Package set overrides
+</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>      cryptohash<span class="op">-</span>md5    = nixpkgs<span class="op">.</span>haskell<span class="op">.</span>lib<span class="op">.</span>doJailbreak super<span class="op">.</span>cryptohash<span class="op">-</span>md5;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>      cryptohash<span class="op">-</span>sha1   = nixpkgs<span class="op">.</span>haskell<span class="op">.</span>lib<span class="op">.</span>doJailbreak super<span class="op">.</span>cryptohash<span class="op">-</span>sha1;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      basement          = super<span class="op">.</span>basement_0_0_12;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      foundation        = super<span class="op">.</span>foundation_0_0_26_1;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      memory            = nixpkgs<span class="op">.</span>haskell<span class="op">.</span>lib<span class="op">.</span>appendPatch super<span class="op">.</span>memory <span class="op">(</span>nixpkgs<span class="op">.</span>fetchpatch <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">url</span> <span class="op">=</span> <span class="st">"https://gitlab.haskell.org/ghc/head.hackage/-/raw/c89c1e27af8f180b3be476e102147557f922b224/patches/memory-0.15.0.patch"</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">sha256</span> <span class="op">=</span> <span class="st">"0mkjbrzi05h1xds8rf5wfky176hrl03q0d7ipklp9x4ls3yyqj5x"</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">})</span>;</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      cryptonite        = nixpkgs<span class="op">.</span>haskell<span class="op">.</span>lib<span class="op">.</span>appendPatch super<span class="op">.</span>cryptonite <span class="op">(</span>nixpkgs<span class="op">.</span>fetchpatch <span class="op">{</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">url</span> <span class="op">=</span> <span class="st">"https://gitlab.haskell.org/ghc/head.hackage/-/raw/6a65307bbdc73c5eb4165a67ee97c7b9faa818e1/patches/cryptonite-0.28.patch"</span><span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">sha256</span> <span class="op">=</span> <span class="st">"1wq9hw16qj2yqy7lyqbi7106lhk199hvnkj5xr7h0ip854gjsr5j"</span><span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">})</span>;</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      profunctors       = self<span class="op">.</span>callCabal2nix <span class="st">"profunctors"</span> profunctors<span class="op">-</span>src <span class="op">{}</span>; <span class="co"># `profunctors-src` is defined above</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      mono<span class="op">-</span>traversable  = nixpkgs<span class="op">.</span>haskell<span class="op">.</span>lib<span class="op">.</span>dontCheck super<span class="op">.</span>mono<span class="op">-</span>traversable;</span></code></pre></div>
+</details>
+<p>After every few changes, I like to rerun <code>nix-build</code> and watch the number go down. It’s also possible to build an individual package, e.g.&nbsp;to build <code>foundation</code> (and any dependencies) one would run</p>
+<pre class="shell"><code>$ nix-build release-9.0.nix -A passthru.haskellPackages.foundation</code></pre>
+<p><a href="https://github.com/gibiansky/IHaskell/pull/1215/commits/12f50f34d9cf6dceb3ca5adc9fa450cee6e7dcee">This is what the final <code>release-9.0.nix</code> looked like</a>.</p>
+<p>Eventually only <code>ghc-parser</code>, maybe <code>ipython-kernel</code>, and <code>ihaskell</code> should fail to build.</p>
+</section>
+<section id="updating-ghc-parser" class="level2">
+<h2 data-anchor-id="updating-ghc-parser">Updating <code>ghc-parser</code></h2>
+<p><code>ghc-parser</code> has the fewest dependencies of the three packages we are changing so it makes sense to start there. I’m relatively low-tech as far as development workflow goes and I prefer <code>ghcid</code> and a text editor, mostly because I haven’t yet figured out how to get anything more advanced to work. To get <code>ghcid</code> running, assuming you have it installed globally like I do, you relax the version bounds in <code>ghc-parser.cabal</code> and run</p>
+<pre class="shell"><code>$ nix-shell release-9.0.nix -A passthru.haskellPackages.ghc-parser.env
+$ cd ghc-parser
+$ runhaskell Setup.hs configure
+$ ghcid -c runhaskell Setup.hs repl lib:ghc-parser</code></pre>
+<p>Most of the compilation errors are related to <a href="https://gitlab.haskell.org/ghc/ghc/-/issues/13009">this GHC module restructuring</a> that started in GHC 8.10 and continued in GHC 9.0. If I had kept better notes from last time I would have looked at <a href="https://github.com/hsyl20/ghc-api-compat/"><code>ghc-api-compat</code></a> which offers a compatibility shim and whose <a href="https://github.com/hsyl20/ghc-api-compat/blob/master/ghc-api-compat.cabal"><code>.cabal</code></a> file makes translating between old and new module names very easy. Instead I ended up looking at the <a href="https://downloads.haskell.org/ghc/9.0.1/docs/html/libraries/ghc-9.0.1/index.html">GHC 9.0 API Haddocks</a> and the <a href="https://hackage.haskell.org/package/ghc-8.10.2">GHC 8.10 API Haddocks</a>. As an aside, I am irritated that the most recently released GHC API documentation isn’t available on Hackage. I also like to have a local checkout of the GHC source so that I can look at the code across different commits if required.</p>
+<p><a href="https://github.com/gibiansky/IHaskell/pull/1215/commits/063e6bb0459b7ff8d9a2e92090332bf7a1e92a63">These are the changes I needed to make to <code>ghc-parser</code></a>.</p>
+</section>
+<section id="updating-ipython-kernel" class="level2">
+<h2 data-anchor-id="updating-ipython-kernel">Updating <code>ipython-kernel</code></h2>
+<p><code>ipython-kernel</code> doesn’t depend on the GHC API directly, so changes to it are usually related to breaking API changes in other dependencies. In this case, no changes were required!</p>
+</section>
+<section id="updating-ihaskell" class="level2">
+<h2 data-anchor-id="updating-ihaskell">Updating <code>ihaskell</code></h2>
+<p>This is usually the most involved package to update, as its operation is intimately tied with the details of the GHC API. Most of the changes required were for three reasons:</p>
+<ol type="1">
+<li><p>The aforementioned module hierarchy change</p></li>
+<li><p>Changing the terminology from “packages” to “units” as described in <a href="https://gitlab.haskell.org/ghc/ghc/-/commit/10a2ba90aa6a788677104cc43318c66f46e2e2b0">this commit</a></p></li>
+<li><p>Removing specialised <code>gcatch</code>, <code>gtry</code>, etc. functions in favour of the more general versions in <code>exceptions</code>, as detailed in <a href="https://downloads.haskell.org/ghc/9.0.1/docs/html/users_guide/9.0.1-notes.html#ghc-library">this section of the release notes</a></p></li>
+</ol>
+<p>As before, it’s possible to get <code>ghcid</code> running with</p>
+<pre class="shell"><code>$ nix-shell release-9.0.nix -A passthru.haskellPackages.ghc-parser.env
+$ runhaskell Setup.hs configure --enable-tests
+$ ghcid -c runhaskell Setup.hs repl lib:ihaskell</code></pre>
+<p>After getting everything compiling, I like to build the <code>ihaskell</code> package by running</p>
+<pre class="shell"><code>$ nix-build release-9.0.nix -A passthru.haskellPackages.ihaskell</code></pre>
+<p>because this sets up the test environment correctly (i.e.&nbsp;putting the built <code>ihaskell</code> executable in the <code>$PATH</code>) before running tests, although course you could do this manually. This usually catches any issues that have slipped through and <a href="https://github.com/gibiansky/IHaskell/pull/1215/commits/1796c35119ced7a564e75fe07067797fb182149d#diff-409dc396158ef9f7f39928cb144c6c3037072f0d9932499d2213862e0f5fbae6">small formatting changes in GHC output across versions</a>.</p>
+<p><a href="https://github.com/gibiansky/IHaskell/pull/1215/commits/1796c35119ced7a564e75fe07067797fb182149d">Here are the changes I made to <code>ihaskell</code></a>.</p>
+</section>
+<section id="acceptance-testing" class="level2">
+<h2 data-anchor-id="acceptance-testing">Acceptance testing</h2>
+<p>Since IHaskell bridges the Jupyter and GHC ecosystems, we have an acceptance test that essentially runs an IHaskell notebook through <a href="https://nbconvert.readthedocs.io/en/latest/"><code>nbconvert</code></a> and ensures that the output is identical to the input. Because GHC output (amongst other things) differs across GHC versions, this acceptance test was frequently broken and/or a bad indicator of whether any changes were correct. Recently <a href="https://github.com/jamesdbrock">James Brock</a> simplified and greatly improved the acceptance test to be more reliable. Unfortunately the latest releases of Jupyter now include additional metadata with each response including the time of reply, which cannot be expected to be the same across runs. In the past it’s been possible to filter the offending fields out using <code>grep -e</code> but a more sophisticated approach was required this time so I took the opportunity to learn a little more about <a href="https://stedolan.github.io/jq/"><code>jq</code></a> and used that instead. This new approach should also be more flexible and better at accommodating future output changes.</p>
+<p><a href="https://github.com/gibiansky/IHaskell/pull/1215/commits/4b62c964fb8937353d39a8798dc13d06260c9257">Here are the changes I made to the acceptance tests</a>.</p>
+</section>
+<section id="using-the-updated-ihaskell" class="level2">
+<h2 data-anchor-id="using-the-updated-ihaskell">Using the updated IHaskell</h2>
+<p>We’re done! I like to quickly try out a new notebook, as a quick test that everything works as expected (and also for the novelty of being the first person to try IHaskell on the newest GHC). To do this, I run</p>
+<pre class="shell"><code>$ nix-build release-9.0.nix
+$ result/bin/jupyter-notebook</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../index.xml">
+<p>RSS</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

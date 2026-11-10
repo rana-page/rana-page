@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-02-09">
+
+<title>Low-effort Dependency Pinning with Nix Flakes – Thee Rana Page</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-beb050b6995f5fb5c74a266772e82083.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-523687ef48c315f64e21eb5d5e9f174c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Same MathJax extensions the Hakyll site loaded: color, cancel, textmacros. -->
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/color', '[tex]/cancel', '[tex]/textmacros']},
+  tex: {packages: {'[+]': ['color', 'cancel', 'textmacros']}}
+};
+</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Thee Rana Page</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/index.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive/index.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Low-effort Dependency Pinning with Nix Flakes</h1>
+</div>
+<div class="info">
+  Posted on <span class="date">9 February 2024</span>
+</div>
+<div class="info quarto-categories">
+  Tags: <span class="quarto-category">programming</span>, <span class="quarto-category">nix</span>
+</div>
+</header>
+
+
+<p>Back in 2018 I wrote <a href="../../blog/quick-easy-nixpkgs-pinning/">a blog post about pinning <code>nixpkgs</code></a> which describes an approach I’ve used happily and successfully since then to manage dependencies (and not just <code>nixpkgs</code>) for small projects. In short, it involves</p>
+<ol type="1">
+<li><code>versions.json</code>, a JSON file storing dependency information</li>
+<li><code>updater</code>, an updater script</li>
+<li><code>pkgs.nix</code>, a Nix expression that makes each dependency available</li>
+</ol>
+<p>Here’s what each of those files might look like:</p>
+<details>
+<summary style="cursor: pointer">
+<code>versions.json</code>
+</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ihaskell"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"owner"</span><span class="fu">:</span> <span class="st">"gibiansky"</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"repo"</span><span class="fu">:</span> <span class="st">"IHaskell"</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"branch"</span><span class="fu">:</span> <span class="st">"master"</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"rev"</span><span class="fu">:</span> <span class="st">"575b2be1c25e8e7c5ed5048c8d7ead51bb9c67f0"</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sha256"</span><span class="fu">:</span> <span class="st">"148sdawqln2ys0s1rapwj2bwjzfq027dz5h49pa034nmyizyqs4a"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"nixpkgs"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"owner"</span><span class="fu">:</span> <span class="st">"NixOS"</span><span class="fu">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"repo"</span><span class="fu">:</span> <span class="st">"nixpkgs"</span><span class="fu">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"branch"</span><span class="fu">:</span> <span class="st">"nixos-23.11"</span><span class="fu">,</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"rev"</span><span class="fu">:</span> <span class="st">"9dd7699928e26c3c00d5d46811f1358524081062"</span><span class="fu">,</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sha256"</span><span class="fu">:</span> <span class="st">"0hmsw3qd3i13dp8jhr1d96xlpkmd78m8g6shw086f6sqhn2rrvv6"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</details>
+<details>
+<summary style="cursor: pointer">
+<code>updater</code>
+</summary>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env nix-shell</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#! nix-shell -i bash</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#! nix-shell -p curl jq nix</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-eufo</span> pipefail</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="va">FILE</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="va">PROJECT</span><span class="op">=</span><span class="va">$2</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="va">OWNER</span><span class="op">=</span><span class="va">$(</span><span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.[$project].owner'</span> <span class="at">--arg</span> project <span class="st">"</span><span class="va">$PROJECT</span><span class="st">"</span> <span class="op">&lt;</span> <span class="st">"</span><span class="va">$FILE</span><span class="st">"</span><span class="va">)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="va">REPO</span><span class="op">=</span><span class="va">$(</span><span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.[$project].repo'</span> <span class="at">--arg</span> project <span class="st">"</span><span class="va">$PROJECT</span><span class="st">"</span> <span class="op">&lt;</span> <span class="st">"</span><span class="va">$FILE</span><span class="st">"</span><span class="va">)</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="va">DEFAULT_BRANCH</span><span class="op">=</span><span class="va">$(</span><span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.[$project].branch // "master"'</span> <span class="at">--arg</span> project <span class="st">"</span><span class="va">$PROJECT</span><span class="st">"</span> <span class="op">&lt;</span> <span class="st">"</span><span class="va">$FILE</span><span class="st">"</span><span class="va">)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="va">BRANCH</span><span class="op">=</span><span class="va">${3</span><span class="op">:-</span><span class="va">$DEFAULT_BRANCH}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="va">REV</span><span class="op">=</span><span class="va">$(</span><span class="ex">curl</span> <span class="st">"https://api.github.com/repos/</span><span class="va">$OWNER</span><span class="st">/</span><span class="va">$REPO</span><span class="st">/branches/</span><span class="va">$BRANCH</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.commit.sha'</span><span class="va">)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="va">SHA256</span><span class="op">=</span><span class="va">$(</span><span class="ex">nix-prefetch-url</span> <span class="at">--unpack</span> <span class="st">"https://github.com/</span><span class="va">$OWNER</span><span class="st">/</span><span class="va">$REPO</span><span class="st">/archive/</span><span class="va">$REV</span><span class="st">.tar.gz"</span><span class="va">)</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="va">TJQ</span><span class="op">=</span><span class="va">$(</span><span class="ex">jq</span> <span class="st">'.[$project] = {owner: $owner, repo: $repo, branch: $branch, rev: $rev, sha256: $sha256}'</span> <span class="dt">\</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">--arg</span> project <span class="st">"</span><span class="va">$PROJECT</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">--arg</span> owner <span class="st">"</span><span class="va">$OWNER</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">--arg</span> repo <span class="st">"</span><span class="va">$REPO</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">--arg</span> branch <span class="st">"</span><span class="va">$BRANCH</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">--arg</span> rev <span class="st">"</span><span class="va">$REV</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">--arg</span> sha256 <span class="st">"</span><span class="va">$SHA256</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span> <span class="st">"</span><span class="va">$FILE</span><span class="st">"</span><span class="va">)</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span> <span class="va">$?</span> <span class="ot">==</span> 0 <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">"</span><span class="va">${TJQ}</span><span class="st">"</span> <span class="op">&gt;|</span> <span class="st">"</span><span class="va">$FILE</span><span class="st">"</span></span></code></pre></div>
+</details>
+<details>
+<summary style="cursor: pointer">
+<code>pkgs.nix</code>
+</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">fetcher</span> <span class="op">=</span> <span class="op">{</span> <span class="va">owner</span><span class="op">,</span> <span class="va">repo</span><span class="op">,</span> <span class="va">rev</span><span class="op">,</span> <span class="va">sha256</span><span class="op">,</span> <span class="op">...</span> <span class="op">}</span>: <span class="bu">builtins</span><span class="op">.</span>fetchTarball <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">inherit</span> <span class="va">sha256</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">url</span> <span class="op">=</span> <span class="st">"https://github.com/</span><span class="sc">${</span>owner<span class="sc">}</span><span class="st">/</span><span class="sc">${</span>repo<span class="sc">}</span><span class="st">/tarball/</span><span class="sc">${</span>rev<span class="sc">}</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="va">versions</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>mapAttrs</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="va">_</span><span class="op">:</span> fetcher<span class="op">)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>fromJSON <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>readFile <span class="ss">./versions.json</span><span class="op">));</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> versions</span></code></pre></div>
+</details>
+<p>This approach still works, but in the meantime <a href="https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake">Nix flakes</a> have become the primary way to manage dependencies in Nix projects. Although they’re still listed as an experimental feature, the same is also true of the <code>nix</code> command, and I don’t think either is going away in the foreseeable future.</p>
+<section id="the-fundamental-insight" class="level2">
+<h2 data-anchor-id="the-fundamental-insight">The fundamental insight</h2>
+<p>It turns out that you can replace <code>pkgs.nix</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">fetcher</span> <span class="op">=</span> <span class="op">{</span> <span class="va">owner</span><span class="op">,</span> <span class="va">repo</span><span class="op">,</span> <span class="va">rev</span><span class="op">,</span> <span class="va">sha256</span><span class="op">,</span> <span class="op">...</span> <span class="op">}</span>: <span class="bu">builtins</span><span class="op">.</span>fetchTarball <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">inherit</span> <span class="va">sha256</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">url</span> <span class="op">=</span> <span class="st">"https://github.com/</span><span class="sc">${</span>owner<span class="sc">}</span><span class="st">/</span><span class="sc">${</span>repo<span class="sc">}</span><span class="st">/tarball/</span><span class="sc">${</span>rev<span class="sc">}</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="va">versions</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>mapAttrs</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="va">_</span><span class="op">:</span> fetcher<span class="op">)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>fromJSON <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>readFile <span class="ss">./versions.json</span><span class="op">));</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> versions</span></code></pre></div>
+<p>using the relatively new <code>fetchTree</code> builtin:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">lock</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>fromJSON <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>readFile <span class="ss">./flake.lock</span><span class="op">);</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">versions</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>mapAttrs</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="va">_</span><span class="op">:</span> <span class="va">node</span><span class="op">:</span> <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>fetchTree node<span class="op">.</span>locked<span class="op">).</span>outPath<span class="op">)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    lock<span class="op">.</span>nodes<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> versions</span></code></pre></div>
+<p>following which you can replace <code>updater</code> with <a href="https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake-update"><code>nix flake update</code></a> and <code>versions.json</code> with <code>flake.lock</code>.</p>
+</section>
+<section id="flakes-griping" class="level2">
+<h2 data-anchor-id="flakes-griping">Flakes griping</h2>
+<p>I’ve done my best to avoid flakes for as long as possible, since there are a couple of UI/UX issues that bother me:</p>
+<section id="a-reliance-on-new-style-nix-commands" class="level3">
+<h3 data-anchor-id="a-reliance-on-new-style-nix-commands">A reliance on new-style <code>nix</code> commands</h3>
+<p>I’m pretty comfortable with <code>nix-build</code> and <code>nix-shell</code>, and it’s an adjustment to use the newer <code>nix build</code> and <code>nix develop</code> commands since they don’t work exactly the same (e.g.&nbsp;not printing build logs by default, having to use <code>.#</code> for packages).</p>
+</section>
+<section id="coupling-dependency-and-systems-concerns" class="level3">
+<h3 data-anchor-id="coupling-dependency-and-systems-concerns">Coupling dependency and systems concerns</h3>
+<p>The flakes position is that <code>system</code> is an impurity (which is reasonable enough) and so each output is parametrised by the system and there’s no built-in way to ignore or work around this. In practice I’ve seen most people use <a href="https://github.com/numtide/flake-utils"><code>flake-utils</code></a> and its provided <code>eachSystem</code> or <code>eachDefaultSystem</code> functions. For my purposes I haven’t run into any issues with <code>eachDefaultSystem</code> and if you are shaking your head at the screen thinking of all the ways this can go wrong then you probably don’t need to read this blog post. Unfortunately <code>eachDefaultSystem</code> doesn’t save you from having to supply <code>system</code> to <code>nixpkgs</code> everywhere you import it, which makes adapting existing non-flakes projects with multiple imports of <code>nixpkgs</code> tedious to migrate.</p>
+</section>
+<section id="surprising-interactions-with-git" class="level3">
+<h3 data-anchor-id="surprising-interactions-with-git">Surprising interactions with <code>git</code></h3>
+<p>Strange and confusing things can happen when you try to use a file that’s currently untracked by <code>git</code>. Often it will tell you it can’t find a particular file, even though it’s <em>right there</em>, but at other times things will appear to work but your language-specific build tool will complain. The obvious solution is to always <code>git add</code> everything you care about, but that has the same energy as “I would simply write code with no bugs at all times” and is equally non-actionable advice. The only hint you get is the message</p>
+<p><code>warning: Git tree '&lt;project root&gt;' is dirty</code></p>
+<p>as your build commences which is more often than not innocuous. I foresee myself running into this issue over and over again when using flakes.</p>
+</section>
+</section>
+<section id="why-bother-with-flakes" class="level2">
+<h2 data-anchor-id="why-bother-with-flakes">Why bother with flakes?</h2>
+<p>Although I’m still critical of certain aspects of flakes, they do provide one feature I was missing: the ability to manage and update dependencies without the use of <a href="https://nixos.org/manual/nix/stable/language/import-from-derivation">IFD</a>. I also get the impression that the vast majority of effort being put into Nix now is in and around the flakes ecosystem, e.g. <a href="https://flakehub.com/">FlakeHub</a> and <a href="https://github.com/DeterminateSystems/update-flake-lock">the <code>update-flake-lock</code> GitHub Action</a>. Keeping all this in mind, I think there is a way to ignore most of the stuff I don’t care about for now while getting rid of my primitive shell script in favour of robust and better-supported dependency management code that’s built into Nix. That way I can gradually integrate flakes more deeply, and if I’m wrong about it being the future I still have the option to go back to what I was using before (or adopt whatever the new hotness is).</p>
+</section>
+<section id="a-minimal-flake" class="level2">
+<h2 data-anchor-id="a-minimal-flake">A minimal flake</h2>
+<p>The first hurdle to overcome is replacing <code>default.nix</code> with <code>flake.nix</code>. I’ve found that this is a good starting point for me:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">inputs</span>.<span class="va">nixpkgs</span>.<span class="va">url</span> <span class="op">=</span> <span class="st">"github:NixOS/nixpkgs/release-23.11"</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">inputs</span>.<span class="va">flake-utils</span>.<span class="va">url</span> <span class="op">=</span> <span class="st">"github:numtide/flake-utils"</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">inputs</span>.<span class="va">flake-compat</span>.<span class="va">url</span> <span class="op">=</span> <span class="st">"github:edolstra/flake-compat"</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">outputs</span> <span class="op">=</span> <span class="op">{</span><span class="va">nixpkgs</span><span class="op">,</span> <span class="va">flake-utils</span><span class="op">,</span> <span class="op">...}</span>:</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    flake<span class="op">-</span>utils<span class="op">.</span>lib<span class="op">.</span>eachDefaultSystem <span class="op">(</span><span class="va">system</span><span class="op">:</span> <span class="kw">let</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> nixpkgs <span class="op">{</span> <span class="kw">inherit</span> <span class="va">system</span><span class="op">;</span> <span class="op">};</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># ...</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> <span class="op">{</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="va">defaultPackage</span> <span class="op">=</span> <span class="cn">null</span><span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="va">devShell</span> <span class="op">=</span> <span class="cn">null</span><span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">});</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>combined with this snippet in <code>default.nix</code> taken from the <a href="https://github.com/edolstra/flake-compat/blob/0f9255e01c2351cc7d116c072cb317785dd33b33/README.md#usage"><code>flake-compat</code> README</a>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">(</span><span class="bu">import</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">(</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> <span class="va">lock</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>fromJSON <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>readFile <span class="ss">./flake.lock</span><span class="op">);</span> <span class="kw">in</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">fetchTarball</span> <span class="op">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="va">url</span> <span class="op">=</span> lock<span class="op">.</span>nodes<span class="op">.</span>flake<span class="op">-</span>compat<span class="op">.</span>locked<span class="op">.</span>url <span class="kw">or</span> <span class="st">"https://github.com/edolstra/flake-compat/archive/</span><span class="sc">${</span>lock<span class="op">.</span>nodes<span class="op">.</span>flake<span class="op">-</span>compat<span class="op">.</span>locked<span class="op">.</span>rev<span class="sc">}</span><span class="st">.tar.gz"</span><span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="va">sha256</span> <span class="op">=</span> lock<span class="op">.</span>nodes<span class="op">.</span>flake<span class="op">-</span>compat<span class="op">.</span>locked<span class="op">.</span>narHash<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">)</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">{</span> <span class="va">src</span> <span class="op">=</span> <span class="ss">./.</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="op">).</span>defaultNix</span></code></pre></div>
+<p>A couple of things are worth pointing out:</p>
+<ul>
+<li>I include <code>flake-compat</code> in my inputs but I don’t actually use it in <code>flake.nix</code>, it is declared solely so that it can be tracked in <code>flake.lock</code>.</li>
+<li>I could include more dependencies here, as long as <code>nix flake update</code> knows how to fetch them, which is already a huge improvement over my GitHub-specific <code>updater</code> script.</li>
+<li>If your input is a flake but you’re not using it in <code>flake.nix</code>, you probably want to set <code>inpugs.&lt;input&gt;.flake = false</code> so that it doesn’t pull in that flake’s dependencies too.</li>
+<li>The <code>default.nix</code> snippet doesn’t have the old Nix behaviour of doing the right thing when used with <code>nix-shell</code>, but I could probably recover this by including (or reimplementing) <a href="https://github.com/NixOS/nixpkgs/blob/9b5d456802b2322b36b69dca65b04095877495ad/lib/trivial.nix#L235-L240"><code>lib.inNixShell</code></a> and using it.</li>
+</ul>
+</section>
+<section id="migrating-all-the-things" class="level2">
+<h2 data-anchor-id="migrating-all-the-things">Migrating all the things</h2>
+<p>I recently went on a tear, moving a bunch of my repositories over to this workflow:</p>
+<ul>
+<li><a href="https://github.com/vaibhavsagar/resume/commit/a698b2df6e37c67bc05b57547d345883e76eb491"><code>resume</code></a></li>
+<li><a href="https://github.com/vaibhavsagar/notebooks/commit/daa4f593f2bcacdb318f57525887c853db838304"><code>notebooks</code></a></li>
+<li><a href="https://github.com/vaibhavsagar/website/commit/760a4b4c8f44347fbe3bb39203383c4a1b42178d"><code>website</code></a></li>
+</ul>
+<p>It was reasonably straightforward, except in the case of <code>notebooks</code>, where I have a bunch of expressions that each have their own overlays etc. that I wasn’t ready to unify just yet. This meant a lot of <code>{ system ? builtins.currentSystem }</code> which I could have done without. It’s an anti-pattern to import <code>nixpkgs</code> in multiple places anyway, so this is probably a sign that there is a better way to organise my expressions.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 data-anchor-id="further-reading">Further reading</h2>
+<p>I was partly inspired to try this after reading Jade Lovelace’s <a href="https://jade.fyi/blog/flakes-arent-real/">excellent blog post</a> about Nix flakes. Thank you Jade!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../index.xml">
+<p>RSS</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

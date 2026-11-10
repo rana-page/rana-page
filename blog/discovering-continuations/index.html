@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2017-05-22">
+
+<title>Discovering Continuations with Typed Holes – Thee Rana Page</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-beb050b6995f5fb5c74a266772e82083.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-523687ef48c315f64e21eb5d5e9f174c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Same MathJax extensions the Hakyll site loaded: color, cancel, textmacros. -->
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/color', '[tex]/cancel', '[tex]/textmacros']},
+  tex: {packages: {'[+]': ['color', 'cancel', 'textmacros']}}
+};
+</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Thee Rana Page</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/index.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive/index.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Discovering Continuations with Typed Holes</h1>
+</div>
+<div class="info">
+  Posted on <span class="date">22 May 2017</span>
+</div>
+<div class="info quarto-categories">
+  Tags: <span class="quarto-category">haskell</span>, <span class="quarto-category">programming</span>, <span class="quarto-category">monads</span>
+</div>
+</header>
+
+
+<p>I’ve been trying to wrap my head around continuations for a while. I was reading <a href="https://github.com/quchen/articles/blob/master/cont_monad.md">David Luposchainsky’s excellent article</a> on them and playing with his definitions in an IHaskell notebook when I found that typed holes are an excellent hammer to attack this particular nail with.</p>
+<p>If you haven’t encountered them before, <a href="https://wiki.haskell.org/GHC/Typed_holes">typed holes</a> are a feature where you put one or more variables starting with <code>_</code> on the right hand side of a definition to get GHC to tell you the type of the value that fits in that hole, and you can narrow the hole as necessary to get the type of a subexpression until you have enough information to complete the definition. I like to think of this as a way of collaboratively filling in a definition with the compiler, instead of my usual approach which is to write a definition, listen carefully to GHC’s complaints, and amend my definition accordingly. Typed holes are fully supported by GHCi and the full suite of editor integrations, but I personally find the edit/reload/squint cycle more tedious than coming up with the definition in IHaskell and then moving it to a module and adding type signatures after I’m satisfied that it works.</p>
+<p>IHaskell has HLint integration and will suggest corrections for my intermediate cells unless I turn that off:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">:</span>option no<span class="op">-</span>lint</span></code></pre></div>
+<p>There’s a useful GHC extension called <code>InstanceSigs</code> that will allow me to annotate my typeclass instances with their type signatures, so I’ll turn that on:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE InstanceSigs #-}</span></span></code></pre></div>
+<p>I think his type definition makes an excellent starting point:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Cont</span> r a <span class="ot">=</span> <span class="dt">Cont</span> {<span class="ot"> (&gt;&gt;-) ::</span> (a <span class="ot">-&gt;</span> r) <span class="ot">-&gt;</span> r }</span></code></pre></div>
+<p>This defines a type <code>Cont</code> with an infix constructor <code>&gt;&gt;-</code> (that looks suspiciously similar to <code>&gt;&gt;=</code>) that takes a function from <code>a</code> to <code>r</code> and provides an <code>r</code>. One intuition for what this means is that a value of this type knows about an <code>a</code> but for whatever reason refuses to be upfront about it and demands to know what you’re going to do with it and then does it for you, providing you with a final result <code>r</code>. Another intuition is that this is a generalisation of callbacks: a value of this type expects a callback to utilise the <code>a</code>. Anyway, on to my favourite part of working with mysterious data types: defining <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code> instances for them! If you’ve done this before, you’ll know that these typeclasses have certain laws that their instances are meant to obey, and it turns out that this type is polymorphic enough that we can just follow the typed holes and the resulting definitions will be lawful. You don’t have to take my word for it and should verify this for yourself, but I won’t be discussing the laws here. Let’s begin!</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f cont <span class="ot">=</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:19: error:
+    • Found hole: _ :: Cont r b
+      Where: ‘b’ is a rigid type variable bound by
+               the type signature for:
+                 fmap :: forall a b. (a -&gt; b) -&gt; Cont r a -&gt; Cont r b
+               at &lt;interactive&gt;:2:13-44
+             ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-25
+    • In the expression: _
+      In an equation for ‘fmap’: fmap f cont = _
+      In the instance declaration for ‘Functor (Cont r)’
+    • Relevant bindings include
+        cont :: Cont r a (bound at &lt;interactive&gt;:3:12)
+        f :: a -&gt; b (bound at &lt;interactive&gt;:3:10)
+        fmap :: (a -&gt; b) -&gt; Cont r a -&gt; Cont r b (bound at &lt;interactive&gt;:3:5)</code></pre>
+<p>We didn’t really need a typed hole to tell us this, but at least we know what we have to work with. We know we have to provide a <code>Cont</code> value, so let’s narrow our typed hole that way.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f cont <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:26: error:
+    • Found hole: _ :: (b -&gt; r) -&gt; r
+      Where: ‘b’ is a rigid type variable bound by
+               the type signature for:
+                 fmap :: forall a b. (a -&gt; b) -&gt; Cont r a -&gt; Cont r b
+               at &lt;interactive&gt;:2:13-44
+             ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-25
+    • In the second argument of ‘($)’, namely ‘_’
+      In the expression: Cont $ _
+      In an equation for ‘fmap’: fmap f cont = Cont $ _
+    • Relevant bindings include
+        cont :: Cont r a (bound at &lt;interactive&gt;:3:12)
+        f :: a -&gt; b (bound at &lt;interactive&gt;:3:10)
+        fmap :: (a -&gt; b) -&gt; Cont r a -&gt; Cont r b (bound at &lt;interactive&gt;:3:5)</code></pre>
+<p>The type of our hole is more helpful here. Now we know (if we were previously uncertain) that we somehow need to use <code>f</code> to turn the <code>a</code> into a <code>b</code>. We also know that <code>Cont</code> takes a parameter, let’s add that in and see if it helps.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f cont <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:32: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-25
+    • In the expression: _
+      In the second argument of ‘($)’, namely ‘\ k -&gt; _’
+      In the expression: Cont $ \ k -&gt; _
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:3:27)
+        cont :: Cont r a (bound at &lt;interactive&gt;:3:12)
+        f :: a -&gt; b (bound at &lt;interactive&gt;:3:10)
+        fmap :: (a -&gt; b) -&gt; Cont r a -&gt; Cont r b (bound at &lt;interactive&gt;:3:5)</code></pre>
+<p>In general, we know all of our definitions will be of the form <code>Cont $ \k -&gt; _</code> and that’s a safe starting point. We now know that we need to use <code>k</code> on the result of applying <code>f</code> to some <code>a</code> to finally result in an <code>r</code>, but where does the <code>a</code> come from? The only thing we can do at this point is ‘unwrap’ the <code>cont</code> using <code>&gt;&gt;-</code>. What happens when we do that?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f cont <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> cont <span class="op">&gt;&gt;-</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:41: error:
+    • Found hole: _ :: a -&gt; r
+      Where: ‘a’ is a rigid type variable bound by
+               the type signature for:
+                 fmap :: forall a b. (a -&gt; b) -&gt; Cont r a -&gt; Cont r b
+               at &lt;interactive&gt;:2:13-44
+             ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-25
+    • In the second argument of ‘&gt;&gt;-’, namely ‘_’
+      In the expression: cont &gt;&gt;- _
+      In the second argument of ‘($)’, namely ‘\ k -&gt; cont &gt;&gt;- _’
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:3:27)
+        cont :: Cont r a (bound at &lt;interactive&gt;:3:12)
+        f :: a -&gt; b (bound at &lt;interactive&gt;:3:10)
+        fmap :: (a -&gt; b) -&gt; Cont r a -&gt; Cont r b (bound at &lt;interactive&gt;:3:5)</code></pre>
+<p>It looks like we might have everything we need to complete this definition! We can create a function of type <code>a -&gt; r</code> by composing <code>k</code> and <code>f</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f cont <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> cont <span class="op">&gt;&gt;-</span> (k <span class="op">.</span> f)</span></code></pre></div>
+<p>It worked! This definition states that <code>fmap</code> works by creating a continuation that expects a callback of the new type. This is pretty exciting! Let’s continue to <code>Applicative</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    pure ::</span> a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pure</span> a <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:27: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-29
+    • In the expression: _
+      In the second argument of ‘($)’, namely ‘\ k -&gt; _’
+      In the expression: Cont $ \ k -&gt; _
+    • Relevant bindings include
+        k :: a -&gt; r (bound at &lt;interactive&gt;:3:22)
+        a :: a (bound at &lt;interactive&gt;:3:10)
+        pure :: a -&gt; Cont r a (bound at &lt;interactive&gt;:3:5)</code></pre>
+<p>That was pretty easy. We need an <code>r</code> and we have an <code>a</code> and a <code>k</code> that takes an <code>a</code> to an <code>r</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    pure ::</span> a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pure</span> a <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> k a</span></code></pre></div>
+<p>This matches our intuition from above: creating a continuation involves hiding a value behind a function that can access it. On to <code>&lt;*&gt;</code>!</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    pure ::</span> a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pure</span> a  <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> k a</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&lt;*&gt;) ::</span> <span class="dt">Cont</span> r (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    f <span class="op">&lt;*&gt;</span> a <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:5:28: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-29
+    • In the expression: _
+      In the second argument of ‘($)’, namely ‘\ k -&gt; _’
+      In the expression: Cont $ \ k -&gt; _
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:5:23)
+        a :: Cont r a (bound at &lt;interactive&gt;:5:11)
+        f :: Cont r (a -&gt; b) (bound at &lt;interactive&gt;:5:5)
+        (&lt;*&gt;) :: Cont r (a -&gt; b) -&gt; Cont r a -&gt; Cont r b (bound at &lt;interactive&gt;:5:7)</code></pre>
+<p>From above, we know we can ‘unwrap’ <code>Cont</code> values using <code>&gt;&gt;-</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    pure ::</span> a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pure</span> a  <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> k a</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&lt;*&gt;) ::</span> <span class="dt">Cont</span> r (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    f <span class="op">&lt;*&gt;</span> a <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f <span class="op">&gt;&gt;-</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:5:34: error:
+    • Found hole: _ :: (a -&gt; b) -&gt; r
+      Where: ‘a’, ‘b’ are rigid type variables bound by
+               the type signature for:
+                 (&lt;*&gt;) :: forall a b. Cont r (a -&gt; b) -&gt; Cont r a -&gt; Cont r b
+               at &lt;interactive&gt;:4:14-52
+             ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-29
+    • In the second argument of ‘&gt;&gt;-’, namely ‘_’
+      In the expression: f &gt;&gt;- _
+      In the second argument of ‘($)’, namely ‘\ k -&gt; f &gt;&gt;- _’
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:5:23)
+        a :: Cont r a (bound at &lt;interactive&gt;:5:11)
+        f :: Cont r (a -&gt; b) (bound at &lt;interactive&gt;:5:5)
+        (&lt;*&gt;) :: Cont r (a -&gt; b) -&gt; Cont r a -&gt; Cont r b (bound at &lt;interactive&gt;:5:7)</code></pre>
+<p>Let’s keep going.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    pure ::</span> a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pure</span> a  <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> k a</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&lt;*&gt;) ::</span> <span class="dt">Cont</span> r (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    f <span class="op">&lt;*&gt;</span> a <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f <span class="op">&gt;&gt;-</span> \f' <span class="ot">-&gt;</span> a <span class="op">&gt;&gt;-</span> \a' <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:5:54: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-29
+    • In the expression: _
+      In the second argument of ‘&gt;&gt;-’, namely ‘\ a' -&gt; _’
+      In the expression: a &gt;&gt;- \ a' -&gt; _
+    • Relevant bindings include
+        a' :: a (bound at &lt;interactive&gt;:5:48)
+        f' :: a -&gt; b (bound at &lt;interactive&gt;:5:35)
+        k :: b -&gt; r (bound at &lt;interactive&gt;:5:23)
+        a :: Cont r a (bound at &lt;interactive&gt;:5:11)
+        f :: Cont r (a -&gt; b) (bound at &lt;interactive&gt;:5:5)
+        (&lt;*&gt;) :: Cont r (a -&gt; b) -&gt; Cont r a -&gt; Cont r b (bound at &lt;interactive&gt;:5:7)</code></pre>
+<p>Perfect, we want an <code>r</code> and we have</p>
+<ul>
+<li>an <code>a</code> (<code>a'</code>)</li>
+<li>a function from <code>a</code> to <code>b</code> (<code>f'</code>)</li>
+<li>a function from <code>b</code> to <code>r</code> (<code>k</code>)</li>
+</ul>
+<p>Let’s put them together.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    pure ::</span> a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pure</span> a  <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> k a</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&lt;*&gt;) ::</span> <span class="dt">Cont</span> r (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    f <span class="op">&lt;*&gt;</span> a <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f <span class="op">&gt;&gt;-</span> \f' <span class="ot">-&gt;</span> a <span class="op">&gt;&gt;-</span> \a' <span class="ot">-&gt;</span> k (f' a')</span></code></pre></div>
+<p>Okay, we unwrap the function and the argument and rewrap them in a fresh continuation, not too differently from how we defined <code>fmap</code>. Sweet! On to the big M!</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Monad</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&gt;&gt;=) ::</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    a <span class="op">&gt;&gt;=</span> f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:28: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-23
+    • In the expression: _
+      In the second argument of ‘($)’, namely ‘\ k -&gt; _’
+      In the expression: Cont $ \ k -&gt; _
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:3:23)
+        f :: a -&gt; Cont r b (bound at &lt;interactive&gt;:3:11)
+        a :: Cont r a (bound at &lt;interactive&gt;:3:5)
+        (&gt;&gt;=) :: Cont r a -&gt; (a -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:3:7)</code></pre>
+<p>As before, our first order of business is to unwrap the <code>a</code>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Monad</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&gt;&gt;=) ::</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    a <span class="op">&gt;&gt;=</span> f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> a <span class="op">&gt;&gt;-</span> \a' <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:41: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-23
+    • In the expression: _
+      In the second argument of ‘&gt;&gt;-’, namely ‘\ a' -&gt; _’
+      In the expression: a &gt;&gt;- \ a' -&gt; _
+    • Relevant bindings include
+        a' :: a (bound at &lt;interactive&gt;:3:35)
+        k :: b -&gt; r (bound at &lt;interactive&gt;:3:23)
+        f :: a -&gt; Cont r b (bound at &lt;interactive&gt;:3:11)
+        a :: Cont r a (bound at &lt;interactive&gt;:3:5)
+        (&gt;&gt;=) :: Cont r a -&gt; (a -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:3:7)</code></pre>
+<p>We can apply <code>f</code> to this unwrapped value to get a continuation that we can unwrap again.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Monad</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&gt;&gt;=) ::</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    a <span class="op">&gt;&gt;=</span> f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> a <span class="op">&gt;&gt;-</span> \a' <span class="ot">-&gt;</span> f a' <span class="op">&gt;&gt;-</span> \f' <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:3:57: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the instance declaration
+               at &lt;interactive&gt;:1:10-23
+    • In the expression: _
+      In the second argument of ‘&gt;&gt;-’, namely ‘\ f' -&gt; _’
+      In the expression: f a' &gt;&gt;- \ f' -&gt; _
+    • Relevant bindings include
+        f' :: b (bound at &lt;interactive&gt;:3:51)
+        a' :: a (bound at &lt;interactive&gt;:3:35)
+        k :: b -&gt; r (bound at &lt;interactive&gt;:3:23)
+        f :: a -&gt; Cont r b (bound at &lt;interactive&gt;:3:11)
+        a :: Cont r a (bound at &lt;interactive&gt;:3:5)
+        (&gt;&gt;=) :: Cont r a -&gt; (a -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:3:7)</code></pre>
+<p>We want an <code>r</code> and we have <code>k</code> and <code>f'</code>. Let’s put them together!</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Monad</span> (<span class="dt">Cont</span> r) <span class="kw">where</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&gt;&gt;=) ::</span> <span class="dt">Cont</span> r a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    a <span class="op">&gt;&gt;=</span> f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> a <span class="op">&gt;&gt;-</span> \a' <span class="ot">-&gt;</span> f a' <span class="op">&gt;&gt;-</span> \f' <span class="ot">-&gt;</span> k f'</span></code></pre></div>
+<p>And that’s it! The <a href="http://blog.sigfpe.com/2008/12/mother-of-all-monads.html">mother of all monads</a> boils down to some tedious and almost mechanical wrapping and unwrapping. I think it’s cool how mundane it is.</p>
+<p>Let’s have a crack at something more involved. A lot of the magic in continuations is accessed via <code>callCC</code>, which takes a function and calls it with the current continuation, hence the name. How would we define it?</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ot">callCC ::</span> ((b <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>callCC f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> _</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:2:25: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the type signature for:
+                 callCC :: forall b r a. ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b
+               at &lt;interactive&gt;:1:1-51
+    • In the expression: _
+      In the second argument of ‘($)’, namely ‘\ k -&gt; _’
+      In the expression: Cont $ \ k -&gt; _
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:2:20)
+        f :: (b -&gt; Cont r a) -&gt; Cont r b (bound at &lt;interactive&gt;:2:8)
+        callCC :: ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:2:1)</code></pre>
+<p>Our definition involves <code>b</code>, but the only <code>b</code> we have available is wrapped up in <code>f</code>. We need to provide an argument of a certain type to <code>f</code>, and then unwrap the result of that? Time to bring out the big guns: multiple typed holes!</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ot">callCC ::</span> ((b <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>callCC f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f _1 <span class="op">&gt;&gt;-</span> _2</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:2:27: error:
+    • Found hole: _1 :: b -&gt; Cont r a
+      Where: ‘b’, ‘r’, ‘a’ are rigid type variables bound by
+               the type signature for:
+                 callCC :: forall b r a. ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b
+               at &lt;interactive&gt;:1:1-51
+      Or perhaps ‘_1’ is mis-spelled, or not in scope
+    • In the first argument of ‘f’, namely ‘_1’
+      In the first argument of ‘&gt;&gt;-’, namely ‘f _1’
+      In the expression: f _1 &gt;&gt;- _2
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:2:20)
+        f :: (b -&gt; Cont r a) -&gt; Cont r b (bound at &lt;interactive&gt;:2:8)
+        callCC :: ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:2:1)
+&lt;interactive&gt;:2:34: error:
+    • Found hole: _2 :: b -&gt; r
+      Where: ‘b’, ‘r’ are rigid type variables bound by
+               the type signature for:
+                 callCC :: forall b r a. ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b
+               at &lt;interactive&gt;:1:1-51
+      Or perhaps ‘_2’ is mis-spelled, or not in scope
+    • In the second argument of ‘&gt;&gt;-’, namely ‘_2’
+      In the expression: f _1 &gt;&gt;- _2
+      In the second argument of ‘($)’, namely ‘\ k -&gt; f _1 &gt;&gt;- _2’
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:2:20)
+        f :: (b -&gt; Cont r a) -&gt; Cont r b (bound at &lt;interactive&gt;:2:8)
+        callCC :: ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:2:1)
+      Valid hole fits include k :: b -&gt; r (bound at &lt;interactive&gt;:2:20)</code></pre>
+<p>Great, <code>k</code> fits perfectly into the second hole. That was easy.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ot">callCC ::</span> ((b <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>callCC f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f _ <span class="op">&gt;&gt;-</span> k</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:2:27: error:
+    • Found hole: _ :: b -&gt; Cont r a
+      Where: ‘b’, ‘r’, ‘a’ are rigid type variables bound by
+               the type signature for:
+                 callCC :: forall b r a. ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b
+               at &lt;interactive&gt;:1:1-51
+    • In the first argument of ‘f’, namely ‘_’
+      In the first argument of ‘&gt;&gt;-’, namely ‘f _’
+      In the expression: f _ &gt;&gt;- k
+    • Relevant bindings include
+        k :: b -&gt; r (bound at &lt;interactive&gt;:2:20)
+        f :: (b -&gt; Cont r a) -&gt; Cont r b (bound at &lt;interactive&gt;:2:8)
+        callCC :: ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:2:1)</code></pre>
+<p>We’re being asked to provide a function that takes one argument and returns a continuation. Let’s fill in the boilerplate and see where that takes us.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ot">callCC ::</span> ((b <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>callCC f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f (\b <span class="ot">-&gt;</span> <span class="dt">Cont</span> <span class="op">$</span> \k' <span class="ot">-&gt;</span> _) <span class="op">&gt;&gt;-</span> k</span></code></pre></div>
+<pre><code>&lt;interactive&gt;:2:48: error:
+    • Found hole: _ :: r
+      Where: ‘r’ is a rigid type variable bound by
+               the type signature for:
+                 callCC :: forall b r a. ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b
+               at &lt;interactive&gt;:1:1-51
+    • In the expression: _
+      In the second argument of ‘($)’, namely ‘\ k' -&gt; _’
+      In the expression: Cont $ \ k' -&gt; _
+    • Relevant bindings include
+        k' :: a -&gt; r (bound at &lt;interactive&gt;:2:42)
+        b :: b (bound at &lt;interactive&gt;:2:29)
+        k :: b -&gt; r (bound at &lt;interactive&gt;:2:20)
+        f :: (b -&gt; Cont r a) -&gt; Cont r b (bound at &lt;interactive&gt;:2:8)
+        callCC :: ((b -&gt; Cont r a) -&gt; Cont r b) -&gt; Cont r b (bound at &lt;interactive&gt;:2:1)</code></pre>
+<p>And we’re done! We can get an <code>r</code> by applying <code>k</code> to <code>b</code>.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ot">callCC ::</span> ((b <span class="ot">-&gt;</span> <span class="dt">Cont</span> r a) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b) <span class="ot">-&gt;</span> <span class="dt">Cont</span> r b</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>callCC f <span class="ot">=</span> <span class="dt">Cont</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f (\b <span class="ot">-&gt;</span> <span class="dt">Cont</span> <span class="op">$</span> \k' <span class="ot">-&gt;</span> k b) <span class="op">&gt;&gt;-</span> k</span></code></pre></div>
+<p>A closer look at the definition reveals that <code>k'</code> is unused, and this function provides <code>f</code> with the option to exit early if desired, or continue as normal. There’s a good explanation of why and how this works at <a href="https://github.com/quchen/articles/blob/master/cont_monad.md#special-api-function-callcc">the aforementioned article</a>.</p>
+<p>Still a bit wary? That’s fair. I like to poke at the definitions, <a href="https://hackage.haskell.org/package/transformers-0.4.3.0/docs/src/Control-Monad-Trans-Cont.html">read the source</a>, look at how Gabriella Gonzalez <a href="http://www.haskellforall.com/2014/04/how-continuation-monad-works.html">explains it</a>, and have a cup of tea and think about life for a while. Whatever works for you!</p>
+<p>If you looked at the source, you might have noticed something interesting: The definition for the ContT monad transformer is identical! Here it is below.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">ContT</span> r m a <span class="ot">=</span> <span class="dt">ContT</span> {<span class="ot"> (&gt;&gt;-) ::</span> (a <span class="ot">-&gt;</span> m r) <span class="ot">-&gt;</span> m r }</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">ContT</span> r m) <span class="kw">where</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m a <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m b</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmap</span> f cont <span class="ot">=</span> <span class="dt">ContT</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> cont <span class="op">&gt;&gt;-</span> (k <span class="op">.</span> f)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> (<span class="dt">ContT</span> r m) <span class="kw">where</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="ot">    pure ::</span> a <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m a</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pure</span> a  <span class="ot">=</span> <span class="dt">ContT</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> k a</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&lt;*&gt;) ::</span> <span class="dt">ContT</span> r m (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m a <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m b</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    f <span class="op">&lt;*&gt;</span> a <span class="ot">=</span> <span class="dt">ContT</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f <span class="op">&gt;&gt;-</span> \f' <span class="ot">-&gt;</span> a <span class="op">&gt;&gt;-</span> \a' <span class="ot">-&gt;</span> k (f' a')</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Monad</span> (<span class="dt">ContT</span> r m) <span class="kw">where</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="ot">    (&gt;&gt;=) ::</span> <span class="dt">ContT</span> r m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m b) <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m b</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    a <span class="op">&gt;&gt;=</span> f <span class="ot">=</span> <span class="dt">ContT</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> a <span class="op">&gt;&gt;-</span> \a' <span class="ot">-&gt;</span> f a' <span class="op">&gt;&gt;-</span> \f' <span class="ot">-&gt;</span> k f'</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a><span class="ot">callCC ::</span> ((b <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m a) <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m b) <span class="ot">-&gt;</span> <span class="dt">ContT</span> r m b</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>callCC f <span class="ot">=</span> <span class="dt">ContT</span> <span class="op">$</span> \k <span class="ot">-&gt;</span> f (\b <span class="ot">-&gt;</span> <span class="dt">ContT</span> <span class="op">$</span> \k' <span class="ot">-&gt;</span> k b) <span class="op">&gt;&gt;-</span> k</span></code></pre></div>
+<p>I love being able to interact with these definitions like this. This is really how I want to program, and I’d encourage you to try it! The notebook is <a href="https://github.com/vaibhavsagar/notebooks/blob/master/continuations/Continuation.ipynb">here</a> for you to play with if you have IHaskell set up. IHaskell isn’t just useful for programming: I even used it to <a href="https://github.com/vaibhavsagar/notebooks/blob/master/continuations/DiscoveringContinuationsWithTypedHoles.ipynb">write this blog post</a>!</p>
+<p>I feel like I should end with something profound about continuations, but I’ll instead link you to <a href="http://teh.id.au/posts/2017/05/10/lambdajam-slides/index.html">this presentation by Tim Humphries</a> and once again nudge you to try typed holes the next time you’re in a Haskell bind (pun very much intended).</p>
+<p>Thanks to <a href="https://twitter.com/imccoy">Iain McCoy</a>, <a href="https://jvns.ca/">Julia Evans</a>, and <a href="https://ivanthetricourne.github.io/">Carl Factora</a> for their feedback and suggestions on this post.</p>
+
+
+
+</main> <!-- /main -->
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../index.xml">
+<p>RSS</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

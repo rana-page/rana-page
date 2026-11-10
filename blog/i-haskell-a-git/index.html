@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2017-08-13">
+
+<title>I Haskell a Git – Thee Rana Page</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-beb050b6995f5fb5c74a266772e82083.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-523687ef48c315f64e21eb5d5e9f174c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Same MathJax extensions the Hakyll site loaded: color, cancel, textmacros. -->
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/color', '[tex]/cancel', '[tex]/textmacros']},
+  tex: {packages: {'[+]': ['color', 'cancel', 'textmacros']}}
+};
+</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Thee Rana Page</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/index.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive/index.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">I Haskell a Git</h1>
+</div>
+<div class="info">
+  Posted on <span class="date">13 August 2017</span>
+</div>
+<div class="info quarto-categories">
+  Tags: <span class="quarto-category">programming</span>, <span class="quarto-category">haskell</span>, <span class="quarto-category">git</span>
+</div>
+</header>
+
+
+<p><em>This blog post is available in <a href="https://flyclipart.com/ru-i-haskell-a-git">Russian</a> (translated by <a href="https://flyclipart.com/">Free clipart blog</a>)</em></p>
+<p>I struggled with Git for a long time, and every time I thought I had finally made sense of it, I would accidentally delete a repository or mess up a branch, causing me to question my grasp of what I was doing. I found it very difficult to form a mental model of the tool from the proliferation of seemingly endless command line flags that I had to use to achieve anything meaningful, and the cryptic errors that would inevitably result.</p>
+<p>When I finally thought I understood what was going on, I offered to give a talk on it to the local functional group, because Git is functional, right? The co-organisers explained that it wouldn’t be an interesting or useful talk, but a talk on implementing Git in Haskell would be very welcome.</p>
+<p>That was enough motivation to start working on a <a href="https://github.com/vaibhavsagar/duffer">Git library</a>, and it turns out that understanding Git from the inside out is far, far easier than whatever I was trying to do earlier. This blog post is my attempt to share that comfort and understanding with you.</p>
+<p>I’ve chosen to write this as an IHaskell notebook that is available <a href="https://github.com/vaibhavsagar/notebooks/tree/master/git-from-scratch">here</a>, and I’ve included a <code>default.nix</code> to make things easier if you have Nix installed. You should be able to run</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> <span class="va">$(</span><span class="ex">nix-build</span> <span class="at">--no-out-link</span><span class="va">)</span>/bin/jupyter-notebook</span></code></pre></div>
+<p>to open a Jupyter notebook environment with all the dependencies you’ll need to follow along.</p>
+<p>GHCi has a handy Vim-inspired feature where a command prefixed with <code>:!</code> is run in the shell, and IHaskell supports this as well, so I’ll be using that heavily to keep everything self-contained.</p>
+<p>Let’s start by picking a Git repository. I picked Ethan Schoonover’s <a href="https://github.com/altercation/solarized/">solarized</a> because it’s nontrivial, well-known, and was last updated in 2011, so I’m confident that the hashes here won’t go out of date.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- Start with a clean slate.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span><span class="kw">if</span> [ <span class="op">-</span>d solarized<span class="op">/</span> ]; <span class="kw">then</span> rm <span class="op">-</span>rf solarized; fi</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git clone https<span class="op">://</span>github<span class="op">.</span>com<span class="op">/</span>altercation<span class="op">/</span>solarized</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>cd solarized</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git <span class="fu">show</span> <span class="co">--format=raw -s</span></span></code></pre></div>
+<pre><code>Cloning into 'solarized'...
+
+
+
+commit e40cd4130e2a82f9b03ada1ca378b7701b1a9110
+tree ecd0e58d6832566540a30dfd4878db518d5451d0
+parent ab3c5646b41de1b6d95782371289db585ba8aa85
+author Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482098 -0700
+committer Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482214 -0700
+
+    add tmux by @seebi!</code></pre>
+<p><code>git show</code> displays the latest commit on the current branch, <code>--format=raw</code> shows it in raw format, and the <code>-s</code> flag suppresses the diff output, which (as we’ll see later) isn’t part of the commit.</p>
+<p>The first thing we have to address is the fact that Git has two storage formats: loose objects and packfiles. In the loose object format, each Git object is stored in its own file under the <code>.git/objects</code> directory. In the packfile format, many Git objects are stored in a file under the <code>.git/objects/pack</code> directory with an associated pack index to make lookups feasible.</p>
+<p>Loose objects are used below a certain size threshold as an on-disk format, and packfiles are used as a space optimisation and to transfer files over the network because transferring one large file has less overhead than transferring lots of small files. Loose objects are easier to work with, so I’m going to convert the packfiles into loose objects.</p>
+<p>If you’d like to learn more about packfiles, my favourite resource is Aditya Mukerjee’s <a href="https://codewords.recurse.com/issues/three/unpacking-git-packfiles">Unpacking Git packfiles</a>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- `git unpack-objects` doesn't do any unpacking if the objects already exist in the repository</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>mv <span class="op">.</span>git<span class="op">/</span>objects<span class="op">/</span><span class="fu">pack</span><span class="op">/*</span> <span class="op">.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- Stream the packfiles to `git unpack-objects`, which splits them into individual objects and stores them appropriately</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>cat <span class="op">*.</span><span class="fu">pack</span> <span class="op">|</span> git unpack<span class="op">-</span>objects</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- We don't need the packfiles any more</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>rm <span class="op">-</span>rf <span class="fu">pack</span><span class="op">-*</span></span></code></pre></div>
+<p>Okay, the packfiles are gone and there are only loose objects now.</p>
+<p><code>git show</code> is an example of a ‘porcelain’ command for users to interact with, as opposed to a ‘plumbing’ command that is more low-level and meant for Git itself to use under the hood. The latest commit on the current branch is known as the <code>HEAD</code> commit, and we should be able to use <code>git cat-file -p</code> to get essentially the same output as before (the <code>-p</code> flag means ‘pretty-print’).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git cat<span class="op">-</span>file <span class="op">-</span>p <span class="dt">HEAD</span></span></code></pre></div>
+<pre><code>tree ecd0e58d6832566540a30dfd4878db518d5451d0
+parent ab3c5646b41de1b6d95782371289db585ba8aa85
+author Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482098 -0700
+committer Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482214 -0700
+
+add tmux by @seebi!</code></pre>
+<p><code>HEAD</code> is in fact a file that lives at <code>.git/HEAD</code>. Let’s view its contents.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>cat <span class="op">.</span>git<span class="op">/</span><span class="dt">HEAD</span></span></code></pre></div>
+<pre><code>ref: refs/heads/master</code></pre>
+<p>This is essentially a symlink in text. <code>refs/heads/master</code> refers to <code>.git/refs/heads/master</code>. What are its contents?</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>cat <span class="op">.</span>git<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>master</span></code></pre></div>
+<pre><code>e40cd4130e2a82f9b03ada1ca378b7701b1a9110</code></pre>
+<p>Okay, no more pointers! This is a SHA1 hash representing the commit we want. One last <code>git cat-file -p</code>…</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git cat<span class="op">-</span>file <span class="op">-</span>p e40cd4130e2a82f9b03ada1ca378b7701b1a9110</span></code></pre></div>
+<pre><code>tree ecd0e58d6832566540a30dfd4878db518d5451d0
+parent ab3c5646b41de1b6d95782371289db585ba8aa85
+author Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482098 -0700
+committer Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482214 -0700
+
+add tmux by @seebi!</code></pre>
+<p>As expected, we get the same output as before. On to something different: <code>e40cd4130e2a82f9b03ada1ca378b7701b1a9110</code> is a reference to an object stored at <code>.git/objects/e4/0cd4130e2a82f9b03ada1ca378b7701b1a9110</code>. The first two characters of the hash are the directory name and the 38 remaining characters are the file name underneath that directory. It’s worth pointing out that all objects are stored in this format, and there’s no separation between object types or anything like that.</p>
+<p>This unusual directory structure was chosen as a tradeoff between the number of directories under <code>.git/objects</code> and the number of files under each of those directories. One approach might have been to use 40-character file names and put all objects under <code>.git/objects</code>. However, some filesystems have operations that are <code>O(n)</code> in the number of files in a directory, and working with large repositories would get very slow in this case. Another approach would have been to use the first character of the hash as the directory name, which would lead to at most 16 directories under <code>.git/objects</code>. Git settled on the first two characters, which gives us at most 256 directories.</p>
+<p>Let’s confirm that the file does exist, and then look at its contents.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>ls <span class="op">.</span>git<span class="op">/</span>objects<span class="op">/</span>e4<span class="op">/</span><span class="dv">0</span>cd4130e2a82f9b03ada1ca378b7701b1a9110</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>cat <span class="op">.</span>git<span class="op">/</span>objects<span class="op">/</span>e4<span class="op">/</span><span class="dv">0</span>cd4130e2a82f9b03ada1ca378b7701b1a9110 <span class="op">|</span> xxd</span></code></pre></div>
+<pre><code>.git/objects/e4/0cd4130e2a82f9b03ada1ca378b7701b1a9110
+
+
+
+00000000: 7801 958e 6d6a 0331 0c44 fbdb a750 0ed0  x...mj.1.D...P..
+00000010: e22f d95a 2825 f40c b980 b452 e942 9d0d  ./.Z(%.....R.B..
+00000020: ae53 92db d790 5ea0 bf06 1ec3 9b59 f7d6  .S....^......Y..
+00000030: b601 31d3 d3e8 6660 ab7a 43d2 4229 6229  ..1...f`.zC.B)b)
+00000040: 983d 27af 1f9a a992 0a06 52cc 18d4 bb0b  .='.......R.....
+00000050: 773b 0f60 492b 965c 2407 b520 4517 ac14  w;.`I+.\$.. E...
+00000060: 530d 9196 d927 1426 6642 c7d7 f1b9 7738  S....'.&amp;fB....w8
+00000070: 75fb 99f1 deb9 c997 c1eb 7696 fd76 9cd3  u.........v..v..
+00000080: 93ca 03be ac7b 7b83 90ea 3c15 fd42 f0ec  .....{{...&lt;..B..
+00000090: abf7 6ed2 f974 d8ff 1d31 e43f 8763 5518  ..n..t...1.?.cU.
+000000a0: ed7a 03b9 c3f1 db4c b683 fb05 c805 4f81  .z.....L......O.</code></pre>
+<p>Git compresses these files with zlib before storing them, and we’ll need to handle this. Fortunately there’s a tool called <code>zlib-flate</code> (part of the <code>qpdf</code> package) that we can use.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>zlib<span class="op">-</span>flate <span class="op">-</span>uncompress <span class="op">&lt;</span> <span class="op">.</span>git<span class="op">/</span>objects<span class="op">/</span>e4<span class="op">/</span><span class="dv">0</span>cd4130e2a82f9b03ada1ca378b7701b1a9110</span></code></pre></div>
+<pre><code>commit 248tree ecd0e58d6832566540a30dfd4878db518d5451d0
+parent ab3c5646b41de1b6d95782371289db585ba8aa85
+author Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482098 -0700
+committer Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482214 -0700
+
+add tmux by @seebi!</code></pre>
+<p>This is identical to the output of <code>git cat-file -p</code>, except for the <code>commit 248</code> at the beginning. That’s a header that Git uses to tell different types of objects apart, and <code>248</code> is the content length of this particular commit. There’s also a null byte after the content length that the shell is not displaying here, and this will become important when we write code to handle the header in a moment.</p>
+<p>I’m done playing with the shell for now, and I want to write some code. The first thing I’d like to do is import some libraries and define helper functions for compresssion and decompression. Haskell’s <code>zlib</code> library works with lazy bytestrings but I use strict bytestrings in the rest of this code and I don’t want to keep converting back and forth, so I’ll define <code>compress</code> and <code>decompress</code> accordingly.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Codec.Compression.Zlib</span> <span class="kw">as</span> <span class="dt">Z</span> (compress, decompress)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span>           <span class="dt">Data.ByteString.Lazy</span>        (fromStrict, toStrict)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span>           <span class="dt">Data.ByteString</span>             (<span class="dt">ByteString</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.ByteString</span>        <span class="kw">as</span> <span class="dt">B</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>compress,<span class="ot"> decompress ::</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">ByteString</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>compress   <span class="ot">=</span> toStrict <span class="op">.</span> Z.compress   <span class="op">.</span> fromStrict</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>decompress <span class="ot">=</span> toStrict <span class="op">.</span> Z.decompress <span class="op">.</span> fromStrict</span></code></pre></div>
+<p>Now to recreate the <code>zlib-flate</code> output from earlier, and demonstrate the presence of that null byte in the header:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>commit <span class="ot">&lt;-</span> B.readFile <span class="st">".git/objects/e4/0cd4130e2a82f9b03ada1ca378b7701b1a9110"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> <span class="op">$</span> decompress commit</span></code></pre></div>
+<pre><code>"commit 248\NULtree ecd0e58d6832566540a30dfd4878db518d5451d0\nparent ab3c5646b41de1b6d95782371289db585ba8aa85\nauthor Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482098 -0700\ncommitter Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482214 -0700\n\nadd tmux by @seebi!\n"</code></pre>
+<p>Next, I want to make sense of this content by parsing it. I’ll write parsers that take a sequence of bytes and produce values I can work with. I also want to define serialisers (or unparsers, as I like to think of them) that take those values and turn them back into the sequence of bytes we started with.</p>
+<p>Haskell has a couple of great options for this, and I’ve decided to go with <code>attoparsec</code>. It does the right thing and accounts for a parsing failure by default instead of blowing up with a runtime error, but I’m pretty confident that my parsers won’t fail so I’ll define a helper function that gets rid of that behaviour.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span>           <span class="dt">Data.Attoparsec.ByteString</span> (<span class="dt">Parser</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Attoparsec.ByteString.Char8</span> <span class="kw">as</span> <span class="dt">AC</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ot">parsed ::</span> <span class="dt">Parser</span> a <span class="ot">-&gt;</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> a</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>parsed parser <span class="ot">=</span> <span class="fu">either</span> <span class="fu">error</span> <span class="fu">id</span> <span class="op">.</span> AC.parseOnly parser</span></code></pre></div>
+<p>Let’s write our first parser! We’ll start with a simple one for the header. We want some sequence of characters, a space, a number, and a null byte, and parser combinators make implementing this straightforward.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ot">parseHeader ::</span> <span class="dt">Parser</span> (<span class="dt">ByteString</span>, <span class="dt">Int</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>parseHeader <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    objectType <span class="ot">&lt;-</span> AC.takeTill AC.isSpace</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    AC.space</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    len <span class="ot">&lt;-</span> AC.decimal</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    AC.char <span class="ch">'\NUL'</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (objectType, len)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>commit <span class="ot">&lt;-</span> decompress <span class="op">&lt;$&gt;</span> B.readFile <span class="st">".git/objects/e4/0cd4130e2a82f9b03ada1ca378b7701b1a9110"</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>parsed parseHeader commit</span></code></pre></div>
+<pre><code>("commit",248)</code></pre>
+<p>The next parser I want is one for references. The correct way to do this is to look for 40 characters that are in the range 0-9 or a-f, but I’m lazy and I’m going to just grab 40 characters instead. Rabbit hole: write a parser that only parses valid SHA1 hashes.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Ref</span> <span class="ot">=</span> <span class="dt">ByteString</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ot">parseHexRef ::</span> <span class="dt">Parser</span> <span class="dt">Ref</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>parseHexRef <span class="ot">=</span> AC.take <span class="dv">40</span></span></code></pre></div>
+<p>We now have all the smaller parsers we’ll need to plug together in order to parse a commit. We want to parse the <code>tree</code>, any number of <code>parent</code>s, an <code>author</code>, a <code>committer</code>, and a message. Why any number of parents? The initial commit of a repository won’t have any parents, and merge commits will have at least two, although there can be more (this is known as an <a href="https://www.destroyallsoftware.com/blog/2017/the-biggest-and-weirdest-commits-in-linux-kernel-git-history">octopus merge</a>).</p>
+<p>The author and committer lines consist of a user’s name, their email, the unix timestamp, and the timezone. A better parser for this would validate each of those components, but to demonstrate I’m just going to grab the whole line. Rabbit hole: write the better person+time parser.</p>
+<p>One thing I really like about parser combinators is that I can write a parser whose form imitates the content I’m trying to parse. This is purely a cute stylistic quirk, but I enjoy doing it anyway.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Commit</span> <span class="ot">=</span> <span class="dt">Commit</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    {<span class="ot"> commitTree      ::</span> <span class="dt">Ref</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> commitParents   ::</span> [<span class="dt">Ref</span>]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> commitAuthor    ::</span> <span class="dt">ByteString</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> commitCommitter ::</span> <span class="dt">ByteString</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> commitMessage   ::</span> <span class="dt">ByteString</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>parseCommit <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    cTree      <span class="ot">&lt;-</span>           AC.string <span class="st">"tree"</span>      <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> parseHexRef                   <span class="op">&lt;*</span> AC.endOfLine</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    cParents   <span class="ot">&lt;-</span> AC.many' (AC.string <span class="st">"parent"</span>    <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> parseHexRef                   <span class="op">&lt;*</span> AC.endOfLine)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    cAuthor    <span class="ot">&lt;-</span>           AC.string <span class="st">"author"</span>    <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> AC.takeTill (AC.inClass <span class="st">"\n"</span>) <span class="op">&lt;*</span> AC.endOfLine</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    cCommitter <span class="ot">&lt;-</span>           AC.string <span class="st">"committer"</span> <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> AC.takeTill (AC.inClass <span class="st">"\n"</span>) <span class="op">&lt;*</span> AC.endOfLine</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    AC.endOfLine</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    cMessage   <span class="ot">&lt;-</span> AC.takeByteString</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="op">$</span> <span class="dt">Commit</span> cTree cParents cAuthor cCommitter cMessage</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>parsed (parseHeader <span class="op">*&gt;</span> parseCommit) commit</span></code></pre></div>
+<pre><code>Commit {commitTree = "ecd0e58d6832566540a30dfd4878db518d5451d0", commitParents = ["ab3c5646b41de1b6d95782371289db585ba8aa85"], commitAuthor = "Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482098 -0700", commitCommitter = "Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482214 -0700", commitMessage = "add tmux by @seebi!\n"}</code></pre>
+<p>Now to write our first serialiser that takes values of the Commit type and turns them back into bytestrings. Again, with some formatting liberties I can make this look a lot like the content I want to output. I can quickly check that it <a href="http://teh.id.au/posts/2017/06/07/round-trip-property/">round-trips</a> to see that both my parser and serialiser work properly.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Monoid</span> ((&lt;&gt;), mappend, mconcat)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Byteable</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Byteable</span> <span class="dt">Commit</span> <span class="kw">where</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    toBytes (<span class="dt">Commit</span> cTree cParents cAuthor cCommitter cMessage) <span class="ot">=</span> <span class="fu">mconcat</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        [                        <span class="st">"tree "</span>      <span class="op">&lt;&gt;</span> cTree      <span class="op">&lt;&gt;</span> <span class="st">"\n"</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        , <span class="fu">mconcat</span> (<span class="fu">map</span> (\cRef <span class="ot">-&gt;</span> <span class="st">"parent "</span>    <span class="op">&lt;&gt;</span> cRef       <span class="op">&lt;&gt;</span> <span class="st">"\n"</span>) cParents)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        ,                        <span class="st">"author "</span>    <span class="op">&lt;&gt;</span> cAuthor    <span class="op">&lt;&gt;</span> <span class="st">"\n"</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        ,                        <span class="st">"committer "</span> <span class="op">&lt;&gt;</span> cCommitter <span class="op">&lt;&gt;</span> <span class="st">"\n"</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        ,                                                      <span class="st">"\n"</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>        ,                                        cMessage</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>parsedCommit <span class="ot">=</span> parsed (parseHeader <span class="op">*&gt;</span> parseCommit) commit</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>(parsed parseCommit <span class="op">.</span> toBytes <span class="op">$</span> parsedCommit) <span class="op">==</span> parsedCommit</span></code></pre></div>
+<pre><code>True</code></pre>
+<p>Let’s backtrack and also define a serialiser for our headers.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.ByteString.UTF8</span> (fromString, toString)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="ot">withHeader ::</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">ByteString</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>withHeader oType content <span class="ot">=</span> <span class="fu">mconcat</span> [oType, <span class="st">" "</span>, fromString <span class="op">.</span> <span class="fu">show</span> <span class="op">$</span> B.length content, <span class="st">"\NUL"</span>, content]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>withHeader <span class="st">"commit"</span> (toBytes parsedCommit)</span></code></pre></div>
+<pre><code>commit 248tree ecd0e58d6832566540a30dfd4878db518d5451d0
+parent ab3c5646b41de1b6d95782371289db585ba8aa85
+author Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482098 -0700
+committer Trevor Bramble &lt;inbox@trevorbramble.com&gt; 1372482214 -0700
+
+add tmux by @seebi!</code></pre>
+<p>Great, it looks like that does the right thing. We’ll test it more thoroughly later.</p>
+<p>So far I’ve avoided the question of where the hashes come from. Git is a content-addressable store (CAS) and the content of our Git objects uniquely determines their hash. This is very much like a hash table, and that’s a useful way to think about Git: a hashtable on the filesystem.</p>
+<p>More specifically, the SHA1 hash of a Git object before compression is used as the reference. Let me demonstrate.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Digest.Pure.SHA</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="ot">hash ::</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">Ref</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>hash <span class="ot">=</span> fromString <span class="op">.</span> showDigest <span class="op">.</span> sha1 <span class="op">.</span> fromStrict</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>hash (withHeader <span class="st">"commit"</span> (toBytes parsedCommit))</span></code></pre></div>
+<pre><code>e40cd4130e2a82f9b03ada1ca378b7701b1a9110</code></pre>
+<p>This is the same hash as the one we’ve been using to get at the commit so far, which is consistent with my explanation.</p>
+<p>I think this is a good point to mention that Git commits form a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">directed acyclic graph</a>, and this property is ensured by the way hashes are computed: since a commit hash depends on the content of the <code>parent</code> fields, a commit with an ancestor referring back to it would somehow need that ancestor (and therefore all its successors) to know the final commit hash <em>before it has been determined</em>. However, since SHA1 has recently been <a href="https://shattered.io/">broken in practice</a>, it might be eventually possible to generate a Git commit cycle and I’m curious to see how the tool would behave in its presence.</p>
+<p>Now that we’re done with commits, let’s look at trees. A tree is what Git calls a directory listing. I think the tree reference <code>ecd0e58d6832566540a30dfd4878db518d5451d0</code> in the above commit is a good one to start with.</p>
+<p>A tree object consists of some number of tree entries, and each tree entry represents a directory/file, with a reference to another Git object that stores the actual content of the directory/file. I think of these as <a href="https://en.wikipedia.org/wiki/Trie">tries</a>, with file contents at the leaves.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git cat<span class="op">-</span>file <span class="op">-</span>p ecd0e58d6832566540a30dfd4878db518d5451d0</span></code></pre></div>
+<pre><code>100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    .gitmodules
+100644 blob ec00a76061539cf774614788270214499696f871    CHANGELOG.mkd
+100644 blob f95aaf80007d225f00d3109987ee42ef2c2e0c0a    DEVELOPERS.mkd
+100644 blob ee08d7e44f15108ef5359550399dad55955b56ca    LICENSE
+100644 blob d18ee9450251ea1b9a02ebd4d6fce022df9eb5e4    README.md
+040000 tree 1981c76881c6a14e14d067a44247acd1bf6bbc3a    adobe-swatches-solarized
+040000 tree 825c732bdd3a62aeb543ca89026a26a2ee0fba26    apple-colorpalette-solarized
+040000 tree 7bab2828df5de23262a821cc48fe0ccf8bd2a9ae    emacs-colors-solarized
+040000 tree f5fe8c3e20b2577223f617683a52eac31c5c9f30    files
+040000 tree 5b60111510dbb3d8560cf58a36a20a99fc175658    gedit
+040000 tree 60c9df3d6e1994b76d72c061a02639af3d925655    gimp-palette-solarized
+040000 tree 979cf43752e4d698c7b5b47cff665142a274c133    img
+040000 tree 3ff6d431303b66cc50e45b6fabd72302f210aebc    intellij-colors-solarized
+040000 tree 8f387a531ad08f146c86e4b6007b898064ad4d7f    iterm2-colors-solarized
+040000 tree 1e37592e62c85909be4c5e5eb774f177766e8422    mutt-colors-solarized
+040000 tree 8f321f917040d903f701a2b33aeee26aed2ee544    netbeans-colors-solarized
+040000 tree 0d408465820822f6a2afccf43e9627375fedc278    osx-terminal.app-colors-solarized
+040000 tree 63dfa6c40d214f8e0f76d39f7a2283e053940a19    putty-colors-solarized
+040000 tree 453921a267d3eb855e40c7de73aee46088563f3e    qtcreator
+040000 tree 5dd6832a324187f8f521bef928891fb87cf845f6    seestyle-colors-solarized
+040000 tree 3c15973ed107e7b37d1c4885f82984658ecbdf6a    textmate-colors-solarized
+040000 tree 4db152b36a47e31a872e778c02161f537888e44b    textwrangler-bbedit-colors-solarized
+040000 tree 09b5f2f69e1596c6ff66fb187ea6bdc385845152    tmux
+040000 tree 635ebbb919fcbbaf6fe958998553bf3f5fe09210    utils
+040000 tree b87a2100b0a79424cd4b2a4e4ef03274b130a206    vim-colors-solarized
+040000 tree 8dea7190b79c05404aa6a1f0d67c5c6671d66fe1    visualstudio-colors-solarized
+040000 tree 0a531826e913a4b11823ee1be6e1b367f826006f    xchat
+040000 tree 2870bdf394a6b6b3bd10c263ffe9396a0d3d3366    xfce4-terminal
+040000 tree 5d1a212e2fd9cdc2b678e3be56cf776b2f16cfe2    xresources</code></pre>
+<p>The number at the beginning of each entry represents the entry permissions, and is a subset of Unix file permissions. <code>100644</code> corresponds to a blob, which is the Git object corresponding to a file, and <code>040000</code> corresponds to a tree. Other numbers exist but are uncommon. The rest of the tree entry is the entry reference and the entry name.</p>
+<p>As before, we should be able to decompress the file and get essentially the same output as before, right?</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> decompress <span class="op">&lt;$&gt;</span> B.readFile <span class="st">".git/objects/ec/d0e58d6832566540a30dfd4878db518d5451d0"</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> tree</span></code></pre></div>
+<pre><code>"tree 1282\NUL100644 .gitmodules\NUL\230\157\226\155\178\209\214CK\139)\174wZ\216\194\228\140S\145\&amp;100644 CHANGELOG.mkd\NUL\236\NUL\167`aS\156\247taG\136'\STX\DC4I\150\150\248q100644 DEVELOPERS.mkd\NUL\249Z\175\128\NUL}\"_\NUL\211\DLE\153\135\238B\239,.\f\n100644 LICENSE\NUL\238\b\215\228O\NAK\DLE\142\245\&amp;5\149P9\157\173U\149[V\202\&amp;100644 README.md\NUL\209\142\233E\STXQ\234\ESC\154\STX\235\212\214\252\224\"\223\158\181\228\&amp;40000 adobe-swatches-solarized\NUL\EM\129\199h\129\198\161N\DC4\208g\164BG\172\209\191k\188:40000 apple-colorpalette-solarized\NUL\130\\s+\221:b\174\181C\202\137\STXj&amp;\162\238\SI\186&amp;40000 emacs-colors-solarized\NUL{\171((\223]\226\&amp;2b\168!\204H\254\f\207\139\210\169\174\&amp;40000 files\NUL\245\254\140&gt; \178Wr#\246\ETBh:R\234\195\FS\\\159\&amp;040000 gedit\NUL[`\DC1\NAK\DLE\219\179\216V\f\245\138\&amp;6\162\n\153\252\ETBVX40000 gimp-palette-solarized\NUL`\201\223=n\EM\148\183mr\192a\160&amp;9\175=\146VU40000 img\NUL\151\156\244\&amp;7R\228\214\152\199\181\180|\255fQB\162t\193\&amp;340000 intellij-colors-solarized\NUL?\246\212\&amp;10;f\204P\228[o\171\215#\STX\242\DLE\174\188\&amp;40000 iterm2-colors-solarized\NUL\143\&amp;8zS\SUB\208\143\DC4l\134\228\182\NUL{\137\128d\173M\DEL40000 mutt-colors-solarized\NUL\RS7Y.b\200Y\t\190L^^\183t\241wvn\132\"40000 netbeans-colors-solarized\NUL\143\&amp;2\US\145p@\217\ETX\247\SOH\162\179:\238\226j\237.\229D40000 osx-terminal.app-colors-solarized\NUL\r@\132e\130\b\"\246\162\175\204\244&gt;\150'7_\237\194x40000 putty-colors-solarized\NULc\223\166\196\r!O\142\SIv\211\159z\"\131\224S\148\n\EM40000 qtcreator\NULE9!\162g\211\235\133^@\199\222s\174\228`\136V?&gt;40000 seestyle-colors-solarized\NUL]\214\131*2A\135\248\245!\190\249(\137\US\184|\248E\246\&amp;40000 textmate-colors-solarized\NUL&lt;\NAK\151&gt;\209\a\231\179}\FSH\133\248)\132e\142\203\223j40000 textwrangler-bbedit-colors-solarized\NULM\177R\179jG\227\SUB\135.w\140\STX\SYN\USSx\136\228K40000 tmux\NUL\t\181\242\246\158\NAK\150\198\255f\251\CAN~\166\189\195\133\132QR40000 utils\NULc^\187\185\EM\252\187\175o\233X\153\133S\191?_\224\146\DLE40000 vim-colors-solarized\NUL\184z!\NUL\176\167\148$\205K*NN\240\&amp;2t\177\&amp;0\162\ACK40000 visualstudio-colors-solarized\NUL\141\234q\144\183\156\ENQ@J\166\161\240\214|\\fq\214o\225\&amp;40000 xchat\NUL\nS\CAN&amp;\233\DC3\164\177\CAN#\238\ESC\230\225\179g\248&amp;\NULo40000 xfce4-terminal\NUL(p\189\243\148\166\182\179\189\DLE\194c\255\233\&amp;9j\r=3f40000 xresources\NUL]\SUB!./\217\205\194\182x\227\190V\207wk/\SYN\207\226"</code></pre>
+<p>Although this looks very much like gibberish, it is the same content as above with one big difference: instead of the 40-byte hexadecimal representation of a SHA1 hash, the 20-byte representation is used. The <code>tree &lt;length&gt;</code> header is present, as is the entry permission. Each entry name is followed by a <code>\NUL</code> to facilitate parsing.</p>
+<p>We are now able to define a parser for tree objects. Rabbit hole: the tree entries need to be sorted in a certain quirky order, and we would like to disallow duplicates. Use a different data structure and manual <code>Ord</code> definitions to ensure this.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.ByteString.Base16</span> (encode)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="ot">parseBinRef ::</span> <span class="dt">Parser</span> <span class="dt">Ref</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>parseBinRef <span class="ot">=</span> encode <span class="op">&lt;$&gt;</span> AC.take <span class="dv">20</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Tree</span> <span class="ot">=</span> <span class="dt">Tree</span> {<span class="ot"> treeEntries ::</span> [<span class="dt">TreeEntry</span>] } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">TreeEntry</span> <span class="ot">=</span> <span class="dt">TreeEntry</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    {<span class="ot"> treeEntryPerms ::</span> <span class="dt">ByteString</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> treeEntryName  ::</span> <span class="dt">ByteString</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> treeEntryRef   ::</span> <span class="dt">Ref</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="ot">parseTreeEntry ::</span> <span class="dt">Parser</span> <span class="dt">TreeEntry</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>parseTreeEntry <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    perms <span class="ot">&lt;-</span> fromString <span class="op">&lt;$&gt;</span> AC.many1' AC.digit</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>    AC.space</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    name  <span class="ot">&lt;-</span> AC.takeWhile (<span class="op">/=</span><span class="ch">'\NUL'</span>)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>    AC.char <span class="ch">'\NUL'</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>    ref   <span class="ot">&lt;-</span> parseBinRef</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="op">$</span> <span class="dt">TreeEntry</span> perms name ref</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="ot">parseTree ::</span> <span class="dt">Parser</span> <span class="dt">Tree</span></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>parseTree <span class="ot">=</span> <span class="dt">Tree</span> <span class="op">&lt;$&gt;</span> AC.many' parseTreeEntry</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>parsedTree <span class="ot">=</span> parsed (parseHeader <span class="op">*&gt;</span> parseTree) tree</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>parsedTree</span></code></pre></div>
+<pre><code>Tree {treeEntries = [TreeEntry {treeEntryPerms = "100644", treeEntryName = ".gitmodules", treeEntryRef = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"},TreeEntry {treeEntryPerms = "100644", treeEntryName = "CHANGELOG.mkd", treeEntryRef = "ec00a76061539cf774614788270214499696f871"},TreeEntry {treeEntryPerms = "100644", treeEntryName = "DEVELOPERS.mkd", treeEntryRef = "f95aaf80007d225f00d3109987ee42ef2c2e0c0a"},TreeEntry {treeEntryPerms = "100644", treeEntryName = "LICENSE", treeEntryRef = "ee08d7e44f15108ef5359550399dad55955b56ca"},TreeEntry {treeEntryPerms = "100644", treeEntryName = "README.md", treeEntryRef = "d18ee9450251ea1b9a02ebd4d6fce022df9eb5e4"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "adobe-swatches-solarized", treeEntryRef = "1981c76881c6a14e14d067a44247acd1bf6bbc3a"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "apple-colorpalette-solarized", treeEntryRef = "825c732bdd3a62aeb543ca89026a26a2ee0fba26"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "emacs-colors-solarized", treeEntryRef = "7bab2828df5de23262a821cc48fe0ccf8bd2a9ae"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "files", treeEntryRef = "f5fe8c3e20b2577223f617683a52eac31c5c9f30"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "gedit", treeEntryRef = "5b60111510dbb3d8560cf58a36a20a99fc175658"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "gimp-palette-solarized", treeEntryRef = "60c9df3d6e1994b76d72c061a02639af3d925655"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "img", treeEntryRef = "979cf43752e4d698c7b5b47cff665142a274c133"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "intellij-colors-solarized", treeEntryRef = "3ff6d431303b66cc50e45b6fabd72302f210aebc"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "iterm2-colors-solarized", treeEntryRef = "8f387a531ad08f146c86e4b6007b898064ad4d7f"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "mutt-colors-solarized", treeEntryRef = "1e37592e62c85909be4c5e5eb774f177766e8422"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "netbeans-colors-solarized", treeEntryRef = "8f321f917040d903f701a2b33aeee26aed2ee544"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "osx-terminal.app-colors-solarized", treeEntryRef = "0d408465820822f6a2afccf43e9627375fedc278"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "putty-colors-solarized", treeEntryRef = "63dfa6c40d214f8e0f76d39f7a2283e053940a19"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "qtcreator", treeEntryRef = "453921a267d3eb855e40c7de73aee46088563f3e"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "seestyle-colors-solarized", treeEntryRef = "5dd6832a324187f8f521bef928891fb87cf845f6"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "textmate-colors-solarized", treeEntryRef = "3c15973ed107e7b37d1c4885f82984658ecbdf6a"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "textwrangler-bbedit-colors-solarized", treeEntryRef = "4db152b36a47e31a872e778c02161f537888e44b"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "tmux", treeEntryRef = "09b5f2f69e1596c6ff66fb187ea6bdc385845152"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "utils", treeEntryRef = "635ebbb919fcbbaf6fe958998553bf3f5fe09210"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "vim-colors-solarized", treeEntryRef = "b87a2100b0a79424cd4b2a4e4ef03274b130a206"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "visualstudio-colors-solarized", treeEntryRef = "8dea7190b79c05404aa6a1f0d67c5c6671d66fe1"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "xchat", treeEntryRef = "0a531826e913a4b11823ee1be6e1b367f826006f"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "xfce4-terminal", treeEntryRef = "2870bdf394a6b6b3bd10c263ffe9396a0d3d3366"},TreeEntry {treeEntryPerms = "40000", treeEntryName = "xresources", treeEntryRef = "5d1a212e2fd9cdc2b678e3be56cf776b2f16cfe2"}]}</code></pre>
+<p>It’s similarly straightforward to define a serialiser. All we have to do is serialise the tree entries and concatenate them.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.ByteString.Base16</span> (decode)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Byteable</span> <span class="dt">TreeEntry</span> <span class="kw">where</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    toBytes (<span class="dt">TreeEntry</span> perms name ref) <span class="ot">=</span> <span class="fu">mconcat</span> [perms, <span class="st">" "</span>, name, <span class="st">"\NUL"</span>, <span class="fu">fst</span> <span class="op">$</span> decode ref]</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Byteable</span> <span class="dt">Tree</span> <span class="kw">where</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    toBytes (<span class="dt">Tree</span> entries) <span class="ot">=</span> <span class="fu">mconcat</span> (<span class="fu">map</span> toBytes entries)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>(parsed parseTree <span class="op">.</span> toBytes <span class="op">$</span> parsedTree) <span class="op">==</span> parsedTree</span></code></pre></div>
+<pre><code>True</code></pre>
+<p>Next we move to blobs. I’m using the reference associated with <code>CHANGELOG.mkd</code> because <code>.gitmodules</code> is empty, and limiting the output to the first ten lines for now because we’ll see the whole thing later anyway.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git cat<span class="op">-</span>file <span class="op">-</span>p ec00a76061539cf774614788270214499696f871 <span class="op">|</span> <span class="fu">head</span> <span class="op">-</span>n10</span></code></pre></div>
+<pre><code>Solarized Changelog
+===================
+
+## Current release 1.0.0beta2
+
+1.0.0beta2
+----------
+
+### Summary</code></pre>
+<p>A blob is some bytes with a header.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.ByteString.Char8</span> <span class="kw">as</span> <span class="dt">BC</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>blob <span class="ot">&lt;-</span> decompress <span class="op">&lt;$&gt;</span> B.readFile <span class="st">".git/objects/ec/00a76061539cf774614788270214499696f871"</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> <span class="op">$</span> BC.unlines <span class="op">.</span> <span class="fu">take</span> <span class="dv">10</span> <span class="op">.</span> BC.lines <span class="op">$</span> blob</span></code></pre></div>
+<pre><code>"blob 5549\NULSolarized Changelog\n===================\n\n## Current release 1.0.0beta2\n\n1.0.0beta2\n----------\n\n### Summary\n\n"</code></pre>
+<p>Parsing blobs is easy!</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Blob</span> <span class="ot">=</span> <span class="dt">Blob</span> {<span class="ot"> blobContent ::</span> <span class="dt">ByteString</span> } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="ot">parseBlob ::</span> <span class="dt">Parser</span> <span class="dt">Blob</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>parseBlob <span class="ot">=</span> <span class="dt">Blob</span> <span class="op">&lt;$&gt;</span> AC.takeByteString</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>parsedBlob <span class="ot">=</span> parsed (parseHeader <span class="op">*&gt;</span> parseBlob) blob</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>parsedBlob</span></code></pre></div>
+<pre><code>Blob {blobContent = "Solarized Changelog\n===================\n\n## Current release 1.0.0beta2\n\n1.0.0beta2\n----------\n\n### Summary\n\nSwitch to the alternative red hue (final and only hue change), included a whole\nheap of new ports and updates to the existing Vim colorscheme. The list of all \ncurrently included ports, highlighted items are new, updates noted:\n\n#### Editors &amp; IDEs\n\n*   \\[UPDATED\\] **Vim**\n*   \\[NEW\\] ***Emacs***\n*   \\[NEW\\] ***IntelliJ IDEA***\n*   \\[NEW\\] ***NetBeans***\n*   \\[NEW\\] ***SeeStyle theme for Coda &amp; SubEthaEdit***\n*   \\[NEW\\] ***TextMate***\n*   \\[NEW\\] ***Visual Studio***\n\n#### Terminal Emulators\n\n* \\[UPDATED\\] **iTerm2 colorschemes**\n* \\[UPDATED\\] **OS X Terminal.app colors**\n* \\[UPDATED\\] **Xresources colors**\n\n#### Other Applications\n\n* \\[UPDATED\\] **Mutt mail client colorschemes**\n\n#### Palettes\n\n* \\[UPDATED\\] **Adobe Photoshop Swatches**\n* \\[UPDATED\\] **Apple Color Picker Palette**\n* \\[UPDATED\\] **Gimp Palette**\n\n\n### Critical Changes\n\nThese changes may require you to change your configuration.\n\n*   **GLOBAL : IMPROVEMENT : New red accent color value**\n    Modified red from L\\*a\\*b lightness value 45 to 50 to bring it in\n    line with the other accent colors and address bleed into dark background on \n    some displays, as well as reducing shift of red against base03 when viewed \n    with glasses (chromatic aberration). All instances of the colorscheme and \n    palettes updated to new red and avalailable for use/import without further \n    modification. Forks and ports should pull new changes and/or update ported \n    red value accordingly.  The new red:\n\n            red #dc322f\n\n*   **VIM : CHANGE : Default mode now 16 color**\n    Default terminal mode is now ***16 colors***. Most of the users of terminal \n    mode seem comfortabel and capable changing terminal colors. This is the \n    preferred method of implementing Solarized in Terminal mode. If you wish to \n    instead use the degraded 256 color palette, you may do so with the \n    following line in your .vimrc:\n\n            let g:solarized_termcolors=256\n\n    You no longer need to specify \"let g:solarized_termcolors=16\" as it is now \n    the default; leaving it in your .vimrc won't hurt anything, however.\n\n*   **VIM : IMPROVEMENT : New Toggle Background Plugin**\n    Added new Toggle Background plugin. Will load automatically and show up as \n    a menu item in the `Window` menu in gui vim. Automatically maps to\n    `&lt;F5&gt;` if available (won't clobber that mapping if you're using it).\n    Also available as a command `:ToggleBG`.  To manually map to\n    something other than `&lt;F5&gt;`:\n\n    To set your own mapping in your .vimrc file, simply add the following line \n    to support normal, insert and visual mode usage, changing the\n    \"`&lt;F5&gt;`\" value to the key or key combination you wish to use:\n\n        call togglebg#map(\"&lt;F5&gt;\")\n\n    Note that you'll want to use a single function key or equivalent if you want \n    the plugin to work in all modes (normal, insert, visual).\n\n*   **VIM : IMPROVEMENT : Special &amp; Non-text items now more visible**\n    Special characters such as trailing whitespace, tabs, newlines, when \n    displayed using \":set list\" can be set to one of three levels depending on \n    your needs.\n\n            let g:solarized_visibility =  \"normal\"|   \"high\" or \"low\"\n\n    I'll be honest: I still prefer low visibility. I like them barely there.  \n    They show up in lines that are highlighted as by the cursor line, which \n    works for me. If you are with me on this, put the following in your .vimrc:\n\n            let g:solarized_visibility =  \"low\"\n\n### Non Critical Changes\n\nThese changes should not impact your usage of the Solarized.\n\n*   **PALETTES : IMPROVEMENT : Colorspace tagged and untagged versions**\n    Changed default OS X color picker palatte swatches to tagged colors (sRGB) \n    and included alternate palette with untagged color swatches for advanced \n    users (v1.0.0beta1 had untagged as default).\n\n*   **VIM : BUGFIX : Better display in Terminal.app, other emulators**\n    Terminal.app and other common terminal emulators that report 8 color mode \n    had display issues due to order of synt highlighting definitions and color \n    values specified. These have been conformed and reordered in such a way \n    that there is a more graceful degrading of the Solarized color palette on \n    8 color terminals. Infact, the experience should be almost identical to gui \n    other than lack of bold typeface.\n\n*   **VIM : BUGFIX : Better distinction between status bar and split windows**\n    Status bar was previously too similar to the cursor line and window splits.  \n    This has now been changed significantly to improve the clarity of what is \n    status, cursor line and window separator.\n\n*   **VIM : STREAMLINED : Removed simultaneous gui/cterm definitions**\n*   Refactored solarized.vim to eliminate simultaneous definition of gui and \n    cterm values.\n\n*   **VIM : BUGFIX : Removed italicized front in terminal mode**\n    Removed default italicized font in terminal mode in the Solarized Vim\n    colorscheme (many terminal emulators display Vim italics as reversed type).  \n    Italics still used in GUI mode by default and can still be turned off in \n    both modes by setting a variable: `let g:solarized_italic=0`.\n\n1.0.0beta1\n----------\n\nFirst public release. Included:\n\n* Adobe Photoshop Swatches\n* Apple Color Picker Palette\n* Gimp Palette\n* iTerm2 colorschemes\n* Mutt mail client colorschemes\n* OS X Terminal.app colors\n* Vim Colorscheme\n* Xresources colors\n\n\n\n***\n\nMODIFIED: 2011 Apr 16\n"}</code></pre>
+<p>As is serialising them.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Byteable</span> <span class="dt">Blob</span> <span class="kw">where</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    toBytes (<span class="dt">Blob</span> content) <span class="ot">=</span> content</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>(parsed parseBlob <span class="op">.</span> toBytes <span class="op">$</span> parsedBlob) <span class="op">==</span> parsedBlob</span></code></pre></div>
+<pre><code>True</code></pre>
+<p>Finally we move to Git tags, which are a way to associate a name with a reference. Git has a handy <code>show-ref --tags</code> command we can use to list them:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git <span class="fu">show</span><span class="op">-</span>ref <span class="co">--tags</span></span></code></pre></div>
+<pre><code>31ff7f5064824d2231648119feb6dfda1a3c89f5 refs/tags/v1.0.0beta1
+a3037b428f29f0c032aeeeedb4758501bc32444d refs/tags/v1.0beta</code></pre>
+<p>There are two types of tags: lightweight tags and annotated tags. Lightweight tags are just files very much like <code>refs/heads/master</code> containing a ref, and annotated tags have a message associated with them like a commit. Only annotated tags are Git objects.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="op">:!</span>git cat<span class="op">-</span>file <span class="op">-</span>p <span class="dv">31</span>ff7f5064824d2231648119feb6dfda1a3c89f5</span></code></pre></div>
+<pre><code>object 90581c7bfbcd279768580eec595d0ab3c094cc02
+type commit
+tag v1.0.0beta1
+tagger Ethan Schoonover &lt;es@ethanschoonover.com&gt; 1300994142 -0700
+
+Initial public beta release 1.0.0beta1</code></pre>
+<p>Although tags are mostly used with commits, it’s possible to tag any Git object. You can even tag another tag, although I can’t see why you might want to.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>tag <span class="ot">&lt;-</span> decompress <span class="op">&lt;$&gt;</span> B.readFile <span class="st">".git/objects/31/ff7f5064824d2231648119feb6dfda1a3c89f5"</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> tag</span></code></pre></div>
+<pre><code>"tag 182\NULobject 90581c7bfbcd279768580eec595d0ab3c094cc02\ntype commit\ntag v1.0.0beta1\ntagger Ethan Schoonover &lt;es@ethanschoonover.com&gt; 1300994142 -0700\n\nInitial public beta release 1.0.0beta1\n"</code></pre>
+<p>Our parser for these is very similar to our commit parser. I’ve taken a quick break from my ‘write the worst parser possible’ strategy to make sure that our tags can only tag objects of type ‘commit’, ‘tree’, ‘blob’, or ‘tag’.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Tag</span> <span class="ot">=</span> <span class="dt">Tag</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    {<span class="ot"> tagObject     ::</span> <span class="dt">Ref</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> tagType       ::</span> <span class="dt">ByteString</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> tagTag        ::</span> <span class="dt">ByteString</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> tagTagger     ::</span> <span class="dt">ByteString</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    ,<span class="ot"> tagAnnotation ::</span> <span class="dt">ByteString</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="ot">parseTag ::</span> <span class="dt">Parser</span> <span class="dt">Tag</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>parseTag <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    tObject     <span class="ot">&lt;-</span> AC.string <span class="st">"object"</span> <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> parseHexRef                                                 <span class="op">&lt;*</span> AC.endOfLine</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    tType       <span class="ot">&lt;-</span> AC.string <span class="st">"type"</span>   <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> AC.choice (<span class="fu">map</span> AC.string [<span class="st">"commit"</span>, <span class="st">"tree"</span>, <span class="st">"blob"</span>, <span class="st">"tag"</span>]) <span class="op">&lt;*</span> AC.endOfLine</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>    tTag        <span class="ot">&lt;-</span> AC.string <span class="st">"tag"</span>    <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> AC.takeTill (AC.inClass <span class="st">"\n"</span>)                               <span class="op">&lt;*</span> AC.endOfLine</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>    tTagger     <span class="ot">&lt;-</span> AC.string <span class="st">"tagger"</span> <span class="op">*&gt;</span> AC.space <span class="op">*&gt;</span> AC.takeTill (AC.inClass <span class="st">"\n"</span>)                               <span class="op">&lt;*</span> AC.endOfLine</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>    AC.endOfLine</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    tAnnotation <span class="ot">&lt;-</span> AC.takeByteString</span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="op">$</span> <span class="dt">Tag</span> tObject tType tTag tTagger tAnnotation</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>parsedTag <span class="ot">=</span> parsed (parseHeader <span class="op">*&gt;</span> parseTag) tag</span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>parsedTag</span></code></pre></div>
+<pre><code>Tag {tagObject = "90581c7bfbcd279768580eec595d0ab3c094cc02", tagType = "commit", tagTag = "v1.0.0beta1", tagTagger = "Ethan Schoonover &lt;es@ethanschoonover.com&gt; 1300994142 -0700", tagAnnotation = "Initial public beta release 1.0.0beta1\n"}</code></pre>
+<p>Our last serialiser follows.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Byteable</span> <span class="dt">Tag</span> <span class="kw">where</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    toBytes (<span class="dt">Tag</span> tObject tType tTag tTagger tAnnotation) <span class="ot">=</span> <span class="fu">mconcat</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>        [ <span class="st">"object "</span> <span class="op">&lt;&gt;</span> tObject     <span class="op">&lt;&gt;</span> <span class="st">"\n"</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>        , <span class="st">"type "</span>   <span class="op">&lt;&gt;</span> tType       <span class="op">&lt;&gt;</span> <span class="st">"\n"</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>        , <span class="st">"tag "</span>    <span class="op">&lt;&gt;</span> tTag        <span class="op">&lt;&gt;</span> <span class="st">"\n"</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>        , <span class="st">"tagger "</span> <span class="op">&lt;&gt;</span> tTagger     <span class="op">&lt;&gt;</span> <span class="st">"\n"</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>        ,                             <span class="st">"\n"</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>        ,              tAnnotation</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>(parsed parseTag <span class="op">.</span> toBytes <span class="op">$</span> parsedTag) <span class="op">==</span> parsedTag</span></code></pre></div>
+<pre><code>True</code></pre>
+<p>Okay, now to bring it all together. We can define an umbrella <code>GitObject</code> type and the associated parser, serialiser, and hasher for it.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">GitObject</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">=</span> <span class="dt">GitCommit</span> <span class="dt">Commit</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">GitTree</span>   <span class="dt">Tree</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">GitBlob</span>   <span class="dt">Blob</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">GitTag</span>    <span class="dt">Tag</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a><span class="ot">parseGitObject ::</span> <span class="dt">Parser</span> <span class="dt">GitObject</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>parseGitObject <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>    headerLen <span class="ot">&lt;-</span> parseHeader</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> (<span class="fu">fst</span> headerLen) <span class="kw">of</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"commit"</span> <span class="ot">-&gt;</span> <span class="dt">GitCommit</span> <span class="op">&lt;$&gt;</span> parseCommit</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"tree"</span>   <span class="ot">-&gt;</span> <span class="dt">GitTree</span>   <span class="op">&lt;$&gt;</span> parseTree</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"blob"</span>   <span class="ot">-&gt;</span> <span class="dt">GitBlob</span>   <span class="op">&lt;$&gt;</span> parseBlob</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"tag"</span>    <span class="ot">-&gt;</span> <span class="dt">GitTag</span>    <span class="op">&lt;$&gt;</span> parseTag</span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>        _        <span class="ot">-&gt;</span> <span class="fu">error</span> <span class="st">"not a git object"</span></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Byteable</span> <span class="dt">GitObject</span> <span class="kw">where</span></span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>    toBytes obj <span class="ot">=</span> <span class="kw">case</span> obj <span class="kw">of</span></span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">GitCommit</span> c <span class="ot">-&gt;</span> withHeader <span class="st">"commit"</span> (toBytes c)</span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">GitTree</span>   t <span class="ot">-&gt;</span> withHeader <span class="st">"tree"</span>   (toBytes t)</span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">GitBlob</span>   b <span class="ot">-&gt;</span> withHeader <span class="st">"blob"</span>   (toBytes b)</span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">GitTag</span>    t <span class="ot">-&gt;</span> withHeader <span class="st">"tag"</span>    (toBytes t)</span>
+<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a><span class="ot">hashObject ::</span> <span class="dt">GitObject</span> <span class="ot">-&gt;</span> <span class="dt">Ref</span></span>
+<span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a>hashObject <span class="ot">=</span> hash <span class="op">.</span> toBytes</span></code></pre></div>
+<p>Let’s do a quick test to check that our definitions work.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>hashObject <span class="op">.</span> parsed parseGitObject <span class="op">.</span> decompress <span class="op">&lt;$&gt;</span> B.readFile <span class="st">".git/objects/31/ff7f5064824d2231648119feb6dfda1a3c89f5"</span></span></code></pre></div>
+<pre><code>31ff7f5064824d2231648119feb6dfda1a3c89f5</code></pre>
+<p>Excellent, although we are lacking a helper to turn a reference into a Git object filepath. Let’s define that.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">System.FilePath</span> ((&lt;/&gt;))</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="ot">refPath ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">Ref</span> <span class="ot">-&gt;</span> <span class="dt">FilePath</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>refPath gitDir ref <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>   (dir,file) <span class="ot">=</span> <span class="fu">splitAt</span> <span class="dv">2</span> (toString ref)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>   <span class="kw">in</span> gitDir <span class="op">&lt;/&gt;</span> <span class="st">"objects"</span> <span class="op">&lt;/&gt;</span> dir <span class="op">&lt;/&gt;</span> file</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>refPath <span class="st">".git"</span> <span class="st">"31ff7f5064824d2231648119feb6dfda1a3c89f5"</span></span></code></pre></div>
+<pre><code>".git/objects/31/ff7f5064824d2231648119feb6dfda1a3c89f5"</code></pre>
+<p>Now we can define a <code>readObject</code> action that takes a reference and returns a parsed Git object.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ot">readObject ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">Ref</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">GitObject</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>readObject gitDir ref <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> path <span class="ot">=</span> refPath gitDir ref</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    content <span class="ot">&lt;-</span> decompress <span class="op">&lt;$&gt;</span> B.readFile path</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="op">$</span> parsed parseGitObject content</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>readObject <span class="st">".git"</span> <span class="st">"31ff7f5064824d2231648119feb6dfda1a3c89f5"</span></span></code></pre></div>
+<pre><code>GitTag (Tag {tagObject = "90581c7bfbcd279768580eec595d0ab3c094cc02", tagType = "commit", tagTag = "v1.0.0beta1", tagTagger = "Ethan Schoonover &lt;es@ethanschoonover.com&gt; 1300994142 -0700", tagAnnotation = "Initial public beta release 1.0.0beta1\n"})</code></pre>
+<p>Next we define a <code>writeObject</code> action that takes a Git object and stores it under the right path if it doesn’t already exist. The “doesn’t already exist” bit is the magic of Git: we can safely assume that an object with the same hash is the same object. Every time a tree or blob changes, only the changed objects are written to the disk, and this is how Git manages to be space-efficient.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">System.Directory</span> (doesPathExist, createDirectoryIfMissing)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">System.FilePath</span>  (takeDirectory)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span>    (when, unless)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="ot">writeObject ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">GitObject</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Ref</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>writeObject gitDir object <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> ref  <span class="ot">=</span>  hashObject object</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> path <span class="ot">=</span>  refPath gitDir ref</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    exists   <span class="ot">&lt;-</span> doesPathExist path</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>    unless exists <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> dir <span class="ot">=</span> takeDirectory path</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>        createDirectoryIfMissing <span class="dt">True</span> dir</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>        B.writeFile path <span class="op">.</span> compress <span class="op">$</span> toBytes object</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> ref</span></code></pre></div>
+<p>Okay, time for the grand finale! We’re going to read and then write every object in this Git repository. If we’ve implemented everything correctly, the number of references before and after will be unchanged, and they will be the same references.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Traversable</span> (for)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">System.Directory</span> (listDirectory)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>allRefs <span class="ot">&lt;-</span> <span class="kw">do</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>    prefixes <span class="ot">&lt;-</span> <span class="fu">filter</span> (\d <span class="ot">-&gt;</span> <span class="fu">length</span> d <span class="op">==</span> <span class="dv">2</span>) <span class="op">&lt;$&gt;</span> listDirectory <span class="st">".git/objects/"</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">concat</span> <span class="op">&lt;$&gt;</span> for prefixes (\p <span class="ot">-&gt;</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map</span> (fromString <span class="op">.</span> (p<span class="op">++</span>)) <span class="op">&lt;$&gt;</span> listDirectory (<span class="st">".git/objects"</span> <span class="op">&lt;/&gt;</span> p))</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> <span class="op">$</span> <span class="fu">length</span> allRefs</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> for allRefs <span class="op">$</span> \ref <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>    obj  <span class="ot">&lt;-</span> readObject  <span class="st">".git"</span> ref</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>    ref' <span class="ot">&lt;-</span> writeObject <span class="st">".git"</span> obj</span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="op">$</span> ref <span class="op">==</span> ref'</span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a><span class="fu">and</span> test</span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>allRefs' <span class="ot">&lt;-</span> <span class="kw">do</span></span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>    prefixes <span class="ot">&lt;-</span> <span class="fu">filter</span> (\d <span class="ot">-&gt;</span> <span class="fu">length</span> d <span class="op">==</span> <span class="dv">2</span>) <span class="op">&lt;$&gt;</span> listDirectory <span class="st">".git/objects/"</span></span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">concat</span> <span class="op">&lt;$&gt;</span> for prefixes (\p <span class="ot">-&gt;</span></span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map</span> (fromString <span class="op">.</span> (p<span class="op">++</span>)) <span class="op">&lt;$&gt;</span> listDirectory (<span class="st">".git/objects"</span> <span class="op">&lt;/&gt;</span> p))</span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> <span class="op">$</span> <span class="fu">length</span> allRefs'</span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-25"><a href="#cb66-25" aria-hidden="true" tabindex="-1"></a>allRefs <span class="op">==</span> allRefs'</span></code></pre></div>
+<pre><code>2186
+
+
+
+True
+
+
+
+2186
+
+
+
+True</code></pre>
+<p>And that’s essentially all there is to Git! I’ve skipped over most of the additional quirks, features, and optimisations but I hope I’ve established that even with the relatively small amount of code above you can implement a working and usable Git API.</p>
+<p>You’ll notice that one thing I haven’t mentioned at all is diffing or merging. That’s because Git doesn’t store diffs! They are computed on the fly when you ask for them. The packfile format does do diffing as a space optimisation, but I think it’s important to point out that you can have a perfectly cromulent implementation without them because that is what surprised me the most when I learned this for the first time.</p>
+<p>A good mental model of Git empowered me to use it better. I’d heard that binary files and Git don’t go well together, but I only understood why recently: Git stores every version of every file, and binary files don’t compress very well (unlike text files), so they take up huge amounts of space. I’d also read about <a href="https://github.com/CocoaPods/CocoaPods/issues/4989#issuecomment-193772935">CocoaPods causing issues for GitHub</a>, and now I know that this is because the tree objects representing the <code>Specs</code> directory were very large and constantly getting updated, leading to a lot of stress on GitHub’s servers.</p>
+<p>What else can you do with this power? You can…</p>
+<ul>
+<li><a href="https://github.com/vaibhavsagar/git-internals-workshop">Craft your own repositories</a></li>
+<li>Run analytics on your commit graph when <code>git log</code> won’t cut it!</li>
+<li><a href="https://github.com/vaibhavsagar/suppandi">Write a web API for your repository!</a></li>
+<li><a href="https://github.com/mirage/irmin">Use Git as the backend of your application and get diffing/merging for free!</a></li>
+</ul>
+<p>The possibilities are endless!</p>
+<p>If you’d like to learn more, you’re in luck! writing on this topic is plentiful and of extremely high quality. I started with the Git Book’s <a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects">chapter on Git Internals</a> and referred frequently to Vincent Hanquez’s <a href="https://github.com/vincenthz/hs-git/">hs-git</a> and Stefan Saasen’s <a href="http://stefan.saasen.me/articles/git-clone-in-haskell-from-the-bottom-up/">overwhelmingly thorough article</a> that implements enough of Git to do a <code>git clone</code> (!). Other resources include Mary Rose Cook’s excellent <a href="https://maryrosecook.com/blog/post/git-from-the-inside-out">Git from the inside out</a> and <a href="http://gitlet.maryrosecook.com/docs/gitlet.html">Gitlet</a> as well as John Wiegley’s <a href="https://jwiegley.github.io/git-from-the-bottom-up/">Git from the Bottom Up</a>. If nothing else, I hope the sheer proliferation of Git innards writing is enough to convince you that this is a useful and rewarding approach to learning about it.</p>
+<p>Thanks to <a href="https://anniecherkaev.com/">Annie Cherkaev</a>, <a href="https://fineshambles.com/">Iain McCoy</a>, <a href="https://jaseemabid.github.io/">Jaseem Abid</a>, <a href="https://jship.github.io/">Jason Shipman</a>, <a href="http://teh.id.au/">Tim Humphries</a>, and <a href="https://viljetic.de/">Tomislav Viljetic</a> for comments, clarification, and suggestions.</p>
+
+
+
+</main> <!-- /main -->
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../index.xml">
+<p>RSS</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

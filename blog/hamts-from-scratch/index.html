@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2018-07-29">
+
+<title>HAMTs from Scratch – Thee Rana Page</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-beb050b6995f5fb5c74a266772e82083.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-523687ef48c315f64e21eb5d5e9f174c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Same MathJax extensions the Hakyll site loaded: color, cancel, textmacros. -->
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/color', '[tex]/cancel', '[tex]/textmacros']},
+  tex: {packages: {'[+]': ['color', 'cancel', 'textmacros']}}
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Thee Rana Page</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/index.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive/index.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">HAMTs from Scratch</h1>
+</div>
+<div class="info">
+  Posted on <span class="date">29 July 2018</span>
+</div>
+<div class="info quarto-categories">
+  Tags: <span class="quarto-category">programming</span>, <span class="quarto-category">haskell</span>
+</div>
+</header>
+
+
+<p><em>This blog post is also an <a href="https://github.com/vaibhavsagar/notebooks/blob/master/hamt/HAMTsFromScratch.ipynb">IHaskell notebook</a> and the source is available <a href="https://github.com/vaibhavsagar/notebooks/tree/master/hamt/hamt">separately</a>. I also <a href="https://www.youtube.com/watch?v=wgMgtgVZdYg">did a talk at NYHUG based on this material</a>.</em></p>
+<p>I wanted an explanation for HAMTs (Hash Array Mapped Tries) that was more detailed than <a href="https://idea.popcount.org/2012-07-25-introduction-to-hamt/">Marek Majkowski’s introduction</a> and more approachable than <a href="https://lampwww.epfl.ch/papers/idealhashtrees.pdf"><em>Ideal Hash Trees</em> by Phil Bagwell</a>, the paper that introduced them. If you haven’t heard of them before, HAMTs are a way of efficiently representing a hashtable as a <a href="https://en.wikipedia.org/wiki/Trie">trie</a>, and although they were first envisioned as a mutable data structure they are easily adapted to work as a <a href="https://en.wikipedia.org/wiki/Persistent_data_structure">persistent data structure</a>. They form the backbone of the <a href="http://hackage.haskell.org/package/unordered-containers"><code>unordered-containers</code></a> library but the <a href="https://github.com/tibbe/unordered-containers/blob/efa43a2ab09dc6eb72893d12676a8e188cb4ca63/Data/HashMap/Base.hs">implementation has been lovingly optimised</a> to the point where I found it impenetrable. <a href="https://github.com/ezyang/hamt/blob/a43559795630980eb16ab832a003d8e6acd21cf6/HAMT.hs">Edward Z. Yang’s implementation</a> is much easier to follow and after adapting it I think I’m in a good place to provide my own take on them.</p>
+<p>Let’s start with a few imports! I’ll be using these packages:</p>
+<ul>
+<li><a href="http://hackage.haskell.org/package/base"><code>base</code></a></li>
+<li><a href="http://hackage.haskell.org/package/bytestring"><code>bytestring</code></a></li>
+<li><a href="http://hackage.haskell.org/package/memory"><code>memory</code></a></li>
+<li><a href="http://hackage.haskell.org/package/pretty-show"><code>pretty-show</code></a></li>
+<li><a href="http://hackage.haskell.org/package/timeit"><code>timeit</code></a></li>
+<li><a href="http://hackage.haskell.org/package/vector"><code>vector</code></a></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Bits</span>             (<span class="dt">Bits</span> (bit, complement, popCount, shiftR, (.&amp;.), (.|.)),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                              <span class="dt">FiniteBits</span> (finiteBitSize))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.ByteArray.Hash</span>   (<span class="dt">FnvHash32</span> (..), fnv1Hash)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.ByteString.Char8</span> (pack)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Char</span>             (intToDigit)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Semigroup</span>        ((&lt;&gt;))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Vector</span>           (<span class="dt">Vector</span>, drop, singleton, take, (!), (//))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Word</span>             (<span class="dt">Word16</span>, <span class="dt">Word32</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Numeric</span>               (showIntAtBase)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Prelude</span>               <span class="kw">hiding</span> (drop, lookup, take)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">System.TimeIt</span>         (timeIt)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Text.Show.Pretty</span>      (pPrint)</span></code></pre></div>
+<p>We’re going to be doing some bit twiddling. To make this easier to follow I’m going to define a <code>newtype</code> whose <code>Show</code> instance displays the binary representation.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Binary</span> a <span class="ot">=</span> <span class="dt">Binary</span> a</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">deriving</span> (<span class="dt">Enum</span>, <span class="dt">Ord</span>, <span class="dt">Real</span>, <span class="dt">Integral</span>, <span class="dt">Eq</span>, <span class="dt">Num</span>, <span class="dt">Bits</span>, <span class="dt">FiniteBits</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> (<span class="dt">FiniteBits</span> a, <span class="dt">Show</span> a, <span class="dt">Integral</span> a) <span class="ot">=&gt;</span> <span class="dt">Show</span> (<span class="dt">Binary</span> a) <span class="kw">where</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show</span> (<span class="dt">Binary</span> n) <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        str <span class="ot">=</span> showIntAtBase <span class="dv">2</span> <span class="fu">intToDigit</span> n <span class="st">""</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        size <span class="ot">=</span> finiteBitSize n</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="fu">replicate</span> (size <span class="op">-</span> <span class="fu">length</span> str) <span class="ch">'0'</span> <span class="op">&lt;&gt;</span> str</span></code></pre></div>
+<p>Using this <code>newtype</code> we can turn this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">24732</span><span class="ot"> ::</span> <span class="dt">Word16</span></span></code></pre></div>
+<pre><code>24732</code></pre>
+<p>into this:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">24732</span><span class="ot"> ::</span> <span class="dt">Binary</span> <span class="dt">Word16</span></span></code></pre></div>
+<pre><code>0110000010011100</code></pre>
+<p>I’m going to use 32-bit hashes (because they’re more convenient to display than 64-bit ones) and 16-bit bitmaps.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Hash</span> <span class="ot">=</span> <span class="dt">Binary</span> <span class="dt">Word32</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Bitmap</span> <span class="ot">=</span> <span class="dt">Binary</span> <span class="dt">Word16</span></span></code></pre></div>
+<p>The width of bitmaps is <span class="math inline">\(2^n\)</span> where <span class="math inline">\(n\)</span> is the number of bits of the hash that we use at each level of the tree (more on this below). I’m setting <span class="math inline">\(n=4\)</span> which is what <code>unordered-containers</code> uses (as of this writing), but we could e.g.&nbsp;set <span class="math inline">\(n=5\)</span> and use 32-bit bitmaps if we wanted.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">bitsPerSubkey ::</span> <span class="dt">Int</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bitsPerSubkey <span class="ot">=</span> <span class="dv">4</span></span></code></pre></div>
+<p><code>Shift</code> is a multiple of <span class="math inline">\(n\)</span> that we will use to focus on the correct part of the hash.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Shift</span> <span class="ot">=</span> <span class="dt">Int</span></span></code></pre></div>
+<p>I’m also going to define a <code>Hashable</code> class to decouple the choice of a hash function from the implementation of <code>HAMT</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Hashable</span> a <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">    hash ::</span> a <span class="ot">-&gt;</span> <span class="dt">Hash</span></span></code></pre></div>
+<p>For convenience, we’ll use the FNV-1 hash function with strings.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE TypeSynonymInstances #-}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE FlexibleInstances #-}</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Hashable</span> <span class="dt">String</span> <span class="kw">where</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    hash s <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">FnvHash32</span> h <span class="ot">=</span> fnv1Hash (<span class="fu">pack</span> s)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="dt">Binary</span> h</span></code></pre></div>
+<p>Here’s what it looks like in practice.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hash <span class="st">"1"</span><span class="ot"> ::</span> <span class="dt">Binary</span> <span class="dt">Word32</span></span></code></pre></div>
+<pre><code>00000101000011000101110100101110</code></pre>
+<p>A HAMT can be</p>
+<ul>
+<li>empty (<code>None</code>)</li>
+<li>a leaf node with the hash, the key, and the value (<code>Leaf</code>)</li>
+<li>a node with a bitmap and a (non-empty) vector of child HAMTs (<code>Many</code>)</li>
+</ul>
+<p>I’ve chosen to ignore the possibility of collisions, but we could handle them by adding an extra constructor, e.g.&nbsp;<code>Colliding</code> with a hash and a vector of key-value pairs.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">HAMT</span> key value</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Leaf</span> <span class="dt">Hash</span> key value</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Many</span> <span class="dt">Bitmap</span> (<span class="dt">Vector</span> (<span class="dt">HAMT</span> key value))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="ot">empty ::</span> <span class="dt">HAMT</span> k v</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>empty <span class="ot">=</span> <span class="dt">None</span></span></code></pre></div>
+<p>We’ll need some helper functions for vectors:</p>
+<ul>
+<li><code>insertAt</code> inserts an element at a specified index, shifting elements to the right forwards</li>
+<li><code>updateAt</code> replaces an element at a specified index with a new element</li>
+<li><code>deleteAt</code> removes an element at an index, shifting elements to the right backwards</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">insertAt ::</span> <span class="dt">Vector</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Vector</span> a</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>insertAt vector <span class="fu">index</span> a <span class="ot">=</span> <span class="fu">take</span> <span class="fu">index</span> vector <span class="op">&lt;&gt;</span> singleton a <span class="op">&lt;&gt;</span> <span class="fu">drop</span> <span class="fu">index</span> vector</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ot">updateAt ::</span> <span class="dt">Vector</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Vector</span> a</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>updateAt vector <span class="fu">index</span> a <span class="ot">=</span> vector <span class="op">//</span> [(<span class="fu">index</span>, a)]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="ot">deleteAt ::</span> <span class="dt">Vector</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Vector</span> a</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>deleteAt vector <span class="fu">index</span> <span class="ot">=</span> <span class="fu">take</span> <span class="fu">index</span> vector <span class="op">&lt;&gt;</span> <span class="fu">drop</span> (<span class="fu">index</span><span class="op">+</span><span class="dv">1</span>) vector</span></code></pre></div>
+<section id="insert" class="level3">
+<h3 data-anchor-id="insert">Insert</h3>
+<p>I think the bit manipulation functions are crucial to understanding what’s going on, so I’m going to motivate them by trying to define <code>insert</code> without them and coming up with them as they are needed. This initial definition won’t be quite right so I’ll call it <code>insert_</code> to differentiate it from the correct <code>insert'</code> function I present later. The type signature for <code>insert_</code> is</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">insert_ ::</span> <span class="dt">Hash</span> <span class="ot">-&gt;</span> key <span class="ot">-&gt;</span> value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value</span></code></pre></div>
+<p>Inserting a key-value pair into an empty HAMT gives us a single leaf node:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>insert_ hash key value <span class="dt">None</span> <span class="ot">=</span> <span class="dt">Leaf</span> hash key value</span></code></pre></div>
+<p>Inserting a key-value pair into a single leaf node where the hashes match gives us an updated leaf node (because we’re pretending collisions don’t exist):</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>insert_ hash key value (<span class="dt">Leaf</span> leafHash leafKey leafValue)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> hash <span class="op">==</span> leafHash <span class="ot">=</span> <span class="dt">Leaf</span> hash key value</span></code></pre></div>
+<p>Inserting into a HAMT consisting of a single leaf node where the hashes don’t match upgrades that leaf node to a <code>Many</code> node and inserts the key-value pair into that <code>Many</code> node:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>insert_ hash key value leaf<span class="op">@</span>(<span class="dt">Leaf</span> leafHash leafKey leafValue)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> hash <span class="op">/=</span> leafHash <span class="ot">=</span> insert_ key value (<span class="dt">Many</span> someBitmap (singleton leaf))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> someBitmap <span class="ot">=</span> <span class="fu">undefined</span></span></code></pre></div>
+<section id="bit-masking" class="level4">
+<h4 data-anchor-id="bit-masking">Bit Masking</h4>
+<p>Where does <code>someBitmap</code> come from? Time for an example! Let’s start with a <code>Leaf (hash "1") "1" 1</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> hash <span class="st">"1"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>leaf <span class="ot">=</span> <span class="dt">Leaf</span> h <span class="st">"1"</span> <span class="dv">1</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>leaf</span></code></pre></div>
+<pre><code>Leaf 00000101000011000101110100101110 "1" 1</code></pre>
+<p><code>someBitMap</code> is a 16-bit bitmap where the number of bits set (the <code>popCount</code>) is the length of the vector, which in this case is <span class="math inline">\(1\)</span>. We want to set one bit, but which bit? We carve off the last <span class="math inline">\(n\)</span> bits using a mask:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ot">subkeyMask ::</span> <span class="dt">Bitmap</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>subkeyMask <span class="ot">=</span> (bit bitsPerSubkey) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>subkeyMask</span></code></pre></div>
+<pre><code>0000000000001111</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">--     0101110100101110</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- .&amp;. 0000000000001111</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">-----------------------</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">--     0000000000001110</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>fragment <span class="ot">=</span> <span class="fu">fromIntegral</span> h <span class="op">.&amp;.</span> subkeyMask</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>fragment</span></code></pre></div>
+<pre><code>0000000000001110</code></pre>
+<p>Then we interpret that fragment as a number:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Binary</span> position <span class="ot">=</span> fragment</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>position</span></code></pre></div>
+<pre><code>14</code></pre>
+<p>Finally, we set that bit and we have our bitmap:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ot">someBitmap ::</span> <span class="dt">Bitmap</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>someBitmap <span class="ot">=</span> <span class="dt">Binary</span> <span class="op">$</span> bit <span class="op">$</span> <span class="fu">fromIntegral</span> position</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>someBitmap</span></code></pre></div>
+<pre><code>0100000000000000</code></pre>
+<p>We’re going to be doing this a lot, so I’ll define this as <code>bitMask_</code>. The extra <code>_</code> is because it isn’t quite right for the same reason as <code>insert_</code>:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ot">bitMask_ ::</span> <span class="dt">Hash</span> <span class="ot">-&gt;</span> <span class="dt">Bitmap</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>bitMask_ hash <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    fragment <span class="ot">=</span> <span class="fu">fromIntegral</span> hash <span class="op">.&amp;.</span> subkeyMask</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Binary</span> position <span class="ot">=</span> fragment</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> <span class="dt">Binary</span> (bit (<span class="fu">fromIntegral</span> position))</span></code></pre></div>
+<p>Let’s look at the <code>Many</code> case. If we try inserting into a node where the bit in the bitmap corresponding to the mask is <code>0</code>, this means that there is an empty slot in the vector. We can insert a leaf node into this slot and set the corresponding bit in the bitmap to <code>1</code>:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>insert_ hash key value (<span class="dt">Many</span> bitmap vector)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> bitmap <span class="op">.&amp;.</span> mask <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        leaf <span class="ot">=</span> <span class="dt">Leaf</span> (hash key) key value</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        vector' <span class="ot">=</span> insertAt vector <span class="fu">index</span> leaf</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        bitmap' <span class="ot">=</span> bitmap <span class="op">.|.</span> mask</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="dt">Many</span> bitmap' vector'</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        mask <span class="ot">=</span> bitMask_ hash</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">index</span> <span class="ot">=</span> <span class="fu">undefined</span></span></code></pre></div>
+</section>
+<section id="mask-indexing" class="level4">
+<h4 data-anchor-id="mask-indexing">Mask Indexing</h4>
+<p>What <code>index</code> do we use? This is where <code>popCount</code> makes an appearance. Let’s demonstrate by inserting <code>("10", 2)</code> into our example. First we get the mask corresponding to <code>hash "10"</code>:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mask <span class="ot">=</span> bitMask_ (hash <span class="st">"10"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>mask</span></code></pre></div>
+<pre><code>0000010000000000</code></pre>
+<p>Next we want to find the number of lower bits that have been set. We use <code>mask - 1</code> as a mask:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">-</span> <span class="dv">1</span></span></code></pre></div>
+<pre><code>0000001111111111</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">--     0100000000000000</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- .&amp;. 0000001111111111</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">-----------------------</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co">--     0000000000000000</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>masked <span class="ot">=</span> someBitmap <span class="op">.&amp;.</span> (mask <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>masked</span></code></pre></div>
+<pre><code>0000000000000000</code></pre>
+<p>Then we count the number of bits set with <code>popCount</code>:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">index</span> <span class="ot">=</span> popCount masked</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">index</span></span></code></pre></div>
+<pre><code>0</code></pre>
+<p>And this is the index we need to insert at! We’ll call this <code>maskIndex</code>:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ot">maskIndex ::</span> <span class="dt">Bitmap</span> <span class="ot">-&gt;</span> <span class="dt">Bitmap</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>maskIndex bitmap mask <span class="ot">=</span> popCount (bitmap <span class="op">.&amp;.</span> (mask <span class="op">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<p>The final case is where the bit in the bitmap is already set. We need to recursively update the HAMT at the corresponding index:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>insert_ hash key value (<span class="dt">Many</span> bitmap vector)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> bitmap <span class="op">.&amp;.</span> mask <span class="op">==</span> <span class="dv">1</span> <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>        subtree' <span class="ot">=</span> insert_ hash key value (vector <span class="op">!</span> <span class="fu">index</span>) <span class="co">-- WRONG!</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>        vector' <span class="ot">=</span> updateAt vector <span class="fu">index</span> subtree'</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="dt">Many</span> bitmap vector'</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        mask <span class="ot">=</span> bitMask_ hash</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">index</span> <span class="ot">=</span> maskIndex bitmap mask</span></code></pre></div>
+<p>But this definition is wrong, because instead of carving off the last <span class="math inline">\(n\)</span> bits of <code>hash</code>, we want to recursively carve off the next <span class="math inline">\(n\)</span> bits!</p>
+</section>
+<section id="shifting" class="level4">
+<h4 data-anchor-id="shifting">Shifting</h4>
+<p>This is what’s missing from our definition, a <code>shift</code> parameter corresponding to how far up the <code>hash</code> we’re looking. This is why we defined <code>Shift</code> above. Taking this extra parameter into account, our bit manipulation functions now become:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ot">subkeyMask ::</span> <span class="dt">Bitmap</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>subkeyMask <span class="ot">=</span> (bit bitsPerSubkey) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="ot">maskIndex ::</span> <span class="dt">Bitmap</span> <span class="ot">-&gt;</span> <span class="dt">Bitmap</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>maskIndex bitmap mask <span class="ot">=</span> popCount (bitmap <span class="op">.&amp;.</span> (mask <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="ot">subkey ::</span> <span class="dt">Hash</span> <span class="ot">-&gt;</span> <span class="dt">Shift</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>subkey hash shift <span class="ot">=</span> <span class="fu">fromIntegral</span> <span class="op">$</span> (<span class="fu">fromIntegral</span> <span class="op">$</span> shiftR hash shift) <span class="op">.&amp;.</span> subkeyMask</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="ot">bitMask ::</span> <span class="dt">Hash</span> <span class="ot">-&gt;</span> <span class="dt">Shift</span> <span class="ot">-&gt;</span> <span class="dt">Bitmap</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>bitMask hash shift <span class="ot">=</span> bit (subkey hash shift)</span></code></pre></div>
+<p>We plumb through this <code>shift</code> parameter, only modifying it in the final case, to give us the correct definitions of <code>insert'</code> and <code>insert</code>:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ot">insert ::</span> <span class="dt">Hashable</span> key <span class="ot">=&gt;</span> key <span class="ot">-&gt;</span> value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>insert key value hamt <span class="ot">=</span> insert' <span class="dv">0</span> (hash key) key value hamt</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="ot">insert' ::</span> <span class="dt">Shift</span> <span class="ot">-&gt;</span> <span class="dt">Hash</span> <span class="ot">-&gt;</span> key <span class="ot">-&gt;</span> value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>insert' shift hash key value <span class="dt">None</span> <span class="ot">=</span> <span class="dt">Leaf</span> hash key value</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>insert' shift hash key value leaf<span class="op">@</span>(<span class="dt">Leaf</span> leafHash leafKey leafValue)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> hash <span class="op">==</span> leafHash <span class="ot">=</span> <span class="dt">Leaf</span> hash key value</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> insert' shift hash key value (<span class="dt">Many</span> (bitMask leafHash shift) (singleton leaf))</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>insert' shift hash key value (<span class="dt">Many</span> bitmap vector)</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> bitmap <span class="op">.&amp;.</span> mask <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>        leaf <span class="ot">=</span> <span class="dt">Leaf</span> hash key value</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>        vector' <span class="ot">=</span> insertAt vector <span class="fu">index</span> leaf</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>        bitmap' <span class="ot">=</span> bitmap <span class="op">.|.</span> mask</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="dt">Many</span> bitmap' vector'</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>        subtree <span class="ot">=</span> vector <span class="op">!</span> <span class="fu">index</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>        subtree' <span class="ot">=</span> insert' (shift<span class="op">+</span>bitsPerSubkey) hash key value subtree</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>        vector' <span class="ot">=</span> updateAt vector <span class="fu">index</span> subtree'</span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="dt">Many</span> bitmap vector'</span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>        mask <span class="ot">=</span> bitMask hash shift</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">index</span> <span class="ot">=</span> maskIndex bitmap mask</span></code></pre></div>
+<p>Now we can construct HAMTs and inspect them! I’ll define a <code>fromList</code> function and use <code>pPrint</code> from <code>pretty-show</code> to highlight the tree structure:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ot">fromList ::</span> <span class="dt">Hashable</span> key <span class="ot">=&gt;</span> [(key, value)] <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>fromList <span class="ot">=</span> <span class="fu">foldr</span> (<span class="fu">uncurry</span> insert) empty</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>example <span class="ot">=</span> fromList [(<span class="st">"1"</span>, <span class="dv">1</span>), (<span class="st">"10"</span>, <span class="dv">2</span>), (<span class="st">"100"</span>, <span class="dv">3</span>), (<span class="st">"1000"</span>, <span class="dv">4</span>)]</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>pPrint example</span></code></pre></div>
+<pre><code>Many
+  0100010000000000
+  [ Many
+      0000000100100000
+      [ Leaf 00100000011101101010111101011010 "10" 2
+      , Leaf 10001010111100101011011010001010 "1000" 4
+      ]
+  , Many
+      0000001000000100
+      [ Leaf 00000101000011000101110100101110 "1" 1
+      , Leaf 01110100110101100000101010011110 "100" 3
+      ]
+  ]</code></pre>
+</section>
+</section>
+<section id="lookup" class="level3">
+<h3 data-anchor-id="lookup">Lookup</h3>
+<p>Compared to <code>insert</code>, <code>lookup</code> is a walk in the park. It’s implemented along the same lines as <code>insert</code>:</p>
+<ul>
+<li>on <code>None</code> nodes, it fails</li>
+<li>on <code>Leaf</code> nodes, it succeeds if the hashes match</li>
+<li>on <code>Many</code> nodes, it fails if the bit isn’t set, and recurses into the child node otherwise</li>
+</ul>
+<div class="sourceCode" id="cb46"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lookup</span><span class="ot"> ::</span> <span class="dt">Hashable</span> key <span class="ot">=&gt;</span> key <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value <span class="ot">-&gt;</span> <span class="dt">Maybe</span> value</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lookup</span> key hamt <span class="ot">=</span> lookup' <span class="dv">0</span> (hash key) hamt</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="ot">lookup' ::</span> <span class="dt">Shift</span> <span class="ot">-&gt;</span> <span class="dt">Hash</span> <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value <span class="ot">-&gt;</span> <span class="dt">Maybe</span> value</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>lookup' shift hash <span class="dt">None</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>lookup' shift hash (<span class="dt">Leaf</span> leafHash leafKey leafValue)</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> hash <span class="op">==</span> leafHash <span class="ot">=</span> <span class="dt">Just</span> leafValue</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>lookup' shift hash (<span class="dt">Many</span> bitmap vector)</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> bitmap <span class="op">.&amp;.</span> mask <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> lookup' (shift<span class="op">+</span>bitsPerSubkey) hash (vector <span class="op">!</span> <span class="fu">index</span>)</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>        mask <span class="ot">=</span> bitMask hash shift</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">index</span> <span class="ot">=</span> maskIndex bitmap mask</span></code></pre></div>
+<p>Let’s quickly confirm that it works.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lookup</span> <span class="st">"100"</span> example</span></code></pre></div>
+<pre><code>Just 3</code></pre>
+<section id="memoising-fibonacci" class="level4">
+<h4 data-anchor-id="memoising-fibonacci">Memoising Fibonacci</h4>
+<p>We now have enough of an API to use this as a hashtable! Let’s use it to memoise the calculation of the Fibonacci sequence. The naive implementation does a lot of unnecessary recomputation:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="ot">fib ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>fib <span class="dv">0</span> <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>fib <span class="dv">1</span> <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>fib n <span class="ot">=</span> fib (n<span class="op">-</span><span class="dv">1</span>) <span class="op">+</span> fib (n<span class="op">-</span><span class="dv">2</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>timeIt <span class="op">$</span> <span class="fu">print</span> <span class="op">$</span> fib <span class="dv">30</span></span></code></pre></div>
+<pre><code>1346269
+CPU time:   1.31s</code></pre>
+<p>We can memoise it by storing previously calculated results and using them if they are available:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Hashable</span> <span class="dt">Int</span> <span class="kw">where</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    hash int <span class="ot">=</span> <span class="dt">Binary</span> (<span class="fu">fromIntegral</span> int)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="ot">fib' ::</span> <span class="dt">HAMT</span> <span class="dt">Int</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Int</span>, <span class="dt">HAMT</span> <span class="dt">Int</span> <span class="dt">Int</span>)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>fib' table <span class="dv">0</span> <span class="ot">=</span> (<span class="dv">1</span>, insert <span class="dv">0</span> <span class="dv">1</span> table)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>fib' table <span class="dv">1</span> <span class="ot">=</span> (<span class="dv">1</span>, insert <span class="dv">1</span> <span class="dv">1</span> table)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>fib' table n <span class="ot">=</span> <span class="kw">case</span> <span class="fu">lookup</span> n table <span class="kw">of</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Just</span> i <span class="ot">-&gt;</span> (i, table)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="kw">let</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>        (i1, table')  <span class="ot">=</span> fib' table  (n<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>        (i2, table'') <span class="ot">=</span> fib' table' (n<span class="op">-</span><span class="dv">2</span>)</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> (i1 <span class="op">+</span> i2, insert n (i1 <span class="op">+</span> i2) table'')</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="ot">fib ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>fib n <span class="ot">=</span> <span class="fu">fst</span> <span class="op">$</span> fib' empty n</span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>timeIt <span class="op">$</span> <span class="fu">print</span> <span class="op">$</span> fib <span class="dv">30</span></span></code></pre></div>
+<pre><code>1346269
+CPU time:   0.00s</code></pre>
+</section>
+</section>
+<section id="delete" class="level3">
+<h3 data-anchor-id="delete">Delete</h3>
+<p>Finally we come to <code>delete</code>, which is only a little more complex than <code>lookup</code>. It needs to make sure that no <code>Many</code> node has a child <code>None</code> node, so if a <code>None</code> node:</p>
+<ul>
+<li>is an only child, it will replace the parent node</li>
+<li>has any sibling nodes, it will be removed from the parent node’s bitmap and vector</li>
+</ul>
+<p><code>Leaf</code> nodes similarly replace their parents if they are the only child.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="ot">delete ::</span> <span class="dt">Hashable</span> key <span class="ot">=&gt;</span> key <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>delete key hamt <span class="ot">=</span> delete' <span class="dv">0</span> (hash key) hamt</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="ot">delete' ::</span> <span class="dt">Shift</span> <span class="ot">-&gt;</span> <span class="dt">Hash</span> <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value <span class="ot">-&gt;</span> <span class="dt">HAMT</span> key value</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>delete' shift hash <span class="dt">None</span> <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>delete' shift hash leaf<span class="op">@</span>(<span class="dt">Leaf</span> leafHash leafKey leafValue)</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> hash <span class="op">==</span> leafHash <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> leaf</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>delete' shift hash many<span class="op">@</span>(<span class="dt">Many</span> bitmap vector)</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> bitmap <span class="op">.&amp;.</span> mask <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> many</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="kw">let</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>        subtree <span class="ot">=</span> vector <span class="op">!</span> <span class="fu">index</span></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>        subtree' <span class="ot">=</span> delete' (shift<span class="op">+</span>bitsPerSubkey) hash subtree</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="kw">case</span> subtree' <span class="kw">of</span></span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>            <span class="dt">None</span> <span class="ot">-&gt;</span> <span class="kw">if</span> <span class="fu">length</span> vector <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>                <span class="kw">then</span> <span class="dt">None</span></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>                <span class="kw">else</span> <span class="dt">Many</span> (bitmap <span class="op">.&amp;.</span> complement mask) (deleteAt vector <span class="fu">index</span>)</span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Leaf</span>{} <span class="ot">-&gt;</span> <span class="kw">if</span> <span class="fu">length</span> vector <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>                <span class="kw">then</span> subtree'</span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>                <span class="kw">else</span>  <span class="dt">Many</span> bitmap (updateAt vector <span class="fu">index</span> subtree')</span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Many</span>{} <span class="ot">-&gt;</span> <span class="dt">Many</span> bitmap (updateAt vector <span class="fu">index</span> subtree')</span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span></span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>        mask <span class="ot">=</span> bitMask hash shift</span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">index</span> <span class="ot">=</span> maskIndex bitmap mask</span></code></pre></div>
+<p>Let’s see this in action.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>pPrint <span class="op">$</span> delete <span class="st">"1000"</span> example</span></code></pre></div>
+<pre><code>Many
+  0100010000000000
+  [ Many
+      0000000000100000 [ Leaf 00100000011101101010111101011010 "10" 2 ]
+  , Many
+      0000001000000100
+      [ Leaf 00000101000011000101110100101110 "1" 1
+      , Leaf 01110100110101100000101010011110 "100" 3
+      ]
+  ]</code></pre>
+<p>It’s possible to have a situation where we have a <code>Many</code> node with only one child, because our replacement behaviour checks the length of the vector before any elements are removed from it. However, removing the last leaf will correctly delete the parent node.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>pPrint <span class="op">$</span> delete <span class="st">"10"</span> <span class="op">$</span> delete <span class="st">"1000"</span> example</span></code></pre></div>
+<pre><code>Many
+  0100000000000000
+  [ Many
+      0000001000000100
+      [ Leaf 00000101000011000101110100101110 "1" 1
+      , Leaf 01110100110101100000101010011110 "100" 3
+      ]
+  ]</code></pre>
+<p>And we’re done! I hope you understand HAMTs better than when you started reading this.</p>
+<p>If you want to use this for something other than educational purposes, I would recommend adding logic to deal with hash collisions, which I intentionally omitted. There’s also some low-hanging fruit in terms of performance optimisations. The first thing that comes to mind is an additional <code>Full</code> constructor for the case where all bits in the bitmap are set, and the next thing is the use of unsafe vector functions that omit bounds checking.</p>
+<p>Thanks to <a href="https://twitter.com/evanborden">Evan Borden</a>, <a href="https://twitter.com/candeira">Javier Candeira</a>, <a href="https://hypirion.com/">Jean Niklas L’orange</a>, <a href="http://mjhopkins.github.io/">Mark Hopkins</a>, and <a href="https://teh.id.au/">Tim Humphries</a> for comments and feedback.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../index.xml">
+<p>RSS</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

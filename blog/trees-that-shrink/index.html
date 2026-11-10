@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2018-06-19">
+
+<title>Trees That Shrink – Thee Rana Page</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-beb050b6995f5fb5c74a266772e82083.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-523687ef48c315f64e21eb5d5e9f174c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Same MathJax extensions the Hakyll site loaded: color, cancel, textmacros. -->
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/color', '[tex]/cancel', '[tex]/textmacros']},
+  tex: {packages: {'[+]': ['color', 'cancel', 'textmacros']}}
+};
+</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Thee Rana Page</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/index.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive/index.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Trees That Shrink</h1>
+</div>
+<div class="info">
+  Posted on <span class="date">19 June 2018</span>
+</div>
+<div class="info quarto-categories">
+  Tags: <span class="quarto-category">haskell</span>, <span class="quarto-category">programming</span>
+</div>
+</header>
+
+
+<p><em>This blog post is also available as an <a href="https://github.com/vaibhavsagar/notebooks/blob/master/trees-that-shrink/TreesThatShrink.ipynb">IHaskell notebook</a>.</em></p>
+<p>I read <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/11/trees-that-grow.pdf">this paper</a> a while ago and people seemed pretty excited about it, although I couldn’t see why. Fortunately, someone posed me an interesting problem recently and in the process of tackling it I think I understand now.</p>
+<p>Suppose we have a simple algebraic data type representing the lambda calculus with <a href="https://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a>, which are a way of avoiding the messy problem of variable names:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Expr</span> a</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">=</span> <span class="dt">Lit</span> a</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Var</span> <span class="dt">Int</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Abs</span> (<span class="dt">Expr</span> a)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">App</span> (<span class="dt">Expr</span> a) (<span class="dt">Expr</span> a)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>)</span></code></pre></div>
+<p>So far so good! Now we want to have let bindings in this language, and we’ve decided that we want named variables as well while we’re at it because de Bruijn indices are not so much fun to work with. We dutifully define another data type:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Expr'</span> a</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">=</span> <span class="dt">Lit'</span> a</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Var'</span> <span class="dt">String</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Abs'</span> (<span class="dt">Expr'</span> a)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">App'</span> (<span class="dt">Expr'</span> a) (<span class="dt">Expr'</span> a)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Let'</span> <span class="dt">String</span> (<span class="dt">Expr'</span> a) (<span class="dt">Expr'</span> a)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>)</span></code></pre></div>
+<p>Let bindings can be easily desugared into lambda abstractions as follows:</p>
+<pre><code>let &lt;n&gt; = &lt;x&gt; in &lt;y&gt; &lt;=&gt; (\n -&gt; y) x</code></pre>
+<p>which will help us to write a simpler evaluator. However, we’d also like to make sure the desugaring has been implemented correctly, perhaps by converting to some intermediate state where both the name and the correct de Bruijn index coexist peacefully. We have a couple of options, none of which are great:</p>
+<ol type="1">
+<li>Define a third data type and then write an indexing pass that converts <code>Var String</code> to <code>Var (String, Int)</code> and then a desugaring pass that converts that to <code>Expr a</code>.</li>
+<li>Work entirely within the bigger data type, forget about indexing, and throw errors whenever a <code>Let</code> is encountered after a desugaring pass.</li>
+<li>Combine the desugaring and indexing passes into one, and forget about keeping track of the desugaring.</li>
+</ol>
+<p>Let’s implement the third:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Map.Strict</span> <span class="kw">as</span> <span class="dt">Map</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Env</span> <span class="ot">=</span> <span class="dt">Map.Map</span> <span class="dt">String</span> <span class="dt">Int</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ot">desugarAndAnonymise ::</span> <span class="dt">Env</span> <span class="ot">-&gt;</span> <span class="dt">Expr'</span> a <span class="ot">-&gt;</span> <span class="dt">Expr</span> a</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>desugarAndAnonymise env expr <span class="ot">=</span> <span class="kw">case</span> expr <span class="kw">of</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Lit'</span> a <span class="ot">-&gt;</span> <span class="dt">Lit</span> a</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Var'</span> name <span class="ot">-&gt;</span> <span class="dt">Var</span> (env <span class="op">Map.!</span> name)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Abs'</span> expr' <span class="ot">-&gt;</span> <span class="kw">let</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        env'  <span class="ot">=</span> Map.map <span class="fu">succ</span> env</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="dt">Abs</span> (desugarAndAnonymise env' expr')</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">App'</span> f x <span class="ot">-&gt;</span> <span class="dt">App</span> (desugarAndAnonymise env f) (desugarAndAnonymise env x)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Let'</span> n v expr' <span class="ot">-&gt;</span> desugarAndAnonymise env (<span class="dt">App'</span> (<span class="dt">Abs'</span> expr') v)</span></code></pre></div>
+<p>That wasn’t a lot of fun to write, I have no idea if I did the conversion from names to indices correctly, and there’s no easy way to check if I did.</p>
+<p>These problems are (barely) manageable in this case, but what if we want to add more syntax sugar or share this data type with other libraries that have different use cases? We’d either have to write variations on a theme over and over again or say goodbye to type safety. It also becomes harder and harder to decompose our functions into smaller ones that only do one thing. There has to be a better way!</p>
+<p>This is the subject of <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/11/trees-that-grow.pdf">Trees that Grow</a> by Shayan Najd and Simon Peyton Jones. They noticed the need for this approach when looking at GHC’s abstract syntax tree type but the idiom is generally applicable.</p>
+<p>The first insight is that defining different data types for each use case is the wrong approach. Conceptually all these data types are the same type, just with different annotations or decoration, and we should be able to define the base data type with enough extensibility to accommodate all the other use cases.</p>
+<p>The second insight is that we can use some of GHC’s fancier features to ease the pain of working with this ridiculously extensible data type, such as type families and pattern synonyms.</p>
+<p>The third insight is that this can be made to work with other language features, such as generalised abstract data types and existentials! We won’t use this here, but it’s great to know that it’s possible.</p>
+<p>Let’s see how we can use it to solve our problem. The first thing to do is turn on some language extensions, as with anything moderately fun in Haskell:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE TypeFamilies      #-}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE PatternSynonyms   #-}</span></span></code></pre></div>
+<p>The next steps are:</p>
+<ol type="1">
+<li>Add a type parameter to the data type declaration.</li>
+<li>Add a field to each constructor with a new data type that uses this parameter (and any others).</li>
+<li>Add an extra constructor to enable extending this data type, also with a new data type as in step 2.</li>
+<li>Define type families for each of the new data types you declared in steps 2 and 3.</li>
+</ol>
+<p>And we’re done! This is what that looks like for our example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">ExpX</span> i a</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">=</span> <span class="dt">LitX</span> (<span class="dt">XLit</span> i a) a</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">VarX</span> (<span class="dt">XVar</span> i a)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">AbsX</span> (<span class="dt">XAbs</span> i a) (<span class="dt">ExpX</span> i a)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">AppX</span> (<span class="dt">XApp</span> i a) (<span class="dt">ExpX</span> i a) (<span class="dt">ExpX</span> i a)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">ExpX</span> (<span class="dt">XExp</span> i a)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XLit</span> i a</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XVar</span> i a</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XAbs</span> i a</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XApp</span> i a</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XExp</span> i a</span></code></pre></div>
+<p>The next thing to do is to reconstruct our original data type with no extensions. To do this we’ll need to use the <a href="http://hackage.haskell.org/package/base/docs/Data-Void.html"><code>Data.Void</code></a> package:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Void</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ot">void ::</span> <span class="dt">Void</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>void <span class="ot">=</span> <span class="fu">error</span> <span class="st">"Attempt to evaluate void"</span></span></code></pre></div>
+<p>Now we can define <code>ExpUD</code> (UD for “undecorated”) using <code>Int</code> for our <code>Var</code> like we originally wanted and <code>Void</code> for all other extension points. It might get frustrating to construct and work with these values by hand, so we can use pattern synonyms to ease this pain.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ExpUD</span> a <span class="ot">=</span> <span class="dt">ExpX</span> <span class="dt">UD</span> a</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">UD</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XLit</span> <span class="dt">UD</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XVar</span> <span class="dt">UD</span> a <span class="ot">=</span> <span class="dt">Int</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XAbs</span> <span class="dt">UD</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XApp</span> <span class="dt">UD</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XExp</span> <span class="dt">UD</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitUD</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitUD</span> a <span class="ot">&lt;-</span> <span class="dt">LitX</span> _ a</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">LitUD</span> a <span class="ot">=</span> <span class="dt">LitX</span> void a</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarUD</span><span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarUD</span> i <span class="ot">&lt;-</span> <span class="dt">VarX</span> i</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">VarUD</span> i <span class="ot">=</span> <span class="dt">VarX</span> i</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsUD</span><span class="ot"> ::</span> <span class="dt">ExpUD</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsUD</span> a <span class="ot">&lt;-</span> <span class="dt">AbsX</span> _ a</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">AbsUD</span> a <span class="ot">=</span> <span class="dt">AbsX</span> void a</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppUD</span><span class="ot"> ::</span> <span class="dt">ExpUD</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppUD</span> f a <span class="ot">&lt;-</span> <span class="dt">AppX</span> _ f a</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">AppUD</span> f a <span class="ot">=</span> <span class="dt">AppX</span> void f a</span></code></pre></div>
+<p>This is unfortunately a bit boilerplate-y, but now we can define that intermediate data type that uses named variables as well as de Bruijn indices! As a bonus, we can now have named parameters to lambdas, which would not have been possible with the approach we tried to use above.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ExpAnn</span> a <span class="ot">=</span> <span class="dt">ExpX</span> <span class="dt">Ann</span> a</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Ann</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XLit</span> <span class="dt">Ann</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XVar</span> <span class="dt">Ann</span> a <span class="ot">=</span> (<span class="dt">String</span>, <span class="dt">Int</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XAbs</span> <span class="dt">Ann</span> a <span class="ot">=</span> <span class="dt">String</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XApp</span> <span class="dt">Ann</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XExp</span> <span class="dt">Ann</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitAnn</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitAnn</span> a <span class="ot">&lt;-</span> <span class="dt">LitX</span> _ a</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">LitAnn</span> a <span class="ot">=</span> <span class="dt">LitX</span> void a</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarAnn</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarAnn</span> s i <span class="ot">&lt;-</span> <span class="dt">VarX</span> (s,i)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">VarAnn</span> s i <span class="ot">=</span> <span class="dt">VarX</span> (s, i)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsAnn</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsAnn</span> s a <span class="ot">&lt;-</span> <span class="dt">AbsX</span> s a</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">AbsAnn</span> s a <span class="ot">=</span> <span class="dt">AbsX</span> s a</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppAnn</span><span class="ot"> ::</span> <span class="dt">ExpAnn</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppAnn</span> f a <span class="ot">&lt;-</span> <span class="dt">AppX</span> _ f a</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">AppAnn</span> f a <span class="ot">=</span> <span class="dt">AppX</span> void f a</span></code></pre></div>
+<p>Now for my favourite part, where we add let bindings! We achieve this by using a tuple to represent <code>let &lt;name&gt; = &lt;expr&gt; in &lt;expr&gt;</code> as <code>(&lt;name&gt;, &lt;expr&gt;, &lt;expr&gt;)</code>, and we use named variables and parameters in this representation.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ExpLet</span> a <span class="ot">=</span> <span class="dt">ExpX</span> <span class="dt">Let</span> a</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Let</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XLit</span> <span class="dt">Let</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XVar</span> <span class="dt">Let</span> a <span class="ot">=</span> <span class="dt">String</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XAbs</span> <span class="dt">Let</span> a <span class="ot">=</span> <span class="dt">String</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XApp</span> <span class="dt">Let</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XExp</span> <span class="dt">Let</span> a <span class="ot">=</span> (<span class="dt">String</span>, <span class="dt">ExpLet</span> a, <span class="dt">ExpLet</span> a)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitLet</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitLet</span> a <span class="ot">&lt;-</span> <span class="dt">LitX</span> _ a</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">LitLet</span> a <span class="ot">=</span> <span class="dt">LitX</span> void a</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarLet</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarLet</span> s <span class="ot">&lt;-</span> <span class="dt">VarX</span> s</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">VarLet</span> s <span class="ot">=</span> <span class="dt">VarX</span> s</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsLet</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsLet</span> s a <span class="ot">&lt;-</span> <span class="dt">AbsX</span> s a</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">AbsLet</span> s a <span class="ot">=</span> <span class="dt">AbsX</span> s a</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppLet</span><span class="ot"> ::</span> <span class="dt">ExpLet</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppLet</span> f a <span class="ot">&lt;-</span> <span class="dt">AppX</span> _ f a</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> <span class="dt">AppLet</span> f a <span class="ot">=</span> <span class="dt">AppX</span> void f a</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LetLet</span> n v e <span class="ot">&lt;-</span> <span class="dt">ExpX</span> (n,v,e)</span></code></pre></div>
+<p>Now instead of writing a single giant pass, we can write smaller ones!</p>
+<p>We can write a desugarer that preserves names and rewrites our let bindings as follows:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">desugar ::</span> <span class="dt">Env</span> <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>desugar env expr <span class="ot">=</span> <span class="kw">case</span> expr <span class="kw">of</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">LitLet</span> a <span class="ot">-&gt;</span> <span class="dt">LitAnn</span> a</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">VarLet</span> name <span class="ot">-&gt;</span> <span class="dt">VarAnn</span> name (env <span class="op">Map.!</span> name)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">AbsLet</span> name expr' <span class="ot">-&gt;</span> <span class="kw">let</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        env'  <span class="ot">=</span> Map.map <span class="fu">succ</span> env</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        env'' <span class="ot">=</span> Map.insert name <span class="dv">0</span> env'</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> <span class="dt">AbsAnn</span> name (desugar env'' expr')</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">AppLet</span> f x <span class="ot">-&gt;</span> <span class="dt">AppAnn</span> (desugar env f) (desugar env x)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">LetLet</span> n v expr' <span class="ot">-&gt;</span> desugar env (<span class="dt">AppLet</span> (<span class="dt">AbsLet</span> n expr') v)</span></code></pre></div>
+<p>We can also write an anonymiser that throws the names away:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">anonymise ::</span> <span class="dt">ExpAnn</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>anonymise expr <span class="ot">=</span> <span class="kw">case</span> expr <span class="kw">of</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">LitAnn</span> a <span class="ot">-&gt;</span> <span class="dt">LitUD</span> a</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">VarAnn</span> _ i <span class="ot">-&gt;</span> <span class="dt">VarUD</span> i</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">AbsAnn</span> _ e <span class="ot">-&gt;</span> <span class="dt">AbsUD</span> (anonymise e)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">AppAnn</span> f x <span class="ot">-&gt;</span> <span class="dt">AppUD</span> (anonymise f) (anonymise x)</span></code></pre></div>
+<p>And finally an evaluator that operates on undecorated expressions:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">eval ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>eval env expr <span class="ot">=</span> <span class="kw">case</span> expr <span class="kw">of</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">LitUD</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">VarUD</span> i <span class="ot">-&gt;</span> env <span class="op">!!</span> i</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">AbsUD</span> f <span class="ot">-&gt;</span> eval env f</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">AppUD</span> f x <span class="ot">-&gt;</span> <span class="kw">let</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        x' <span class="ot">=</span> eval env x</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">in</span> eval (env <span class="op">++</span> [x']) f</span></code></pre></div>
+<p>Let’s see it in action!</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>identity <span class="ot">=</span> <span class="dt">AbsLet</span> <span class="st">"i"</span> (<span class="dt">VarLet</span> <span class="st">"i"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>konst <span class="ot">=</span> (<span class="dt">AbsLet</span> <span class="st">"x"</span> (<span class="dt">AbsLet</span> <span class="st">"y"</span> (<span class="dt">VarLet</span> <span class="st">"x"</span>)))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>eval [] <span class="op">.</span> anonymise <span class="op">.</span> desugar Map.empty <span class="op">$</span> <span class="dt">AppLet</span> (<span class="dt">AppLet</span> konst (<span class="dt">LitLet</span> <span class="dv">1</span>)) (<span class="dt">LitLet</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>1</code></pre>
+<p>Awesome! We have composable compiler passes that are easier to write and to think about. Even with this small example, I hope the benefits are clear.</p>
+<p>Edit: <a href="https://www.reddit.com/r/haskell/comments/8s75n3/trees_that_shrink/e0x8se2">Edward Kmett points out</a> that using <code>Void</code> makes this approach unnecessarily footgun-prone and suggests using strict fields and <code>()</code> instead. This allows for simpler pattern synonyms and comes with the additional benefit that we can disable constructors with <code>Void</code> so we can actually have trees that shrink:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">ExpX</span> i a</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">=</span> <span class="dt">LitX</span> <span class="op">!</span>(<span class="dt">XLit</span> i a) a</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">VarX</span> <span class="op">!</span>(<span class="dt">XVar</span> i a)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">AbsX</span> <span class="op">!</span>(<span class="dt">XAbs</span> i a) (<span class="dt">ExpX</span> i a)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">AppX</span> <span class="op">!</span>(<span class="dt">XApp</span> i a) (<span class="dt">ExpX</span> i a) (<span class="dt">ExpX</span> i a)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">ExpX</span> <span class="op">!</span>(<span class="dt">XExp</span> i a)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XLit</span> i a</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XVar</span> i a</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XAbs</span> i a</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XApp</span> i a</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">XExp</span> i a</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ExpUD</span> a <span class="ot">=</span> <span class="dt">ExpX</span> <span class="dt">UD</span> a</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">UD</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XLit</span> <span class="dt">UD</span> a <span class="ot">=</span> ()</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XVar</span> <span class="dt">UD</span> a <span class="ot">=</span> <span class="dt">Int</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XAbs</span> <span class="dt">UD</span> a <span class="ot">=</span> ()</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XApp</span> <span class="dt">UD</span> a <span class="ot">=</span> ()</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XExp</span> <span class="dt">UD</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitUD</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitUD</span> a <span class="ot">=</span> <span class="dt">LitX</span> () a</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarUD</span><span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarUD</span> i <span class="ot">=</span> <span class="dt">VarX</span> i</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsUD</span><span class="ot"> ::</span> <span class="dt">ExpUD</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsUD</span> a <span class="ot">=</span> <span class="dt">AbsX</span> () a</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppUD</span><span class="ot"> ::</span> <span class="dt">ExpUD</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a <span class="ot">-&gt;</span> <span class="dt">ExpUD</span> a</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppUD</span> f a <span class="ot">=</span> <span class="dt">AppX</span> () f a</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ExpAnn</span> a <span class="ot">=</span> <span class="dt">ExpX</span> <span class="dt">Ann</span> a</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Ann</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XLit</span> <span class="dt">Ann</span> a <span class="ot">=</span> ()</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XVar</span> <span class="dt">Ann</span> a <span class="ot">=</span> (<span class="dt">String</span>, <span class="dt">Int</span>)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XAbs</span> <span class="dt">Ann</span> a <span class="ot">=</span> <span class="dt">String</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XApp</span> <span class="dt">Ann</span> a <span class="ot">=</span> ()</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XExp</span> <span class="dt">Ann</span> a <span class="ot">=</span> <span class="dt">Void</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitAnn</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitAnn</span> a <span class="ot">=</span> <span class="dt">LitX</span> () a</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarAnn</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarAnn</span> s i <span class="ot">=</span> <span class="dt">VarX</span> (s, i)</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsAnn</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsAnn</span> s a <span class="ot">=</span> <span class="dt">AbsX</span> s a</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppAnn</span><span class="ot"> ::</span> <span class="dt">ExpAnn</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a <span class="ot">-&gt;</span> <span class="dt">ExpAnn</span> a</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppAnn</span> f a <span class="ot">=</span> <span class="dt">AppX</span> () f a</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ExpLet</span> a <span class="ot">=</span> <span class="dt">ExpX</span> <span class="dt">Let</span> a</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Let</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XLit</span> <span class="dt">Let</span> a <span class="ot">=</span> ()</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XVar</span> <span class="dt">Let</span> a <span class="ot">=</span> <span class="dt">String</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XAbs</span> <span class="dt">Let</span> a <span class="ot">=</span> <span class="dt">String</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XApp</span> <span class="dt">Let</span> a <span class="ot">=</span> ()</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">XExp</span> <span class="dt">Let</span> a <span class="ot">=</span> (<span class="dt">String</span>, <span class="dt">ExpLet</span> a, <span class="dt">ExpLet</span> a)</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitLet</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LitLet</span> a <span class="ot">=</span> <span class="dt">LitX</span> () a</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarLet</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">VarLet</span> s <span class="ot">=</span> <span class="dt">VarX</span> s</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsLet</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AbsLet</span> s a <span class="ot">=</span> <span class="dt">AbsX</span> s a</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppLet</span><span class="ot"> ::</span> <span class="dt">ExpLet</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a <span class="ot">-&gt;</span> <span class="dt">ExpLet</span> a</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">AppLet</span> f a <span class="ot">=</span> <span class="dt">AppX</span> () f a</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a><span class="kw">pattern</span> <span class="dt">LetLet</span> n v e <span class="ot">&lt;-</span> <span class="dt">ExpX</span> (n,v,e)</span></code></pre></div>
+<p>The definitions of <code>desugar</code>, <code>anonymise</code>, and <code>eval</code> are unchanged.</p>
+<p>Thanks to <a href="http://andychu.net/">Andy Chu</a> and <a href="https://push.cx/">Peter Bhat Harkins</a> for comments and feedback.</p>
+
+
+
+</main> <!-- /main -->
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../index.xml">
+<p>RSS</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

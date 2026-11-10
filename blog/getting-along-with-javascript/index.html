@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2019-10-29">
+
+<title>Getting Along with JavaScript – Thee Rana Page</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-beb050b6995f5fb5c74a266772e82083.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-523687ef48c315f64e21eb5d5e9f174c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Same MathJax extensions the Hakyll site loaded: color, cancel, textmacros. -->
+<script>
+window.MathJax = {
+  loader: {load: ['[tex]/color', '[tex]/cancel', '[tex]/textmacros']},
+  tex: {packages: {'[+]': ['color', 'cancel', 'textmacros']}}
+};
+</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Thee Rana Page</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/index.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive/index.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<!-- Replaces Quarto's default title block so posts read like the Hakyll
+     templates/post.html: "Posted on <date> by <author>" and "Tags: a, b".
+     Keep the header.quarto-title-block / .quarto-category structure: Quarto's
+     JS turns each .quarto-category into a link to the archive filter. -->
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Getting Along with JavaScript</h1>
+</div>
+<div class="info">
+  Posted on <span class="date">29 October 2019</span>
+</div>
+<div class="info quarto-categories">
+  Tags: <span class="quarto-category">programming</span>, <span class="quarto-category">haskell</span>, <span class="quarto-category">nix</span>
+</div>
+</header>
+
+
+<p>For the last couple of weeks, I’ve been obsessed with the idea of running Haskell in the browser. I know this is possible, because this is what I do at work every day, but the applications I work on professionally are complex beasts with Haskell backends and dedicated servers making them available to users. I’m looking for something lighter that I can serve statically using GitHub Pages or <a href="https://glitch.com">Glitch</a>, so I can plop some code on a webpage and never worry about hosting ever again.</p>
+<p>My first instinct was to reach for a tool like <a href="https://github.com/obsidiansystems/obelisk">Obelisk</a>, which bills itself as “an easy way to develop and deploy your Reflex project”. Although it does work as advertised(!), it is geared towards the needs of the large apps I mentioned above. It prerenders webpages where possible to make projects as snappy as possible, works best within the confines of the Obelisk libraries, and assumes at least one NixOS target that will host your website, all of which mean it doesn’t yet scale down to my comparatively modest needs. It is possible to use Obelisk anyway, but I found myself using too few of its features to justify the effort, and I decided to move down a level and use <a href="https://github.com/reflex-frp/reflex-platform">Reflex Platform</a> directly, which is a set of changes and overrides to a revision of <a href="https://github.com/NixOS/nixpkgs">Nixpkgs</a> to best support building full-stack and mobile Haskell applications.</p>
+<p>If you’d like to follow along, I have the code available <a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8">at this gist</a> with <a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/revisions">each revision</a> representing a step in the progression.</p>
+<section id="setting-up-reflex-platform" class="level3">
+<h3 data-anchor-id="setting-up-reflex-platform">Setting up reflex-platform</h3>
+<p>I like to use the <code>updater</code> script described in <a href="../../blog/quick-easy-nixpkgs-pinning/">a previous blog post</a>, so I’ll start by copying that over and creating a <code>versions.json</code> with the following contents:</p>
+<details>
+<summary style="cursor: pointer">
+<code>versions.json</code>
+</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"reflex-platform"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"owner"</span><span class="fu">:</span> <span class="st">"reflex-frp"</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"repo"</span><span class="fu">:</span> <span class="st">"reflex-platform"</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"branch"</span><span class="fu">:</span> <span class="st">"develop"</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"rev"</span><span class="fu">:</span> <span class="st">""</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sha256"</span><span class="fu">:</span> <span class="st">""</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</details>
+<p>I can then update this by running:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ./updater versions.json reflex-platform</span></code></pre></div>
+<p>to get the latest <code>reflex-platform</code>. At the time of writing, this is the revision I used:</p>
+<details>
+<summary style="cursor: pointer">
+pinned <code>versions.json</code>
+</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"reflex-platform"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"owner"</span><span class="fu">:</span> <span class="st">"reflex-frp"</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"repo"</span><span class="fu">:</span> <span class="st">"reflex-platform"</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"branch"</span><span class="fu">:</span> <span class="st">"develop"</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"rev"</span><span class="fu">:</span> <span class="st">"8f4b8973a06f78c7aaf1a222f8f8443cd934569f"</span><span class="fu">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sha256"</span><span class="fu">:</span> <span class="st">"167smg7dyvg5yf1wn9bx6yxvazlk0qk64rzgm2kfzn9mx873s0vp"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/c21e62ecdcc053273ee5e4815ef538e1e8a29e55#file-versions-json">revision</a>)</em></p>
+</section>
+<section id="creating-a-project-skeleton" class="level3">
+<h3 data-anchor-id="creating-a-project-skeleton">Creating a project skeleton</h3>
+<p>The next step is to get a Haskell project skeleton in place. I used <code>cabal init</code> for this as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nix-shell <span class="at">-p</span> ghc cabal-install <span class="at">--run</span> <span class="st">'cabal init -lBSD3'</span></span></code></pre></div>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/d4c4f9ff39b595f5c8858892328adfa6ab4a4cc8#file-small-viz-cabal">revision</a>)</em></p>
+<p>which generated an executable-only project, just like I wanted. I named this project <code>small-viz</code>, because it’s a small project using the <a href="http://viz-js.com/">Viz.js</a> library, but more on that later.</p>
+<p>The next step is to actually use <code>reflex-platform</code> to develop this project, for which we need to write a little Nix. Here’s the <code>default.nix</code> I used:</p>
+<details>
+<summary style="cursor: pointer">
+<code>default.nix</code>
+</summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ./updater versions.json reflex-platform</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">fetcher</span> <span class="op">=</span> <span class="op">{</span> <span class="va">owner</span><span class="op">,</span> <span class="va">repo</span><span class="op">,</span> <span class="va">rev</span><span class="op">,</span> <span class="va">sha256</span><span class="op">,</span> <span class="op">...</span> <span class="op">}</span>: <span class="bu">builtins</span><span class="op">.</span>fetchTarball <span class="op">{</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">inherit</span> <span class="va">sha256</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">url</span> <span class="op">=</span> <span class="st">"https://github.com/</span><span class="sc">${</span>owner<span class="sc">}</span><span class="st">/</span><span class="sc">${</span>repo<span class="sc">}</span><span class="st">/tarball/</span><span class="sc">${</span>rev<span class="sc">}</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="va">reflex-platform</span> <span class="op">=</span> fetcher <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>fromJSON <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>readFile <span class="ss">./versions.json</span><span class="op">)).</span>reflex<span class="op">-</span>platform<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> <span class="op">(</span><span class="bu">import</span> reflex<span class="op">-</span>platform <span class="op">{</span> <span class="va">system</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>currentSystem<span class="op">;</span> <span class="op">}).</span>project <span class="op">({</span> <span class="va">pkgs</span><span class="op">,</span> <span class="op">...</span> <span class="op">}</span>: <span class="op">{</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">useWarp</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="va">withHoogle</span> <span class="op">=</span> <span class="cn">false</span><span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="va">packages</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">small-viz</span> <span class="op">=</span> <span class="ss">./.</span><span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="va">shells</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">ghc</span> <span class="op">=</span> <span class="op">[</span><span class="st">"small-viz"</span><span class="op">];</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">ghcjs</span> <span class="op">=</span> <span class="op">[</span><span class="st">"small-viz"</span><span class="op">];</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="op">})</span></span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/348b759019bc19aec9833a6b5f042c1d2f5e9b13#file-default-nix">revision</a>)</em></p>
+<p>This sets up our project to build with both GHC and GHCJS, because we want to develop with GHC but eventually use GHCJS to create our final artifact. I also set a few more options:</p>
+<ol type="1">
+<li><p><code>useWarp = true</code> changes the JSaddle backend to <code>jsaddle-warp</code> so we can develop using the browser, as described <a href="https://github.com/reflex-frp/reflex-platform/blob/8f4b8973a06f78c7aaf1a222f8f8443cd934569f/docs/project-development.md#building-frontends-with-ghc">here</a>.</p></li>
+<li><p><code>withHoogle = false</code> means we don’t build a local Hoogle database every time our packages are updated, because this step is slow and I never used the local documentation anyway.</p></li>
+</ol>
+<p>For the next step I’ll assume binary cache substitution has been set up as described <a href="https://github.com/reflex-frp/reflex-platform/blob/develop/notes/NixOS.md#enabling-the-binary-cache-on-nixos">here</a>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nix-shell <span class="at">-A</span> shells.ghc</span></code></pre></div>
+<p>This should download a lot (and build almost nothing from source since we are pulling from the cache), and then enter a shell environment with our dependencies in scope.</p>
+</section>
+<section id="starting-our-reflex-app" class="level3">
+<h3 data-anchor-id="starting-our-reflex-app">Starting our Reflex app</h3>
+<p>Now we can start developing our Reflex app! We can start from the small example described <a href="https://github.com/reflex-frp/reflex-platform/tree/8f4b8973a06f78c7aaf1a222f8f8443cd934569f#dynamics-and-events">here</a>:</p>
+<details>
+<summary style="cursor: pointer">
+<code>Main.hs</code>
+</summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Reflex.Dom</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> mainWidget <span class="op">$</span> el <span class="st">"div"</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> inputElement def</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  dynText <span class="op">$</span> _inputElement_value t</span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/93c510d77f7a8d6b1d8d63bb1cb0be37c6d575b5#file-main-hs">revision</a>)</em></p>
+<p>We also have to add <code>reflex-dom</code> and <code>reflex</code> to our dependencies in our <code>.cabal</code> file, and then we can get a automatically-reloading development build with one command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nix-shell <span class="at">-A</span> shells.ghc <span class="at">--run</span> <span class="st">'ghcid -T "Main.main" --command "cabal new-repl"'</span></span></code></pre></div>
+<p>This allows a native Haskell process to control a web page, so we can navigate to it using our browser at <code>http://localhost:3003</code> and have a fast feedback loop. In practice there is a lot of browser refreshing involved, but this is still much nicer than having to do a GHCJS build each time we want to look at our changes. Now we have an input box that repeats what we type into it, which is a good start. I should point out that this works a lot better on Google Chrome (or Chromium) than it does on Firefox, and that’s what I’ll be using for development. The final GHCJS output does not have this limitation.</p>
+<p>So where are we going with this? My plan is to build a crude version of the <a href="http://viz-js.com">Viz.js</a> homepage, where you can write <a href="https://en.wikipedia.org/wiki/DOT_(graph_description_language)">DOT</a> and see it rendered instantly. Viz.js is the result of compiling the venerable <a href="http://graphviz.org/">Graphviz</a> to JavaScript using <a href="https://emscripten.org">Emscripten</a>. It’s no longer maintained but still works fine as far as I can tell. In order to do this I want to use some kind of JavaScript FFI to call out to <code>viz.js</code>, but first I want to swap out our text input for a text area, and move the repeated output to just below the text area instead of beside it.</p>
+<details>
+<summary style="cursor: pointer">
+<code>Main.hs</code>
+</summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Reflex.Dom</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> mainWidget <span class="op">$</span> el <span class="st">"div"</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> textArea def</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  el <span class="st">"div"</span> <span class="op">$</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    dynText <span class="op">$</span> _textArea_value t</span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/d5ff4725b26db3dd596abb2e751711f5c568b6bc#file-main-hs">revision</a>)</em></p>
+</section>
+<section id="integrating-with-viz.js" class="level3">
+<h3 data-anchor-id="integrating-with-viz.js">Integrating with Viz.js</h3>
+<p>The latest version of Viz.js is available <a href="https://www.jsdelivr.com/package/npm/viz.js">here</a>, and we can include it using <code>mainWidgetWithHead</code>:</p>
+<details>
+<summary style="cursor: pointer">
+<code>Main.hs</code>
+</summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Reflex.Dom</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> mainWidgetWithHead widgetHead <span class="op">$</span> el <span class="st">"div"</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> textArea def</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  el <span class="st">"div"</span> <span class="op">$</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    dynText <span class="op">$</span> _textArea_value t</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ot">    widgetHead ::</span> <span class="dt">DomBuilder</span> t m <span class="ot">=&gt;</span> m ()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    widgetHead <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      script <span class="st">"https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.min.js"</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      script <span class="st">"https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.min.js"</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    script src <span class="ot">=</span> elAttr <span class="st">"script"</span> (<span class="st">"type"</span> <span class="op">=:</span> <span class="st">"text/javascript"</span> <span class="op">&lt;&gt;</span> <span class="st">"src"</span> <span class="op">=:</span> src) blank</span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/6a856c34755f730793f3b588a82f0fc9f836bf9c#file-main-hs">revision</a>)</em></p>
+<p>Now we can poke around with our browser developer tools until we have a useful JavaScript function. Here’s what I came up with, based on the examples in the <a href="https://github.com/mdaines/viz.js/wiki/Usage#using-a-script-tag">wiki</a>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span>(e<span class="op">,</span> string) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> viz <span class="op">=</span> <span class="kw">new</span> <span class="fu">Viz</span>()<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  viz<span class="op">.</span><span class="fu">renderSVGElement</span>(string)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">then</span>(<span class="kw">function</span>(element) {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> element<span class="op">.</span><span class="at">outerHTML</span><span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">catch</span>(<span class="kw">function</span>(error) {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> error<span class="op">;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Then we can start thinking about how we want to do JavaScript interop! Although there is a GHCJS FFI as described <a href="https://github.com/ghcjs/ghcjs/wiki/A-few-examples-of-Foreign-Function-Interface">in the wiki</a>, this doesn’t seem to work at all with GHC, and that means we can’t use it during development. I don’t think that’s good enough, and fortunately we don’t have to settle for this and instead can use <a href="http://hackage.haskell.org/package/jsaddle-0.9.6.0"><code>jsaddle</code></a>, which describes itself as “an EDSL for calling JavaScript that can be used both from GHCJS and GHC”. We can add <code>jsaddle</code> to our dependencies, add <code>Viz</code> to the <code>exposed-modules</code> stanza in our <code>.cabal</code> file, and create a new module <code>Viz</code>, and then we can use the <code>eval</code> and <code>call</code> functions to call our JavaScript directly:</p>
+<details>
+<summary style="cursor: pointer">
+<code>Viz.hs</code>
+</summary>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Viz</span> <span class="kw">where</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Language.Javascript.JSaddle</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ot">viz ::</span> <span class="dt">JSVal</span> <span class="ot">-&gt;</span> <span class="dt">JSVal</span> <span class="ot">-&gt;</span> <span class="dt">JSM</span> ()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>viz element string <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  call vizJs vizJs [element, string]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pure</span> ()</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="ot">vizJs ::</span> <span class="dt">JSM</span> <span class="dt">JSVal</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>vizJs <span class="ot">=</span> eval</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"(function(e, string) { \</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="st">  \  var viz = new Viz(); \</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="st">  \  viz.renderSVGElement(string) \</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="st">  \  .then(function(element) { \</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">  \    e.innerHTML = element.outerHTML; \</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">  \  }) \</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="st">  \  .catch(function(error) { \</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">  \    e.innerHTML = error; \</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">  \  }) \</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">  \})"</span></span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/b234b2649022b1b560df1281f053bac30289ce12#file-viz-hs">revision</a>)</em></p>
+<p>JSaddle runs operations in <code>JSM</code>, which is similar to <code>IO</code>, and all functions take values of type <code>JSVal</code> that can be represented as JavaScript values. We pass <code>vizJs</code> to <code>call</code> twice because the second parameter represents the <code>this</code> keyword.</p>
+<p>Wiring everything up together is just a few more lines of code:</p>
+<details>
+<summary style="cursor: pointer">
+<code>Main.hs</code>
+</summary>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Reflex.Dom</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Language.Javascript.JSaddle</span> (liftJSM, toJSVal)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Viz</span> (viz)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> mainWidgetWithHead widgetHead <span class="op">$</span> el <span class="st">"div"</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> textArea def</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  e <span class="ot">&lt;-</span> _element_raw <span class="op">.</span> <span class="fu">fst</span> <span class="op">&lt;$&gt;</span> el' <span class="st">"div"</span> blank</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  performEvent_ <span class="op">$</span> ffor (updated (_textArea_value t)) <span class="op">$</span> \text <span class="ot">-&gt;</span> liftJSM <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    jsE <span class="ot">&lt;-</span> toJSVal e</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    jsT <span class="ot">&lt;-</span> toJSVal text</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    viz jsE jsT</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="ot">    widgetHead ::</span> <span class="dt">DomBuilder</span> t m <span class="ot">=&gt;</span> m ()</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    widgetHead <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>      script <span class="st">"https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.min.js"</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>      script <span class="st">"https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.min.js"</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    script src <span class="ot">=</span> elAttr <span class="st">"script"</span> (<span class="st">"type"</span> <span class="op">=:</span> <span class="st">"text/javascript"</span> <span class="op">&lt;&gt;</span> <span class="st">"src"</span> <span class="op">=:</span> src) blank</span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/e0e886959e338803f9c4a1a3596f8eb88474424d#file-main-hs">revision</a>)</em></p>
+<p>There’s a lot going on here, so I’ll explain in a little more detail.</p>
+<p>Instead of an element which displays the textarea contents as they are updated, we just want a reference to a blank <code>&lt;div&gt;</code>, so we use the <a href="https://hackage.haskell.org/package/reflex-dom-core-0.5/docs/Reflex-Dom-Widget-Basic.html#v:el-39-"><code>el'</code></a> function and pull out the raw element. <a href="http://hackage.haskell.org/package/reflex-0.6.2.4/docs/Reflex-PerformEvent-Class.html#v:performEvent_"><code>performEvent_</code></a> mediates the interaction between Reflex and side-effecting actions, like our function that updates the DOM with a rendered graph, so we want to use it to render a new graph every time the textarea is updated.</p>
+<p>An introduction to Reflex is out of scope for this blog post, but it’s worth mentioning that the textarea value is represented as a <a href="http://hackage.haskell.org/package/reflex-0.6.2.4/docs/Reflex-Class.html#t:Dynamic"><code>Dynamic</code></a>, which can change over time and notify consumers when it has changed. This can be thought of as the combination of a related <a href="http://hackage.haskell.org/package/reflex-0.6.2.4/docs/Reflex-Class.html#t:Behavior"><code>Behavior</code></a> and <a href="http://hackage.haskell.org/package/reflex-0.6.2.4/docs/Reflex-Class.html#t:Event"><code>Event</code></a>. <code>performEvent_</code> only takes an <code>Event</code>, and we can get the underlying <code>Event</code> out of a <code>Dynamic</code> with <a href="http://hackage.haskell.org/package/reflex-0.6.2.4/docs/Reflex-Class.html#v:updated"><code>updated</code></a>.</p>
+<p><code>ffor</code> is just <code>flip fmap</code>, and we use it to operate on the underlying <code>Text</code> value, convert both it and the reference to the element we want to update to <code>JSVal</code>s, and then pass them as arguments to the <code>viz</code> function we defined earlier. Now we should have a working GraphViz renderer in our browser!</p>
+</section>
+<section id="using-the-ffi-better" class="level3">
+<h3 data-anchor-id="using-the-ffi-better">Using the FFI better</h3>
+<p>We could stop here, but I think we can do better than evaluating JavaScript strings directly. JSaddle is an EDSL, which means we can rewrite our JavaScript in Haskell:</p>
+<details>
+<summary style="cursor: pointer">
+<code>Viz.hs</code>
+</summary>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Viz</span> <span class="kw">where</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Language.Javascript.JSaddle</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ot">viz ::</span> <span class="dt">JSVal</span> <span class="ot">-&gt;</span> <span class="dt">JSVal</span> <span class="ot">-&gt;</span> <span class="dt">JSM</span> ()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>viz element string <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  viz <span class="ot">&lt;-</span> new (jsg <span class="st">"Viz"</span>) ()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  render <span class="ot">&lt;-</span> viz <span class="op">#</span> <span class="st">"renderSVGElement"</span> <span class="op">$</span> [string]</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> render <span class="op">#</span> <span class="st">"then"</span> <span class="op">$</span> [(fun <span class="op">$</span> \_ _ [e] <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    outer <span class="ot">&lt;-</span> e <span class="op">!</span> <span class="st">"outerHTML"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    element <span class="op">&lt;#</span> <span class="st">"innerHTML"</span> <span class="op">$</span> outer</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  )]</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  result <span class="op">#</span> <span class="st">"catch"</span> <span class="op">$</span> [(fun <span class="op">$</span> \_ _ [err] <span class="ot">-&gt;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    element <span class="op">&lt;#</span> <span class="st">"innerHTML"</span> <span class="op">$</span> err</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  )]</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pure</span> ()</span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/96e0dbda1ba9dc5712342bf1b123fe5d463201d0#file-viz-hs">revision</a>)</em></p>
+<p>This is recognisably the same logic as before, using some new JSaddle operators:</p>
+<ul>
+<li><a href="http://hackage.haskell.org/package/jsaddle-0.9.6.0/docs/Language-Javascript-JSaddle.html#v:-35-"><code>#</code></a> is for calling a JavaScript function</li>
+<li><a href="http://hackage.haskell.org/package/jsaddle-0.9.6.0/docs/Language-Javascript-JSaddle.html#v:-33-"><code>!</code></a> is for property access</li>
+<li><a href="http://hackage.haskell.org/package/jsaddle-0.9.6.0/docs/Language-Javascript-JSaddle.html#v:-60--35-"><code>&lt;#</code></a> is a setter</li>
+</ul>
+<p>Note also that all callables take a list of <code>JSVal</code>s as arguments, since JSaddle doesn’t know how many arguments we intend to pass in advance.</p>
+<p>This is an improvement, but we can do even better using the lensy API (after adding <code>lens</code> to our dependencies):</p>
+<details>
+<summary style="cursor: pointer">
+<code>Viz.hs</code>
+</summary>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Viz</span> <span class="kw">where</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Language.Javascript.JSaddle</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Lens</span> ((^.))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="ot">viz ::</span> <span class="dt">JSVal</span> <span class="ot">-&gt;</span> <span class="dt">JSVal</span> <span class="ot">-&gt;</span> <span class="dt">JSM</span> ()</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>viz element string <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  viz <span class="ot">&lt;-</span> new (jsg <span class="st">"Viz"</span>) ()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  render <span class="ot">&lt;-</span> viz <span class="op">^.</span> js1 <span class="st">"renderSVGElement"</span> string</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> render <span class="op">^.</span> js1 <span class="st">"then"</span> (fun <span class="op">$</span> \_ _ [e] <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    outer <span class="ot">&lt;-</span> e <span class="op">!</span> <span class="st">"outerHTML"</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    element <span class="op">^.</span> jss <span class="st">"innerHTML"</span> outer)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  result <span class="op">^.</span> js1 <span class="st">"catch"</span> (fun <span class="op">$</span> \_ _ [err] <span class="ot">-&gt;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    element <span class="op">^.</span> jss <span class="st">"innerHTML"</span> err)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pure</span> ()</span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/2ede687d9969666897fb1ca944ed83d239b4386b#file-viz-hs">revision</a>)</em></p>
+<p>Again, not much has changed except that we can use convenience functions like <a href="http://hackage.haskell.org/package/jsaddle-0.9.6.0/docs/Language-Javascript-JSaddle.html#v:js1"><code>js1</code></a> and <a href="http://hackage.haskell.org/package/jsaddle-0.9.6.0/docs/Language-Javascript-JSaddle.html#v:jss"><code>jss</code></a>.</p>
+<p>I’m told that there is some overhead to using JSaddle which it’s possible to get rid of by using a library like <a href="https://hackage.haskell.org/package/ghcjs-dom"><code>ghcjs-dom</code></a>, but I haven’t explored this approach and I will leave this as an exercise for the reader. If you learn how to do this, please teach me!</p>
+<p>Now we are able to run Haskell on the frontend without having to write any JavaScript ourselves. The final step is to put this on the internet somewhere!</p>
+</section>
+<section id="deploying-our-app" class="level3">
+<h3 data-anchor-id="deploying-our-app">Deploying our app</h3>
+<p>Building with GHCJS is straightforward:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nix-build <span class="at">-A</span> ghcjs.small-viz</span></code></pre></div>
+<p>I’m enamoured of the idea of deploying this to <a href="https://glitch.com/">Glitch</a>, so let’s look into doing that. The <code>index.html</code> created by the default GHCJS build is unnecessary, and we can simplify it:</p>
+<details>
+<summary style="cursor: pointer">
+<code>index.html</code>
+</summary>
+<div class="sourceCode" id="cb17"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html<span class="dt">&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> language</span><span class="op">=</span><span class="st">"javascript"</span><span class="ot"> src</span><span class="op">=</span><span class="st">"all.js"</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div>
+</details>
+<p>The only JavaScript file that needs to be copied over is then <code>all.js</code>. We can write a <code>glitch.nix</code> file to simplify this process:</p>
+<details>
+<summary style="cursor: pointer">
+<code>glitch.nix</code>
+</summary>
+<div class="sourceCode" id="cb18"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ./updater versions.json reflex-platform</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">fetcher</span> <span class="op">=</span> <span class="op">{</span> <span class="va">owner</span><span class="op">,</span> <span class="va">repo</span><span class="op">,</span> <span class="va">rev</span><span class="op">,</span> <span class="va">sha256</span><span class="op">,</span> <span class="op">...</span> <span class="op">}</span>: <span class="bu">builtins</span><span class="op">.</span>fetchTarball <span class="op">{</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">inherit</span> <span class="va">sha256</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">url</span> <span class="op">=</span> <span class="st">"https://github.com/</span><span class="sc">${</span>owner<span class="sc">}</span><span class="st">/</span><span class="sc">${</span>repo<span class="sc">}</span><span class="st">/tarball/</span><span class="sc">${</span>rev<span class="sc">}</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="va">reflex-platform</span> <span class="op">=</span> fetcher <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>fromJSON <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>readFile <span class="ss">./versions.json</span><span class="op">)).</span>reflex<span class="op">-</span>platform<span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="op">(</span><span class="bu">import</span> reflex<span class="op">-</span>platform <span class="op">{}).</span>nixpkgs<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">project</span> <span class="op">=</span> <span class="bu">import</span> <span class="ss">./default.nix</span><span class="op">;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="va">html</span> <span class="op">=</span> pkgs<span class="op">.</span>writeText <span class="st">"index.html"</span> <span class="st">''</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;!DOCTYPE html&gt;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;html&gt;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;head&gt;</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;script language="javascript" src="all.js"&gt;&lt;/script&gt;</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;/head&gt;</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;body&gt;</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;/body&gt;</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/html&gt;</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="st">  ''</span><span class="op">;</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> pkgs<span class="op">.</span>runCommand <span class="st">"glitch"</span> <span class="op">{}</span> <span class="st">''</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="st">  mkdir -p $out</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="st">  cp </span><span class="sc">${</span>html<span class="sc">}</span><span class="st"> $out/index.html</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="st">  cp </span><span class="sc">${</span>project<span class="op">.</span>ghcjs<span class="op">.</span>small<span class="op">-</span>viz<span class="sc">}</span><span class="st">/bin/small-viz.jsexe/all.js $out/all.js</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="st">''</span></span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/a0127badaee44f316156121153c0e4bc41af9460#file-glitch-nix">revision</a>)</em></p>
+<p>And then produce the files we need to copy over with:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nix-build glitch.nix</span></code></pre></div>
+<p>I’ve gone ahead and done this, and it’s up on <a href="https://small-viz.glitch.me/">small-viz.glitch.me/</a>.</p>
+<p>Now that everything’s working, it would be nice to reduce the size of <code>all.js</code>, which is currently over 5MB. Obelisk uses the <a href="https://developers.google.com/closure/compiler">Closure Compiler</a> to minify JavaScript, and we can adapt <a href="https://github.com/obsidiansystems/obelisk/blob/071e2edb92e623b4415fb6deedc4219ad1f829f0/default.nix#L147">what it does</a> and <a href="https://github.com/tomsmalley/marking/blob/a522b8c75a96146883a7e32acf5b17bb5f4abf1b/makefile#L5-L10">another example by Tom Smalley</a> that I found when I was looking into this to update <code>glitch.nix</code>:</p>
+<details>
+<summary style="cursor: pointer">
+<code>glitch.nix</code>
+</summary>
+<div class="sourceCode" id="cb20"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ./updater versions.json reflex-platform</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">fetcher</span> <span class="op">=</span> <span class="op">{</span> <span class="va">owner</span><span class="op">,</span> <span class="va">repo</span><span class="op">,</span> <span class="va">rev</span><span class="op">,</span> <span class="va">sha256</span><span class="op">,</span> <span class="op">...</span> <span class="op">}</span>: <span class="bu">builtins</span><span class="op">.</span>fetchTarball <span class="op">{</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">inherit</span> <span class="va">sha256</span><span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">url</span> <span class="op">=</span> <span class="st">"https://github.com/</span><span class="sc">${</span>owner<span class="sc">}</span><span class="st">/</span><span class="sc">${</span>repo<span class="sc">}</span><span class="st">/tarball/</span><span class="sc">${</span>rev<span class="sc">}</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="va">reflex-platform</span> <span class="op">=</span> fetcher <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>fromJSON <span class="op">(</span><span class="bu">builtins</span><span class="op">.</span>readFile <span class="ss">./versions.json</span><span class="op">)).</span>reflex<span class="op">-</span>platform<span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="op">(</span><span class="bu">import</span> reflex<span class="op">-</span>platform <span class="op">{}).</span>nixpkgs<span class="op">;</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">project</span> <span class="op">=</span> <span class="bu">import</span> <span class="ss">./default.nix</span><span class="op">;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="va">html</span> <span class="op">=</span> pkgs<span class="op">.</span>writeText <span class="st">"index.html"</span> <span class="st">''</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;!DOCTYPE html&gt;</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;html&gt;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;head&gt;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;script language="javascript" src="all.js"&gt;&lt;/script&gt;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;/head&gt;</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;body&gt;</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;/body&gt;</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/html&gt;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="st">  ''</span><span class="op">;</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> pkgs<span class="op">.</span>runCommand <span class="st">"glitch"</span> <span class="op">{}</span> <span class="st">''</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="st">  mkdir -p $out</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="st">  cp </span><span class="sc">${</span>html<span class="sc">}</span><span class="st"> $out/index.html</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="st">  </span><span class="sc">${</span>pkgs<span class="op">.</span>closurecompiler<span class="sc">}</span><span class="st">/bin/closure-compiler \</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="st">    --externs=</span><span class="sc">${</span>project<span class="op">.</span>ghcjs<span class="op">.</span>small<span class="op">-</span>viz<span class="sc">}</span><span class="st">/bin/small-viz.jsexe/all.js.externs \</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="st">    --jscomp_off=checkVars \</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="st">    --js_output_file="$out/all.js" \</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="st">    -O ADVANCED \</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="st">    -W QUIET \</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">${</span>project<span class="op">.</span>ghcjs<span class="op">.</span>small<span class="op">-</span>viz<span class="sc">}</span><span class="st">/bin/small-viz.jsexe/all.js</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="st">''</span></span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/aac5fe1258ccfc8c9b8ca685b9db1a4f538ae183#file-glitch-nix">revision</a>)</em></p>
+<p>And this brings the size down to under 2MB.</p>
+<p><a href="https://github.com/tomsmalley">Tom Smalley</a> points out that there is even a <code>-dedupe</code> flag that GHCJS accepts, and although I couldn’t find good documentation for this (beyond <a href="https://www.reddit.com/r/haskell/comments/54knub/ghcjs_dedupe/">a Reddit post</a>), it does get the filesize down to 1MB:</p>
+<details>
+<summary style="cursor: pointer">
+<code>small-viz.cabal</code>
+</summary>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>cabal<span class="op">-</span>version<span class="op">:</span>       <span class="op">&gt;=</span><span class="fl">1.10</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Initial package description 'small-viz.cabal' generated by 'cabal init'.</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">--   For further documentation, see http://haskell.org/cabal/users-guide/</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>name<span class="op">:</span>                small<span class="op">-</span>viz</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>version<span class="op">:</span>             <span class="fl">0.1</span><span class="op">.</span><span class="fl">0.0</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- synopsis:</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- description:</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">-- bug-reports:</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>license<span class="op">:</span>             <span class="dt">BSD3</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>license<span class="op">-</span>file<span class="op">:</span>        <span class="dt">LICENSE</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>author<span class="op">:</span>              <span class="dt">Vaibhav</span> <span class="dt">Sagar</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>maintainer<span class="op">:</span>          vaibhavsagar<span class="op">@</span>gmail<span class="op">.</span>com</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co">-- copyright:</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co">-- category:</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>build<span class="op">-</span><span class="kw">type</span><span class="op">:</span>          <span class="dt">Simple</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>extra<span class="op">-</span>source<span class="op">-</span>files<span class="op">:</span>  CHANGELOG.md</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>executable small<span class="op">-</span>viz</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  main<span class="op">-</span>is<span class="op">:</span>             Main.hs</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  other<span class="op">-</span>modules<span class="op">:</span>       <span class="dt">Viz</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- other-extensions:</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  build<span class="op">-</span>depends<span class="op">:</span>       base <span class="op">&gt;=</span><span class="fl">4.12</span> <span class="op">&amp;&amp;</span> <span class="op">&lt;</span><span class="fl">4.13</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>                     , lens</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>                     , jsaddle</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>                     , reflex</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>                     , reflex<span class="op">-</span>dom</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- hs-source-dirs:</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  default<span class="op">-</span>language<span class="op">:</span>    <span class="dt">Haskell2010</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> impl(ghcjs)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    ghc<span class="op">-</span>options<span class="op">:</span> <span class="op">-</span>dedupe</span></code></pre></div>
+</details>
+<p><em>(<a href="https://gist.github.com/vaibhavsagar/24b1754b8a269fd8c54a89cb73e64fa8/28a629d19e14c9d55b950b5629761818d38a9881#file-small-viz-cabal">revision</a>)</em></p>
+<p>I think this is a good stopping point. We’ve:</p>
+<ol type="1">
+<li>Built a frontend-only Reflex app</li>
+<li>Integrated with a JavaScript library</li>
+<li>Used the JSaddle FFI idiomatically</li>
+<li>Deployed to Glitch</li>
+</ol>
+<p>and I hope I’ve convinced you to take a closer look at Haskell the next time you want to write something that runs in the browser.</p>
+<p><em>Thanks to <a href="https://github.com/ali-abrar">Ali Abrar</a>, <a href="https://twitter.com/itsfarseen">Farseen Abdul Salam</a>, and <a href="https://github.com/tomsmalley">Tom Smalley</a> for comments and feedback.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<!-- Turn the "Tags: a, b" entries in a post's title block into links to the
+     archive page filtered by that tag. Quarto only does this itself when
+     site search is enabled (it needs the quarto:offset meta tag that the
+     search dependency emits), and even then it points at the nearest
+     listing, which for /blog/… is the home page rather than the archive. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.querySelector('.navbar a.nav-link[href*="archive"]');
+  var archive = nav ? nav.getAttribute("href") : "/archive/";
+  archive = archive.replace(/index\.html$/, "");
+  var tags = document.querySelectorAll("header.quarto-title-block .quarto-category");
+  for (var i = 0; i < tags.length; i++) {
+    var el = tags[i];
+    if (el.querySelector("a")) continue;
+    var a = document.createElement("a");
+    a.href = archive + "#category=" + encodeURIComponent(el.textContent.trim());
+    while (el.firstChild) a.appendChild(el.firstChild);
+    el.appendChild(a);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../index.xml">
+<p>RSS</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
